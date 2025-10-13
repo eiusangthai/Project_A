@@ -14,13 +14,13 @@ const slides = [
   },
   {
     href: "",
-    title: "Nanoflare 700",
-    src: "https://cdn.shopvnb.com/img/1920x640/uploads/slider/thiet-ke-chua-co-ten-12_1727137763.webp",
+    title: "Graht thrttl",
+    src: "https://cdn.shopvnb.com/img/1920x640/uploads/slider/grpht-thrttl_1759089897.webp",
   },
   {
     href: "",
-    title: "Yonex 65Z3",
-    src: "https://cdn.shopvnb.com/img/1920x640/uploads/slider/65z3ltd-launch-website_1695177820.webp",
+    title: "VA",
+    src: "https://cdn.shopvnb.com/img/1920x640/uploads/slider/victor-axelsen_1759089349.webp",
   },
   {
     href: "",

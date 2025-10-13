@@ -10,17 +10,17 @@ const BadmintonSection = () => {
     },
     {
       href: "",
-      img: "https://cdn.shopvnb.com/img/400x400/uploads/danh_muc/thumb/1.2.webp",
+      img: "https://cdn.shopvnb.com/img/400x400/uploads/danh_muc/thumb/2_1.webp",
       title: "Giày cầu lông",
     },
     {
       href: "",
-      img: "https://cdn.shopvnb.com/img/400x400/uploads/danh_muc/thumb/1.3.webp",
+      img: "https://cdn.shopvnb.com/img/400x400/uploads/danh_muc/thumb/3_1.webp",
       title: "Áo cầu lông",
     },
     {
       href: "",
-      img: "https://cdn.shopvnb.com/img/400x400/uploads/danh_muc/thumb/1.4.webp",
+      img: "https://cdn.shopvnb.com/img/400x400/uploads/danh_muc/thumb/4.webp",
       title: "Quần cầu lông",
     },
   ];
