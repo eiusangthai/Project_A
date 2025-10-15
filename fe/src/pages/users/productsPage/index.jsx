@@ -1,0 +1,5 @@
+import { memo } from "react";
+const ProductPage = () => {
+  return <h1>ProductPage</h1>;
+};
+export default memo(ProductPage);

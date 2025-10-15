@@ -4,7 +4,12 @@ import { ROUTERS } from "./utils/router";
 import MasterLayout from "./pages/users/theme/masterLayout";
 import LoginPage from "./pages/users/crud/loginPage";
 import RegisterPage from "./pages/users/crud/registerPage";
-import ProfilePage from "./pages/users/crud/profilePage";
+import ProfilePageUser from "./pages/users/crud/profilePageUser";
+import ProductPage from "./pages/users/productsPage";
+import NewsPage from "./pages/users/newsPage";
+import PaymentPage from "./pages/users/instructionsPage/paymentPage";
+import ContactPage from "./pages/users/contactPage";
+import ProfilePage from "./pages/users/profilePage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -14,15 +19,35 @@ const renderUserRouter = () => {
     },
     {
       path: ROUTERS.USER.PROFILE,
-      component: <ProfilePage />
+      component: <ProfilePage />,
+    },
+    {
+      path: ROUTERS.USER.PROFILEUSER,
+      component: <ProfilePageUser />,
+    },
+    {
+      path: ROUTERS.USER.PRODUCTS,
+      component: <ProductPage />,
+    },
+    {
+      path: ROUTERS.USER.NEWS,
+      component: <NewsPage />,
+    },
+    {
+      path: ROUTERS.USER.PAYMENT,
+      component: <PaymentPage />,
+    },
+    {
+      path: ROUTERS.USER.CONTACT,
+      component: <ContactPage />,
     },
     {
       path: ROUTERS.USER.LOGIN,
-      component: <LoginPage />
+      component: <LoginPage />,
     },
     {
       path: ROUTERS.USER.REGISTER,
-      component: <RegisterPage />
+      component: <RegisterPage />,
     },
   ];
 
