@@ -1,15 +1,13 @@
-import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./style.css";
-import rackets from "../../../assets/users/images/saleProduct/rackets.jpg"
-import shoes from "../../../assets/users/images/saleProduct/shoes.jpg"
-import shirt from "../../../assets/users/images/saleProduct/shirt.jpg"
-import short from "../../../assets/users/images/saleProduct/short.jpg"
-import bag from "../../../assets/users/images/saleProduct/bag.jpg"
+import rackets from "../../../assets/users/images/saleProduct/rackets.jpg";
+import shoes from "../../../assets/users/images/saleProduct/shoes.jpg";
+import shirt from "../../../assets/users/images/saleProduct/shirt.jpg";
+import bag from "../../../assets/users/images/saleProduct/bag.jpg";
 
 const saleoffItems = [
   {
@@ -29,12 +27,6 @@ const saleoffItems = [
     link: "",
     img: shirt,
     alt: "Áo Cầu Lông",
-  },
-  {
-    title: "Quần Cầu Lông",
-    link: "",
-    img: short,
-    alt: "Quần Cầu Lông",
   },
   {
     title: "Túi Vợt",

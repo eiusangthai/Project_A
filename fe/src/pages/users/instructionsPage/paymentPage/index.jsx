@@ -1,6 +1,8 @@
 import { memo } from "react";
 import "./style.css";
-
+import smashfaster from "../../../../../public/ulikeit/smashfaster.jpg";
+import topshoes from "../../../../../public/badmintonProduct/shoes.jpg";
+import recommendrackets from "../../../../../public/badmintonProduct/rackets.jpg";
 const PaymentPage = () => {
   return (
     <div className="payment-page">
@@ -122,32 +124,32 @@ const PaymentPage = () => {
             <h3>Bạn có thể thích</h3>
 
             <div className="item">
-              <img src="https://via.placeholder.com/120x80" alt="tin 1" />
+              <img src={recommendrackets} alt="tin 1" />
               <div>
                 <h4>
                   <a href="#">Cách chọn vợt cầu lông cho người mới</a>
                 </h4>
-                <div className="time-post">🕒 29-09-2024</div>
+                <div className="time-post">🕒 29-09-2025</div>
               </div>
             </div>
 
             <div className="item">
-              <img src="https://via.placeholder.com/120x80" alt="tin 2" />
+              <img src={topshoes} alt="tin 2" />
               <div>
                 <h4>
                   <a href="#">Top giày cầu lông bán chạy nhất 2024</a>
                 </h4>
-                <div className="time-post">🕒 10-09-2024</div>
+                <div className="time-post">🕒 10-09-2025</div>
               </div>
             </div>
 
             <div className="item">
-              <img src="https://via.placeholder.com/120x80" alt="tin 3" />
+              <img src={smashfaster} alt="tin 3" />
               <div>
                 <h4>
                   <a href="#">5 mẹo nhỏ giúp smash mạnh hơn</a>
                 </h4>
-                <div className="time-post">🕒 02-08-2024</div>
+                <div className="time-post">🕒 02-08-2025</div>
               </div>
             </div>
           </div>

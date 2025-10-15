@@ -20,8 +20,8 @@ const BadmintonSection = () => {
     },
     {
       href: "",
-      img: "public/badmintonProduct/short.jpg",
-      title: "Quần cầu lông",
+      img: "public/badmintonProduct/balo.jpg",
+      title: "Balo cầu lông",
     },
   ];
 

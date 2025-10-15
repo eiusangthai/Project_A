@@ -5,13 +5,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./style.css";
+import reviewsanpickleballtrungson from "../../../../public/newsImages/san-pickleball-trung-son.jpg";
+import cachdichuyen from "../../../../public/newsImages/cach-di-chuyen-trong-pickleball.jpg";
+import duprPickleball from "../../../../public/newsImages/dupr-pickleball.jpg";
+import sosanhpickleballdonvadoi from "../../../../public/newsImages/so-sanh-pickleball-don-va-doi.jpg";
+import cachcamvot from "../../../../public/newsImages/cach-cam-vot-pickleball.jpg";
+import sosanhvot14mm16mm from "../../../../public/newsImages/so-sanh-vot-pickleball-14mm-va-16mm.jpg";
 
 const newsList = [
   {
     id: 1,
     title: "Review sân Pickleball Trung Sơn tại Bình Chánh, TP.HCM",
     link: "",
-    img: "https://cdn.shopvnb.com/img/400x240/uploads/tin_tuc/san-pickleball-trung-son-2_1758934363.jpg",
+    img: reviewsanpickleballtrungson,
     time: "27-09-2025 15:07",
     desc: "Sân Pickleball Trung Sơn tọa lạc tại huyện Bình Chánh, TP.HCM, được nhiều người chơi đánh giá cao nh...",
   },
@@ -20,7 +26,7 @@ const newsList = [
     title:
       "Nắm Vững Những Cách Di Chuyển Trong Pickleball Giúp Bạn Làm Chủ Sân Chơi",
     link: "",
-    img: "https://cdn.shopvnb.com/img/400x240/uploads/tin_tuc/cach-di-chuyen-trong-pickleball-1_1758931247.webp",
+    img: cachdichuyen,
     time: "27-09-2025 14:20",
     desc: "Di chuyển thông minh là chìa khóa giúp bạn làm chủ sân pickleball. Dù là đánh đơn hay đánh đôi, việc...",
   },
@@ -29,7 +35,7 @@ const newsList = [
     title:
       "DUPR Pickleball: Giới thiệu tổng quan và hướng dẫn cách tính DUPR Pickleball",
     link: "",
-    img: "https://cdn.shopvnb.com/img/400x240/uploads/tin_tuc/dupr-pickleball-7_1758920612.webp",
+    img: duprPickleball,
     time: "27-09-2025 11:03",
     desc: "DUPR Pickleball hiện là hệ thống xếp hạng năng động và được ưa chuộng nhất trong cộng đồng picklebal...",
   },
@@ -38,7 +44,7 @@ const newsList = [
     title:
       "So sánh pickleball đơn và đôi: Phân tích chi tiết về hai hình thức thi đấu",
     link: "",
-    img: "https://cdn.shopvnb.com/img/400x240/uploads/tin_tuc/so-sanh-pickleball-don-va-doi-3_1758915127.webp",
+    img: sosanhpickleballdonvadoi,
     time: "27-09-2025 09:42",
     desc: "Pickleball có thể chơi theo hình thức đơn hoặc đôi, tuy nhiên có nhiều sự khác biệt về luật chơi, tố...",
   },
@@ -47,7 +53,7 @@ const newsList = [
     title:
       "Cách cầm vợt Pickleball đơn giản và hiệu quả dành cho người mới chơi",
     link: "",
-    img: "https://cdn.shopvnb.com/img/400x240/uploads/images/tin_tuc/cach-cam-vot-pickleball-1-1717730095.webp",
+    img: cachcamvot,
     time: "27-09-2025 08:06",
     desc: "Để chơi Pickleball một cách hiệu quả, thì cách cầm vợt là yếu tố rất quan trọng, đặc biệt là những n...",
   },
@@ -56,7 +62,7 @@ const newsList = [
     title:
       "So sánh vợt Pickleball 14mm và 16mm: Tìm hiểu chi tiết về những điểm khác nhau",
     link: "",
-    img: "https://cdn.shopvnb.com/img/400x240/uploads/tin_tuc/so-sanh-vot-pickleball-14mm-va-16mm-4_1758850125.webp",
+    img: sosanhvot14mm16mm,
     time: "26-09-2025 16:10",
     desc: "Khi chọn mua vợt Pickleball, độ dày mặt vợt là yếu tố quan trọng ảnh hưởng trực tiếp đến lối chơi và...",
   },
