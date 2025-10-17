@@ -80,11 +80,6 @@ const Footer = () => {
                   </a>
                 </li>
                 <li>
-                  <a className="text-light" href="/blog">
-                    Our Blog
-                  </a>
-                </li>
-                <li>
                   <a className="text-light" href="/contact">
                     Contact Us
                   </a>
