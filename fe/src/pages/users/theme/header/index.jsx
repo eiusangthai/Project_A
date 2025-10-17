@@ -71,10 +71,11 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link onClick={closeMenu}>
+                <Link to="/gio-hang" onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
                 </Link>
               </li>
+
               <li>
                 <Link to="/register" className="highlight" onClick={closeMenu}>
                   Register
@@ -96,7 +97,6 @@ const Header = () => {
               </li>
               <li>
                 <Link className="highlight" onClick={handleLogout}>
-
                   <i className="fa fa-sign-out"></i> Logout
                 </Link>
               </li>
@@ -232,7 +232,10 @@ const Header = () => {
                       </Link>
                     </li>
                     <li>
-                      <Link to="/product/accessories/strings" onClick={closeMenu}>
+                      <Link
+                        to="/product/accessories/strings"
+                        onClick={closeMenu}
+                      >
                         Cước Đan Vợt
                       </Link>
                     </li>
@@ -293,7 +296,6 @@ const Header = () => {
           <span></span>
           <span></span>
         </button>
-
       </nav>
 
       {/* 🔹 Mobile: icons + auth dưới logo */}
