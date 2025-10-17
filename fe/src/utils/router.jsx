@@ -9,5 +9,6 @@ export const ROUTERS = {
     CONTACT: "contact",
     LOGIN: "login",
     REGISTER: "register",
+    SHOPPINGCART: "gio-hang",
   },
 };

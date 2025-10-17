@@ -71,7 +71,7 @@ const Header = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/gio-hang" onClick={closeMenu}>
+                <Link href="/gio-hang" onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
                 </Link>
               </li>

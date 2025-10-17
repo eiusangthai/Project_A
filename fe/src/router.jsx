@@ -10,6 +10,7 @@ import NewsPage from "./pages/users/newsPage";
 import PaymentPage from "./pages/users/instructionsPage/paymentPage";
 import ContactPage from "./pages/users/contactPage";
 import ProfilePage from "./pages/users/profilePage";
+import ShoppingCart from "./pages/users/shoppingCartPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -48,6 +49,10 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.REGISTER,
       component: <RegisterPage />,
+    },
+    {
+      path: ROUTERS.USER.SHOPPINGCART,
+      component: <ShoppingCart />,
     },
   ];
 
