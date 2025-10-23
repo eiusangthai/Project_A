@@ -31,6 +31,14 @@ const renderUserRouter = () => {
       component: <ProductPage />,
     },
     {
+      path: `${ROUTERS.USER.PRODUCTS}/:category`,
+      component: <ProductPage />,
+    },
+    {
+      path: `${ROUTERS.USER.PRODUCTS}/:category/:brand`,
+      component: <ProductPage />,
+    },
+    {
       path: ROUTERS.USER.NEWS,
       component: <NewsPage />,
     },

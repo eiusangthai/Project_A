@@ -1,5 +1,7 @@
 import { memo } from "react";
-import cartIcon from "../../../../../public/cartIcon/carticon.jpg";
+import { Link } from "react-router-dom";
+import { ROUTERS } from "../../../../utils/router";
+import cartIcon from "/src/assets/users/images/cartIcon/carticon.jpg";
 import "./style.css";
 
 const Footer = () => {
@@ -7,16 +9,16 @@ const Footer = () => {
     <>
       {/* Nút giỏ hàng nổi bên trái */}
       <div className="popup_gio_hang">
-        <a
+        <Link
           className="a-hea text-decoration-none d-flex align-items-center"
-          href="/gio-hang"
+          to={`/${ROUTERS.USER.SHOPPINGCART}`}
           title="Giỏ hàng"
         >
           <img src={cartIcon} alt="Giỏ hàng" />
           <div className="gio_hang_text">
             Xem giỏ hàng (<span className="count_item count_item_pr">0</span>)
           </div>
-        </a>
+        </Link>
       </div>
 
       {/* Footer chính */}
@@ -27,13 +29,13 @@ const Footer = () => {
             <div className="col-md-4 mb-4">
               <div className="footer-widget">
                 <div className="footer-logo mb-3">
-                  <a href="#">
+                  <Link to={`/${ROUTERS.USER.HOME}`}>
                     <img
                       src="/logo.png"
                       alt="footer logo"
                       style={{ maxWidth: "150px" }}
                     />
-                  </a>
+                  </Link>
                 </div>
                 <p>
                   We provide high-quality badminton rackets, shuttlecocks, and
@@ -70,19 +72,19 @@ const Footer = () => {
               <h5>Menu</h5>
               <ul className="list-unstyled">
                 <li>
-                  <a className="text-light" href="/about">
+                  <Link className="text-light" to={`/${ROUTERS.USER.PROFILE}`}>
                     About Us
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-light" href="/news">
+                  <Link className="text-light" to={`/${ROUTERS.USER.NEWS}`}>
                     Latest News
-                  </a>
+                  </Link>
                 </li>
                 <li>
-                  <a className="text-light" href="/contact">
+                  <Link className="text-light" to={`/${ROUTERS.USER.CONTACT}`}>
                     Contact Us
-                  </a>
+                  </Link>
                 </li>
               </ul>
             </div>

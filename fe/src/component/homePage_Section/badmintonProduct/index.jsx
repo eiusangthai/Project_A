@@ -1,26 +1,29 @@
 import { memo } from "react";
+import { Link } from "react-router-dom";
 import "./style.css";
+
+import { ROUTERS } from "../../../utils/router";
 
 const BadmintonSection = () => {
   const products = [
     {
-      href: "",
-      img: "public/badmintonProduct/rackets.jpg",
+      href: `/${ROUTERS.USER.PRODUCTS}/rackets`,
+      img: "/badmintonProduct/rackets.jpg",
       title: "Vợt cầu lông",
     },
     {
-      href: "",
-      img: "public/badmintonProduct/shoes.jpg",
+      href: `/${ROUTERS.USER.PRODUCTS}/shoes`,
+      img: "/badmintonProduct/shoes.jpg",
       title: "Giày cầu lông",
     },
     {
-      href: "",
-      img: "public/badmintonProduct/shirt.jpg",
+      href: `/${ROUTERS.USER.PRODUCTS}/shirts`,
+      img: "/badmintonProduct/shirt.jpg",
       title: "Áo cầu lông",
     },
     {
-      href: "",
-      img: "public/badmintonProduct/balo.jpg",
+      href: `/${ROUTERS.USER.PRODUCTS}/bags`,
+      img: "/badmintonProduct/balo.jpg",
       title: "Balo cầu lông",
     },
   ];
@@ -37,12 +40,12 @@ const BadmintonSection = () => {
         <div className="row g-4">
           {products.map((item, idx) => (
             <div className="col-6 col-md-3" key={idx}>
-              <a href={item.href} className="badminton-card">
+              <Link to={item.href} className="badminton-card">
                 <div className="image-wrap">
                   <img src={item.img} alt={item.title} />
                 </div>
                 <p className="title">{item.title}</p>
-              </a>
+              </Link>
             </div>
           ))}
         </div>

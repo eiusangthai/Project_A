@@ -1,6 +1,5 @@
 import React from "react";
 import "./style.css";
-import sportshop from "../../../assets/users/images/shopProfile/Sport Shop.jpg";
 
 const ShopProfile = () => {
   return (
@@ -8,7 +7,11 @@ const ShopProfile = () => {
       <div className="container profile_wrapper">
         <div className="profile_image">
           <div className="image_wrap">
-            <img src={sportshop} alt="Sport Shop" loading="lazy" />
+            <img
+              src="/shopProfile/Sport Shop.jpg"
+              alt="Sport Shop"
+              loading="lazy"
+            />
             <div className="image_overlay"></div>
           </div>
         </div>

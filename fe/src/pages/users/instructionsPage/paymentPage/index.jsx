@@ -1,8 +1,9 @@
 import { memo } from "react";
+import { Link } from "react-router-dom";
 import "./style.css";
-import smashfaster from "../../../../../public/ulikeit/smashfaster.jpg";
-import topshoes from "../../../../../public/badmintonProduct/shoes.jpg";
-import recommendrackets from "../../../../../public/badmintonProduct/rackets.jpg";
+import { ROUTERS } from "../../../../utils/router";
+import smashfaster from "/src/assets/users/images/ulikeit/smashfaster.jpg";
+
 const PaymentPage = () => {
   return (
     <div className="payment-page">
@@ -18,8 +19,8 @@ const PaymentPage = () => {
           <div className="rte">
             <p>
               <em>
-                Bài viết được <a href="">ShopSQB</a> - Hệ thống shop cầu lông
-                hàng đầu Việt Nam biên soạn.
+                Bài viết được <Link to="/">ShopSQB</Link> - Hệ thống shop cầu
+                lông hàng đầu Việt Nam biên soạn.
               </em>
             </p>
 
@@ -105,18 +106,18 @@ const PaymentPage = () => {
           {/* Danh mục tin tức */}
           <nav className="nav-category">
             <h3>Danh mục tin tức</h3>
-            <a href="#" className="nav-link">
+            <Link to="/news/khuyen-mai" className="nav-link">
               🏷 Khuyến mãi
-            </a>
-            <a href="#" className="nav-link">
+            </Link>
+            <Link to={`/${ROUTERS.USER.NEWS}`} className="nav-link">
               🏸 Tin cầu lông
-            </a>
-            <a href="#" className="nav-link">
+            </Link>
+            <Link to="/news/meo-tap-luyen" className="nav-link">
               💡 Mẹo tập luyện
-            </a>
-            <a href="#" className="nav-link">
+            </Link>
+            <Link to={`/${ROUTERS.USER.PRODUCTS}`} className="nav-link">
               🛍 Sản phẩm mới
-            </a>
+            </Link>
           </nav>
 
           {/* Bạn có thể thích */}
@@ -124,20 +125,24 @@ const PaymentPage = () => {
             <h3>Bạn có thể thích</h3>
 
             <div className="item">
-              <img src={recommendrackets} alt="tin 1" />
+              <img src="/badmintonProduct/rackets.jpg" alt="tin 1" />
               <div>
                 <h4>
-                  <a href="#">Cách chọn vợt cầu lông cho người mới</a>
+                  <Link to="/news/cach-chon-vot-cau-long">
+                    Cách chọn vợt cầu lông cho người mới
+                  </Link>
                 </h4>
                 <div className="time-post">🕒 29-09-2025</div>
               </div>
             </div>
 
             <div className="item">
-              <img src={topshoes} alt="tin 2" />
+              <img src="/badmintonProduct/shoes.jpg" alt="tin 2" />
               <div>
                 <h4>
-                  <a href="#">Top giày cầu lông bán chạy nhất 2024</a>
+                  <Link to="/news/top-giay-cau-long-2024">
+                    Top giày cầu lông bán chạy nhất 2024
+                  </Link>
                 </h4>
                 <div className="time-post">🕒 10-09-2025</div>
               </div>
@@ -147,7 +152,9 @@ const PaymentPage = () => {
               <img src={smashfaster} alt="tin 3" />
               <div>
                 <h4>
-                  <a href="#">5 mẹo nhỏ giúp smash mạnh hơn</a>
+                  <Link to="/news/5-meo-smash-manh-hon">
+                    5 mẹo nhỏ giúp smash mạnh hơn
+                  </Link>
                 </h4>
                 <div className="time-post">🕒 02-08-2025</div>
               </div>
