@@ -1,6 +1,8 @@
 import { memo, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { allProducts } from "../../../data/productData.jsx";
+import { useCart } from "../../../context/CartContext";
+import { ShoppingCart as CartIcon } from "lucide-react";
 
 import "./style.css";
 
@@ -13,6 +15,7 @@ const formatPrice = (price) => {
 
 const ProductPage = () => {
   const { category, brand } = useParams();
+  const { addToCart } = useCart();
 
   const filteredProducts = useMemo(() => {
     let products = allProducts;
@@ -38,25 +41,32 @@ const ProductPage = () => {
       {filteredProducts.length > 0 ? (
         <div className="product-grid">
           {filteredProducts.map((product) => (
-            <Link
-              to={`/product-detail/${product.id}`}
-              key={product.id}
-              className="product-card"
-            >
-              <div className="product-card-image-wrapper">
-                <img
-                  src={product.imageUrl}
-                  alt={product.name}
-                  className="product-card-image"
-                />
-              </div>
-              <div className="product-card-body">
-                <h3 className="product-card-name">{product.name}</h3>
-                <p className="product-card-price">
-                  {formatPrice(product.price)}
-                </p>
-              </div>
-            </Link>
+            <div key={product.id} className="product-card">
+              <Link
+                to={`/product-detail/${product.id}`}
+                className="product-card-link-wrapper"
+              >
+                <div className="product-card-image-wrapper">
+                  <img
+                    src={product.imageUrl}
+                    alt={product.name}
+                    className="product-card-image"
+                  />
+                </div>
+                <div className="product-card-body">
+                  <h3 className="product-card-name">{product.name}</h3>
+                  <p className="product-card-price">
+                    {formatPrice(product.price)}
+                  </p>
+                </div>
+              </Link>
+              <button
+                className="add-to-cart-button"
+                onClick={() => addToCart(product)}
+              >
+                <CartIcon size={18} /> Thêm vào giỏ
+              </button>
+            </div>
           ))}
         </div>
       ) : (

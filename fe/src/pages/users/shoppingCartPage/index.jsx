@@ -1,96 +1,38 @@
-import { useState, memo } from "react";
+import { memo, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trash2 } from "lucide-react";
+import {
+  Trash2,
+  X,
+  ShoppingCart as CartIcon,
+  Frown,
+  Truck,
+} from "lucide-react";
+import { useCart } from "../../../context/CartContext";
+
 import "./style.css";
 
-const allProducts = [
-  {
-    id: 1,
-    name: "Vợt Yonex Astrox 99",
-    price: 2500000,
-    image: "/newProduct/99pro.jpg",
-  },
-  {
-    id: 2,
-    name: "Giày Yonex 65Z3",
-    price: 1800000,
-    image: "/newProduct/65z3.jpg",
-  },
-  {
-    id: 3,
-    name: "Áo cầu lông Lining",
-    price: 350000,
-    image: "/newProduct/lining.jpg",
-  },
-  {
-    id: 4,
-    name: "Váy cầu lông nữ",
-    price: 420000,
-    image: "/newProduct/skirtTaro.jpg",
-  },
-  {
-    id: 5,
-    name: "Quần cầu lông Yonex",
-    price: 320000,
-    image: "/newProduct/shortYonex.jpg",
-  },
-  {
-    id: 6,
-    name: "Túi vợt Yonex 9 ngăn",
-    price: 1500000,
-    image: "/newProduct/bagYonex.jpg",
-  },
-  {
-    id: 7,
-    name: "Balo cầu lông Adidas",
-    price: 890000,
-    image: "/newProduct/bagAddidas.jpg",
-  },
-  {
-    id: 8,
-    name: "Phụ kiện quấn cán",
-    price: 50000,
-    image: "/newProduct/items.jpg",
-  },
-  {
-    id: 9,
-    name: "Vợt Pickleball Taro",
-    price: 2200000,
-    image: "/newProduct/racketPickleball.jpg",
-  },
-  {
-    id: 10,
-    name: "Vợt Tennis Wilson Pro Staff",
-    price: 4500000,
-    image: "/newProduct/racketTennis.jpg",
-  },
-];
-
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([
-    { ...allProducts[0], quantity: 1 },
-    { ...allProducts[1], quantity: 2 },
-    { ...allProducts[4], quantity: 1 },
-  ]);
-
-  const handleRemove = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
-
-  const updateQuantity = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      )
-    );
-  };
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
+  const [confirmingItemId, setConfirmingItemId] = useState(null);
 
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
   );
+
+  const handleRemoveOne = (id) => {
+    updateQuantity(id, -1);
+    setConfirmingItemId(null);
+  };
+
+  const handleRemoveAll = (id) => {
+    removeFromCart(id);
+    setConfirmingItemId(null);
+  };
+
+  const cancelRemove = () => {
+    setConfirmingItemId(null);
+  };
 
   return (
     <div className="cart-container">
@@ -99,7 +41,8 @@ const ShoppingCart = () => {
         animate={{ opacity: 1, y: 0 }}
         className="cart-title"
       >
-        🛒 Giỏ Hàng
+        <CartIcon size={24} style={{ marginRight: "10px" }} />
+        Giỏ Hàng
       </motion.h1>
 
       <div className="cart-content">
@@ -115,12 +58,14 @@ const ShoppingCart = () => {
                 <motion.div
                   key={item.id}
                   layout
-                  exit={{ opacity: 0, x: 100 }}
+                  initial={{ opacity: 0, x: -50 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 100, transition: { duration: 0.3 } }}
                   className="cart-item"
                 >
                   <div className="item-info">
                     <img
-                      src={item.image}
+                      src={item.imageUrl}
                       alt={item.name}
                       className="item-img"
                     />
@@ -130,7 +75,7 @@ const ShoppingCart = () => {
                       <div className="quantity-control">
                         <button
                           onClick={() => updateQuantity(item.id, -1)}
-                          disabled={item.quantity === 1}
+                          disabled={item.quantity <= 1}
                         >
                           -
                         </button>
@@ -141,17 +86,56 @@ const ShoppingCart = () => {
                       </div>
                     </div>
                   </div>
+
                   <div className="item-actions">
                     <span className="item-total">
                       {(item.price * item.quantity).toLocaleString("vi-VN")}₫
                     </span>
                     <button
                       className="delete-btn"
-                      onClick={() => handleRemove(item.id)}
+                      onClick={() => setConfirmingItemId(item.id)}
                     >
                       <Trash2 size={20} />
                       <span>Xóa</span>
                     </button>
+
+                    <AnimatePresence>
+                      {confirmingItemId === item.id && (
+                        <motion.div
+                          className="confirmation-popover"
+                          initial={{ opacity: 0, scale: 0.9 }}
+                          animate={{ opacity: 1, scale: 1 }}
+                          exit={{ opacity: 0, scale: 0.9 }}
+                          transition={{ duration: 0.2 }}
+                        >
+                          <p>Xác nhận xóa?</p>
+                          <div className="confirmation-buttons">
+                            <div className="confirmation-actions">
+                              {item.quantity > 1 && (
+                                <button
+                                  onClick={() => handleRemoveOne(item.id)}
+                                  className="btn-danger-outline"
+                                >
+                                  Xóa 1
+                                </button>
+                              )}
+                              <button
+                                onClick={() => handleRemoveAll(item.id)}
+                                className="btn-danger"
+                              >
+                                Xóa hết ({item.quantity})
+                              </button>
+                            </div>
+                            <button
+                              onClick={cancelRemove}
+                              className="cancel-btn"
+                            >
+                              <X size={16} />
+                            </button>
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 </motion.div>
               ))
@@ -159,9 +143,11 @@ const ShoppingCart = () => {
               <motion.p
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
                 className="empty-cart"
               >
-                Giỏ hàng trống 😢
+                <Frown size={24} />
+                Giỏ hàng trống
               </motion.p>
             )}
           </AnimatePresence>
@@ -171,6 +157,7 @@ const ShoppingCart = () => {
           className="cart-summary"
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
+          transition={{ delay: 0.3 }}
         >
           <h3>Tóm tắt đơn hàng</h3>
           <div className="summary-line">
@@ -179,13 +166,15 @@ const ShoppingCart = () => {
           </div>
           <div className="summary-line">
             <span>Phí giao hàng</span>
-            <span>Miễn phí 🚚</span>
+            <span>
+              Miễn phí <Truck size={16} style={{ marginLeft: "5px" }} />
+            </span>
           </div>
           <div className="summary-total">
             <span>Tổng cộng</span>
             <span>{totalPrice.toLocaleString("vi-VN")}₫</span>
           </div>
-          <button disabled={!cartItems.length} className="checkout-btn">
+          <button disabled={cartItems.length === 0} className="checkout-btn">
             Mua hàng
           </button>
         </motion.div>

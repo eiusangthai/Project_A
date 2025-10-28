@@ -1,18 +1,23 @@
 import { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
-
 import { productMenuData } from "../../../../data/menuData.jsx";
 import { ROUTERS } from "../../../../utils/router";
+import { useCart } from "../../../../context/CartContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
+  const [instructionsOpen, setInstructionsOpen] = useState(false); // Đã thêm state
   const [user, setUser] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+  const { totalQuantity } = useCart();
+
   const closeMenu = () => {
     setMenuOpen(false);
     setProductsOpen(false);
+    setInstructionsOpen(false); // Đóng cả instructions
   };
 
   useEffect(() => {
@@ -21,9 +26,8 @@ const Header = () => {
       setUser(savedUser ? JSON.parse(savedUser) : null);
     };
 
-    loadUser(); // chạy khi Header mount
+    loadUser();
 
-    // Lắng nghe sự kiện storage để update UI
     const handleStorageChange = () => loadUser();
     window.addEventListener("storage", handleStorageChange);
 
@@ -35,9 +39,18 @@ const Header = () => {
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
-    window.dispatchEvent(new Event("storage")); // báo cho Header cập nhật
+    window.dispatchEvent(new Event("storage"));
     setUser(null);
     navigate(`/${ROUTERS.USER.LOGIN}`);
+  };
+
+  const handleSearchSubmit = (e) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${searchQuery}`);
+      setSearchQuery("");
+      closeMenu();
+    }
   };
 
   return (
@@ -76,6 +89,9 @@ const Header = () => {
               <li>
                 <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
+                  {totalQuantity > 0 && (
+                    <span className="cart-count">{totalQuantity}</span>
+                  )}
                 </Link>
               </li>
 
@@ -100,6 +116,9 @@ const Header = () => {
               <li>
                 <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
+                  {totalQuantity > 0 && (
+                    <span className="cart-count">{totalQuantity}</span>
+                  )}
                 </Link>
               </li>
               <li>
@@ -126,19 +145,28 @@ const Header = () => {
                 About
               </Link>
             </li>
-            <li className="dropdown">
-              <span onClick={() => setProductsOpen(!productsOpen)}>
+
+            {/* --- PRODUCTS DROPDOWN --- */}
+            <li className={`dropdown ${productsOpen ? "open" : ""}`}>
+              <button
+                type="button"
+                className="nav-link-button"
+                onClick={() => setProductsOpen(!productsOpen)}
+                aria-expanded={productsOpen}
+                aria-haspopup="true"
+              >
                 Products ▾
-              </span>
-              <ul className={`dropdown-menu ${productsOpen ? "open" : ""}`}>
+              </button>
+              <ul
+                className={`dropdown-menu mega-menu ${
+                  productsOpen ? "open" : ""
+                }`}
+              >
                 {productMenuData.map((category) => (
                   <li key={category.id}>
-                    {/* Danh mục cha */}
                     <Link to={category.path} onClick={closeMenu}>
                       {category.name}
                     </Link>
-
-                    {/* Kiểm tra và tạo danh mục con */}
                     {category.subcategories &&
                       category.subcategories.length > 0 && (
                         <ul className="submenu">
@@ -161,9 +189,19 @@ const Header = () => {
                 News
               </Link>
             </li>
-            <li className="dropdown">
-              <span>Instructions ▾</span>
-              <ul className="dropdown-menu">
+
+            {/* --- INSTRUCTIONS DROPDOWN (ĐÃ SỬA) --- */}
+            <li className={`dropdown ${instructionsOpen ? "open" : ""}`}>
+              <button
+                type="button"
+                className="nav-link-button"
+                onClick={() => setInstructionsOpen(!instructionsOpen)}
+                aria-expanded={instructionsOpen}
+                aria-haspopup="true"
+              >
+                Instructions ▾
+              </button>
+              <ul className={`dropdown-menu ${instructionsOpen ? "open" : ""}`}>
                 <li>
                   <Link to={`/${ROUTERS.USER.PAYMENT}`} onClick={closeMenu}>
                     Payment instructions
@@ -171,19 +209,27 @@ const Header = () => {
                 </li>
               </ul>
             </li>
+
             <li>
               <Link to={`/${ROUTERS.USER.CONTACT}`} onClick={closeMenu}>
                 Contact
               </Link>
             </li>
           </ul>
+
           {/* 🔹 Search bar */}
-          <form className="d-flex pe-3" role="search">
+          <form
+            className="d-flex pe-3"
+            role="search"
+            onSubmit={handleSearchSubmit}
+          >
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
               aria-label="Search"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
             <button className="btn btn-outline-light" type="submit">
               <i className="fa fa-search"></i>
@@ -220,24 +266,49 @@ const Header = () => {
         </ul>
 
         <ul className="auth-links">
+          {!user ? (
+            <>
+              <li>
+                <Link to={`/${ROUTERS.USER.LOGIN}`} onClick={closeMenu}>
+                  <i className="fa fa-user"></i> Login
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={`/${ROUTERS.USER.REGISTER}`}
+                  className="highlight"
+                  onClick={closeMenu}
+                >
+                  Register
+                </Link>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Link to={`/${ROUTERS.USER.PROFILEUSER}`} onClick={closeMenu}>
+                  <i className="fa fa-user"></i> Profile
+                </Link>
+              </li>
+              <li>
+                <Link className="highlight" onClick={handleLogout}>
+                  <i className="fa fa-sign-out"></i> Logout
+                </Link>
+              </li>
+            </>
+          )}
           <li>
-            <Link to={`/${ROUTERS.USER.LOGIN}`} onClick={closeMenu}>
-              <i className="fa fa-user"></i> Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/${ROUTERS.USER.REGISTER}`}
-              className="highlight"
-              onClick={closeMenu}
-            >
-              <i className="fa fa-shopping-cart"></i> Register
+            <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
+              <i className="fa fa-shopping-cart"></i> Cart
+              {totalQuantity > 0 && (
+                <span className="cart-count-mobile">{totalQuantity}</span>
+              )}
             </Link>
           </li>
         </ul>
       </div>
 
-      {/* 🔹 Overlay khi mở menu mobile */}
+      {/* 🔹 Overlay when mobile menu is open */}
       {menuOpen && <div className="overlay" onClick={closeMenu}></div>}
     </header>
   );

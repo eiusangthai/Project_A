@@ -1,13 +1,43 @@
-import { memo } from "react";
+import { memo, useState, useEffect } from "react"; // Thêm useState và useEffect
 import { Link } from "react-router-dom";
 import { ROUTERS } from "../../../../utils/router";
+import { useCart } from "../../../../context/CartContext";
 import cartIcon from "/src/assets/users/images/cartIcon/carticon.jpg";
 import "./style.css";
 
 const Footer = () => {
+  const { totalQuantity } = useCart();
+  const [isVisible, setIsVisible] = useState(false); // State để theo dõi hiển thị nút
+
+  // Hàm hiển thị nút khi cuộn xuống 300px
+  const toggleVisibility = () => {
+    if (window.scrollY > 300) {
+      setIsVisible(true);
+    } else {
+      setIsVisible(false);
+    }
+  };
+
+  // Hàm cuộn lên đầu trang mượt mà
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  // Thêm và xóa sự kiện scroll
+  useEffect(() => {
+    window.addEventListener("scroll", toggleVisibility);
+
+    // Cleanup function để xóa event listener khi component unmount
+    return () => {
+      window.removeEventListener("scroll", toggleVisibility);
+    };
+  }, []); // Mảng rỗng đảm bảo effect này chỉ chạy 1 lần khi mount
+
   return (
     <>
-      {/* Nút giỏ hàng nổi bên trái */}
       <div className="popup_gio_hang">
         <Link
           className="a-hea text-decoration-none d-flex align-items-center"
@@ -16,7 +46,8 @@ const Footer = () => {
         >
           <img src={cartIcon} alt="Giỏ hàng" />
           <div className="gio_hang_text">
-            Xem giỏ hàng (<span className="count_item count_item_pr">0</span>)
+            Xem giỏ hàng (
+            <span className="count_item count_item_pr">{totalQuantity}</span>)
           </div>
         </Link>
       </div>
@@ -139,6 +170,15 @@ const Footer = () => {
           </div>
         </div>
       </footer>
+
+      {/* === NÚT GO TO TOP === */}
+      <button
+        onClick={scrollToTop}
+        className={`go-to-top-btn ${isVisible ? "visible" : ""}`}
+        title="Lên đầu trang"
+      >
+        <i className="fas fa-chevron-up"></i>
+      </button>
     </>
   );
 };

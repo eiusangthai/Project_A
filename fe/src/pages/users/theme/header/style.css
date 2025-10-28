@@ -24,6 +24,10 @@ body {
   z-index: 100;
 }
 
+.navbar {
+  position: relative;
+}
+
 /* Top row */
 .top-row {
   display: flex;
@@ -83,8 +87,10 @@ body {
   margin-bottom: 0;
 }
 
+/* Kiểu chung cho các link và nút trong navbar */
 .nav-links a,
-.nav-links span {
+.nav-links span,
+.nav-link-button {
   color: #eee;
   text-decoration: none;
   font-size: 15px;
@@ -93,10 +99,18 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 5px;
+
+  /* Reset cho button */
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  text-align: left;
 }
 
 .nav-links a::after,
-.nav-links span::after {
+.nav-links span::after,
+.nav-link-button::after {
   content: "";
   position: absolute;
   left: 0;
@@ -108,12 +122,14 @@ body {
 }
 
 .nav-links a:hover::after,
-.nav-links span:hover::after {
+.nav-links span:hover::after,
+.nav-link-button:hover::after {
   width: 100%;
 }
 
 .nav-links a:hover,
-.nav-links span:hover {
+.nav-links span:hover,
+.nav-link-button:hover {
   color: #ff4d6d;
 }
 
@@ -122,10 +138,9 @@ body {
   position: relative;
 }
 
-/* Submenu (desktop) */
+/* Kiểu .dropdown-menu CƠ BẢN (áp dụng cho "Instructions") */
 .dropdown-menu {
   display: none;
-  /* luôn ẩn mặc định */
   position: absolute;
   top: 120%;
   left: 0;
@@ -133,11 +148,15 @@ body {
   border-radius: 8px;
   list-style: none;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
-  padding: 20px;
-  min-width: 600px;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  gap: 15px;
+  padding: 10px;
+  min-width: 220px;
   z-index: 999;
+}
+
+/* Kiểu .mega-menu (ghi đè kiểu cơ bản, áp dụng cho "Products") */
+.dropdown-menu.mega-menu {
+  min-width: 600px;
+  padding: 20px;
 }
 
 .dropdown-menu li {
@@ -159,9 +178,17 @@ body {
 }
 
 /* Hover mở (desktop) */
-@media (min-width: 901px) {
+@media (min-width: 992px) {
+  /* Mở menu đơn giản (dùng display: block) */
   .dropdown:hover .dropdown-menu {
+    display: block;
+  }
+
+  /* Mở mega-menu (dùng display: grid) */
+  .dropdown:hover .dropdown-menu.mega-menu {
     display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
   }
 }
 
@@ -175,12 +202,15 @@ body {
   cursor: pointer;
   position: absolute;
   right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1001;
 }
 
 .hamburger span {
   width: 25px;
   height: 3px;
-  background: #fff;
+  background: #ff4d6d;
   border-radius: 2px;
   transition: all 0.3s ease;
 }
@@ -188,11 +218,9 @@ body {
 .hamburger.active span:nth-child(1) {
   transform: rotate(45deg) translateY(8px);
 }
-
 .hamburger.active span:nth-child(2) {
   opacity: 0;
 }
-
 .hamburger.active span:nth-child(3) {
   transform: rotate(-45deg) translateY(-8px);
 }
@@ -209,27 +237,36 @@ body {
 .desktop-only {
   display: flex;
 }
-
 .mobile-only {
   display: none;
 }
 
-@media (max-width: 900px) {
+/* Khớp breakpoint với Bootstrap 'lg' */
+@media (max-width: 991.98px) {
   .desktop-only {
     display: none;
   }
-
   .mobile-only {
     display: block;
   }
-
   .top-row {
     justify-content: center;
   }
-
   .logo img {
     max-height: 50px;
   }
+
+  /* === GHI ĐÈ BOOTSTRAP === */
+  .navbar-collapse {
+    display: block !important;
+    height: auto !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  .navbar-collapse .d-flex[role="search"] {
+    display: none !important;
+  }
+  /* === KẾT THÚC GHI ĐÈ === */
 
   /* Nav links → slide from right */
   .nav-links {
@@ -246,6 +283,9 @@ body {
     padding: 100px 25px;
     transition: transform 0.3s ease;
     z-index: 1000;
+
+    /* === SỬA LỖI 1: Thêm thanh cuộn khi menu quá dài === */
+    overflow-y: auto;
   }
 
   .nav-links.active {
@@ -280,14 +320,13 @@ body {
     background: transparent;
     box-shadow: none;
     display: none;
-    /* vẫn ẩn mặc định */
     flex-direction: column;
     gap: 0;
   }
 
-  .dropdown.open .dropdown-menu {
+  /* Selector này đảm bảo cả 2 menu con đều mở được */
+  .dropdown-menu.open {
     display: flex;
-    /* mở khi có class open */
   }
 
   .dropdown-menu a {
