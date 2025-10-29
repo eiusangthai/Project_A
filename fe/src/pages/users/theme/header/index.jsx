@@ -7,7 +7,7 @@ import { ROUTERS } from "../../../../utils/router";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // <-- Vấn đề nằm ở đây
   const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
@@ -16,27 +16,48 @@ const Header = () => {
     setProductsOpen(false);
   };
 
-  // 🔹 Load giỏ hàng và lắng nghe thay đổi
+  // 🔹 Sửa: useEffect này sẽ xử lý CẢ GIỎ HÀNG VÀ USER
   useEffect(() => {
+    // 1. Hàm con để tải giỏ hàng
     const loadCart = () => {
       const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
       const total = savedCart.reduce((sum, item) => sum + item.quantity, 0);
       setCartCount(total);
     };
 
-    loadCart();
-    window.addEventListener("storage", loadCart);
-
-    return () => {
-      window.removeEventListener("storage", loadCart);
+    // 2. Hàm con để kiểm tra trạng thái đăng nhập
+    const checkUserStatus = () => {
+      const savedUser = localStorage.getItem("currentUser");
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      } else {
+        setUser(null);
+      }
     };
-  }, []);
+
+    // 3. Tạo một hàm xử lý chung
+    const handleStorageChange = () => {
+      loadCart();
+      checkUserStatus();
+    };
+
+    // 4. Chạy cả hai hàm khi component tải lần đầu
+    handleStorageChange();
+
+    // 5. Lắng nghe SỰ KIỆN "storage" (do Login/Logout/Cart gửi)
+    window.addEventListener("storage", handleStorageChange);
+
+    // 6. Dọn dẹp
+    return () => {
+      window.removeEventListener("storage", handleStorageChange);
+    };
+  }, []); // Chỉ chạy một lần khi component mount
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
-    window.dispatchEvent(new Event("storage"));
-    setUser(null);
+    window.dispatchEvent(new Event("storage")); // Báo cho chính nó và các tab khác cập nhật
+    // setUser(null); // Không cần dòng này nữa vì event "storage" sẽ tự làm
     navigate(`/${ROUTERS.USER.LOGIN}`);
   };
 
@@ -59,6 +80,7 @@ const Header = () => {
           </Link>
         </div>
 
+        {/* Phần này bây giờ sẽ hoạt động chính xác */}
         <ul className="auth-links desktop-only">
           {!user ? (
             <>
@@ -67,7 +89,6 @@ const Header = () => {
                   <i className="fa fa-user"></i> Login
                 </Link>
               </li>
-              {/* Giỏ hàng */}
               <li>
                 <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
@@ -99,15 +120,16 @@ const Header = () => {
                   {user.name || user.username}
                 </Link>
               </li>
-              {/* Giỏ hàng */}
               <li>
-                <Link onClick={closeMenu} to="/cart">
+                <Link onClick={closeMenu} to={`/${ROUTERS.USER.SHOPPINGCART}`}>
                   <i className="fa fa-shopping-cart"></i>
                   {cartCount > 0 && (
-                    <span className="position-absolute translate-middle badge rounded-pill bg-danger"
+                    <span
+                      className="position-absolute translate-middle badge rounded-pill bg-danger"
                       style={{
                         fontSize: "0.7rem",
-                      }}>
+                      }}
+                    >
                       {cartCount}
                     </span>
                   )}
