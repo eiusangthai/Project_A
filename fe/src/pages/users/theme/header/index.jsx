@@ -1,7 +1,6 @@
 import { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
-
 import { productMenuData } from "../../../../data/menuData.jsx";
 import { ROUTERS } from "../../../../utils/router";
 
@@ -9,51 +8,46 @@ const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
   const [user, setUser] = useState(null);
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
+
   const closeMenu = () => {
     setMenuOpen(false);
     setProductsOpen(false);
   };
 
+  // 🔹 Load giỏ hàng và lắng nghe thay đổi
   useEffect(() => {
-    const loadUser = () => {
-      const savedUser = localStorage.getItem("currentUser");
-      setUser(savedUser ? JSON.parse(savedUser) : null);
+    const loadCart = () => {
+      const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const total = savedCart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(total);
     };
 
-    loadUser(); // chạy khi Header mount
-
-    // Lắng nghe sự kiện storage để update UI
-    const handleStorageChange = () => loadUser();
-    window.addEventListener("storage", handleStorageChange);
+    loadCart();
+    window.addEventListener("storage", loadCart);
 
     return () => {
-      window.removeEventListener("storage", handleStorageChange);
+      window.removeEventListener("storage", loadCart);
     };
   }, []);
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
-    window.dispatchEvent(new Event("storage")); // báo cho Header cập nhật
+    window.dispatchEvent(new Event("storage"));
     setUser(null);
     navigate(`/${ROUTERS.USER.LOGIN}`);
   };
 
   return (
     <header className="header">
-      {/* 🔹 Top row */}
       <div className="top-row">
         <ul className="social-links desktop-only">
-          {[
-            { icon: "facebook", link: "#" },
-            { icon: "twitter", link: "#" },
-            { icon: "youtube", link: "#" },
-            { icon: "pinterest", link: "#" },
-          ].map((item, i) => (
+          {["facebook", "twitter", "youtube", "pinterest"].map((icon, i) => (
             <li key={i}>
-              <a href={item.link} onClick={closeMenu}>
-                <i className={`fab fa-${item.icon}`}></i>
+              <a href="#" onClick={closeMenu}>
+                <i className={`fab fa-${icon}`}></i>
               </a>
             </li>
           ))}
@@ -73,12 +67,20 @@ const Header = () => {
                   <i className="fa fa-user"></i> Login
                 </Link>
               </li>
+              {/* Giỏ hàng */}
               <li>
                 <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
+                  {cartCount > 0 && (
+                    <span
+                      className="position-absolute translate-middle badge rounded-pill bg-danger"
+                      style={{ fontSize: "0.7rem" }}
+                    >
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
               </li>
-
               <li>
                 <Link
                   to={`/${ROUTERS.USER.REGISTER}`}
@@ -97,9 +99,18 @@ const Header = () => {
                   {user.name || user.username}
                 </Link>
               </li>
+              {/* Giỏ hàng */}
               <li>
-                <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
+                <Link onClick={closeMenu} to="/cart">
                   <i className="fa fa-shopping-cart"></i>
+                  {cartCount > 0 && (
+                    <span className="position-absolute translate-middle badge rounded-pill bg-danger"
+                      style={{
+                        fontSize: "0.7rem",
+                      }}>
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
               </li>
               <li>
@@ -112,7 +123,7 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* 🔹 Navbar */}
+      {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mt-2">
         <div className="collapse navbar-collapse">
           <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
@@ -133,29 +144,24 @@ const Header = () => {
               <ul className={`dropdown-menu ${productsOpen ? "open" : ""}`}>
                 {productMenuData.map((category) => (
                   <li key={category.id}>
-                    {/* Danh mục cha */}
                     <Link to={category.path} onClick={closeMenu}>
                       {category.name}
                     </Link>
-
-                    {/* Kiểm tra và tạo danh mục con */}
-                    {category.subcategories &&
-                      category.subcategories.length > 0 && (
-                        <ul className="submenu">
-                          {category.subcategories.map((subcategory) => (
-                            <li key={subcategory.id}>
-                              <Link to={subcategory.path} onClick={closeMenu}>
-                                {subcategory.name}
-                              </Link>
-                            </li>
-                          ))}
-                        </ul>
-                      )}
+                    {category.subcategories?.length > 0 && (
+                      <ul className="submenu">
+                        {category.subcategories.map((sub) => (
+                          <li key={sub.id}>
+                            <Link to={sub.path} onClick={closeMenu}>
+                              {sub.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
                   </li>
                 ))}
               </ul>
             </li>
-
             <li>
               <Link to={`/${ROUTERS.USER.NEWS}`} onClick={closeMenu}>
                 News
@@ -177,13 +183,13 @@ const Header = () => {
               </Link>
             </li>
           </ul>
-          {/* 🔹 Search bar */}
+
+          {/* Search */}
           <form className="d-flex pe-3" role="search">
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
-              aria-label="Search"
             />
             <button className="btn btn-outline-light" type="submit">
               <i className="fa fa-search"></i>
@@ -202,42 +208,6 @@ const Header = () => {
         </button>
       </nav>
 
-      {/* 🔹 Mobile: icons + auth dưới logo */}
-      <div className="mobile-only mobile-icons-auth">
-        <ul className="social-links">
-          {[
-            { icon: "facebook", link: "#" },
-            { icon: "twitter", link: "#" },
-            { icon: "youtube", link: "#" },
-            { icon: "pinterest", link: "#" },
-          ].map((item, i) => (
-            <li key={i}>
-              <a href={item.link} onClick={closeMenu}>
-                <i className={`fab fa-${item.icon}`}></i>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <ul className="auth-links">
-          <li>
-            <Link to={`/${ROUTERS.USER.LOGIN}`} onClick={closeMenu}>
-              <i className="fa fa-user"></i> Login
-            </Link>
-          </li>
-          <li>
-            <Link
-              to={`/${ROUTERS.USER.REGISTER}`}
-              className="highlight"
-              onClick={closeMenu}
-            >
-              <i className="fa fa-shopping-cart"></i> Register
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      {/* 🔹 Overlay khi mở menu mobile */}
       {menuOpen && <div className="overlay" onClick={closeMenu}></div>}
     </header>
   );

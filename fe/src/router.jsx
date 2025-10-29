@@ -11,6 +11,7 @@ import PaymentPage from "./pages/users/instructionsPage/paymentPage";
 import ContactPage from "./pages/users/contactPage";
 import ProfilePage from "./pages/users/profilePage";
 import ShoppingCart from "./pages/users/shoppingCartPage";
+import ProductDetails from "./pages/users/productDetails/index.jsx";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -37,6 +38,10 @@ const renderUserRouter = () => {
     {
       path: `${ROUTERS.USER.PRODUCTS}/:category/:brand`,
       component: <ProductPage />,
+    },
+    {
+      path: `${ROUTERS.USER.PRODUCTS}/product-details/:id`,
+      component: <ProductDetails />,
     },
     {
       path: ROUTERS.USER.NEWS,

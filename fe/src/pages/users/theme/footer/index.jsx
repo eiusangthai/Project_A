@@ -1,10 +1,43 @@
-import { memo } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { ROUTERS } from "../../../../utils/router";
 import cartIcon from "/src/assets/users/images/cartIcon/carticon.jpg";
 import "./style.css";
 
 const Footer = () => {
+  const [cartCount, setCartCount] = useState(0);
+
+  // 🔹 Hàm cập nhật số lượng sản phẩm
+  const updateCartCount = () => {
+    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
+    const total = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+    setCartCount(total);
+  };
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const btn = document.getElementById("goTopBtn");
+      if (window.scrollY > 100) {
+        btn.classList.add("show");
+      } else {
+        btn.classList.remove("show");
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // 🔹 Khi component load, lấy dữ liệu ban đầu
+  useEffect(() => {
+    updateCartCount();
+  }, []);
+
+  // 🔹 Lắng nghe event "storage" (phát ra từ ShoppingCart)
+  useEffect(() => {
+    const handleStorage = () => updateCartCount();
+    window.addEventListener("storage", handleStorage);
+    return () => window.removeEventListener("storage", handleStorage);
+  }, []);
   return (
     <>
       {/* Nút giỏ hàng nổi bên trái */}
@@ -16,11 +49,14 @@ const Footer = () => {
         >
           <img src={cartIcon} alt="Giỏ hàng" />
           <div className="gio_hang_text">
-            Xem giỏ hàng (<span className="count_item count_item_pr">0</span>)
+            Xem giỏ hàng (<span className="count_item count_item_pr">{cartCount}</span>)
           </div>
         </Link>
       </div>
-
+      {/* Nút go to top bên phải */}
+      <div id="goTopBtn" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+        <i className="fa-solid fa-arrow-up"></i>
+      </div>
       {/* Footer chính */}
       <footer id="footer" className="footer bg-dark text-light pt-5">
         <div className="container">

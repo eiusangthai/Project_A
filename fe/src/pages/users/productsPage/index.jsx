@@ -1,6 +1,6 @@
 import { memo, useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { allProducts } from "../../../data/productData.jsx";
+import { allProducts } from "../../../data/productData";
 
 import "./style.css";
 
@@ -39,7 +39,7 @@ const ProductPage = () => {
         <div className="product-grid">
           {filteredProducts.map((product) => (
             <Link
-              to={`/product-detail/${product.id}`}
+              to={`/product/product-details/${product.id}`}
               key={product.id}
               className="product-card"
             >

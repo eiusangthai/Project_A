@@ -8,16 +8,33 @@ export const allProducts = [
     name: "Vợt Cầu Lông Yonex Astrox 100ZZ",
     category: "rackets",
     brand: "yonex",
-    price: 4500000,
-    imageUrl: "/racketImage/yonex_racket.jpg",
+    price: 10000000,
+    originalPrice: 12000000,
+    status: "Còn hàng",
+    imageUrl: "/racketImage/yonex_100zz.jpg",
+    images: [
+      "/racketImage/yonex_100zz.jpg",
+      "/racketImage/yonex_100zz(1).jpg",
+      "/racketImage/yonex_100zz(2).jpg",
+      "/racketImage/yonex_100zz(3).jpg"
+
+    ],
+    sizes: ["3u5", "3u6", "4u5", "4u6"]
   },
+
   {
     id: "p2",
     name: "Vợt Cầu Lông Yonex Nanoflare 800",
     category: "rackets",
     brand: "yonex",
-    price: 4200000,
-    imageUrl: "/racketImage/yonex_racket.jpg",
+    price: 4769000,
+    originalPrice: 5722800,
+    imageUrl: "/racketImage/yonex_800pro.jpg",
+    images: [
+      "/racketImage/yonex_800pro(1).jpg",
+      "/racketImage/yonex_800pro(2).jpg"
+    ],
+    sizes: ["3u5", "3u6", "4u5", "4u6"]
   },
 
   {
@@ -61,7 +78,29 @@ export const allProducts = [
     category: "shoes",
     brand: "yonex",
     price: 2800000,
-    imageUrl: "/shoesImage/yonex_shoes.jpg",
+    imageUrl: "/shoesImage/yonex_65z3.jpg",
+    images: [
+      "/shoesImage/yonex_65z3.jpg",
+      "/shoesImage/yonex_65z3(1).jpg",
+      "/shoesImage/yonex_65z3(2).jpg"
+    ],
+    colors: [
+      {
+        name: "Trắng", price: 699000, img: "/shoesImage/yonex_65z3.jpg",
+        images: [
+          "/shoesImage/yonex_65z3.jpg",
+          "/shoesImage/yonex_65z3(1).jpg",
+          "/shoesImage/yonex_65z3(2).jpg"
+        ],
+      },
+      {
+        name: "Trắng đỏ", price: 699000, img: "/shoesImage/yonex_shoes.jpg",
+        images: [
+          "/shoesImage/yonex_shoes(1).jpg",
+        ],
+      }
+    ],
+    sizes: [38, 39, 40, 41, 42, 43, 44]
   },
   {
     id: "p8",
@@ -69,7 +108,11 @@ export const allProducts = [
     category: "shoes",
     brand: "yonex",
     price: 2950000,
-    imageUrl: "/shoesImage/yonex_shoes.jpg",
+    imageUrl: "/shoesImage/yonex_eclipsion.jpg",
+    images: [
+      "/shoesImage/yonex_eclipsion(1).jpg",
+    ],
+    sizes: [38, 39, 40, 41, 42, 43, 44]
   },
 
   {
@@ -146,7 +189,7 @@ export const allProducts = [
     id: "p17",
     name: "Áo Cầu Lông Lining Spark",
     category: "shirts",
-    brand: "lining", 
+    brand: "lining",
     price: 280000,
     imageUrl: "/shirtImage/lining_shirt.jpg",
   },

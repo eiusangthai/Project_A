@@ -1,92 +1,51 @@
-import { useState, memo } from "react";
+import { useState, useEffect, memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Trash2 } from "lucide-react";
 import "./style.css";
 
-const allProducts = [
-  {
-    id: 1,
-    name: "Vợt Yonex Astrox 99",
-    price: 2500000,
-    image: "/newProduct/99pro.jpg",
-  },
-  {
-    id: 2,
-    name: "Giày Yonex 65Z3",
-    price: 1800000,
-    image: "/newProduct/65z3.jpg",
-  },
-  {
-    id: 3,
-    name: "Áo cầu lông Lining",
-    price: 350000,
-    image: "/newProduct/lining.jpg",
-  },
-  {
-    id: 4,
-    name: "Váy cầu lông nữ",
-    price: 420000,
-    image: "/newProduct/skirtTaro.jpg",
-  },
-  {
-    id: 5,
-    name: "Quần cầu lông Yonex",
-    price: 320000,
-    image: "/newProduct/shortYonex.jpg",
-  },
-  {
-    id: 6,
-    name: "Túi vợt Yonex 9 ngăn",
-    price: 1500000,
-    image: "/newProduct/bagYonex.jpg",
-  },
-  {
-    id: 7,
-    name: "Balo cầu lông Adidas",
-    price: 890000,
-    image: "/newProduct/bagAddidas.jpg",
-  },
-  {
-    id: 8,
-    name: "Phụ kiện quấn cán",
-    price: 50000,
-    image: "/newProduct/items.jpg",
-  },
-  {
-    id: 9,
-    name: "Vợt Pickleball Taro",
-    price: 2200000,
-    image: "/newProduct/racketPickleball.jpg",
-  },
-  {
-    id: 10,
-    name: "Vợt Tennis Wilson Pro Staff",
-    price: 4500000,
-    image: "/newProduct/racketTennis.jpg",
-  },
-];
+
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([
-    { ...allProducts[0], quantity: 1 },
-    { ...allProducts[1], quantity: 2 },
-    { ...allProducts[4], quantity: 1 },
-  ]);
+  const [cartItems, setCartItems] = useState([]);
 
-  const handleRemove = (id) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
+  // 🔹 Load giỏ hàng từ localStorage khi mở trang
+  useEffect(() => {
+    const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+    setCartItems(savedCart);
+  }, []);
+
+  // 🔹 Lưu giỏ hàng vào localStorage mỗi khi có thay đổi
+  useEffect(() => {
+    localStorage.setItem("cartItems", JSON.stringify(cartItems));
+    // Phát sự kiện để Header cập nhật số lượng
+    window.dispatchEvent(new Event("storage"));
+  }, [cartItems]);
+
+  // 🔹 Xóa sản phẩm
+  const handleRemove = (variantKey) => {
+    setCartItems((prev) => {
+      const updated = prev.filter((item) => item.variantKey !== variantKey);
+      localStorage.setItem("cartItems", JSON.stringify(updated));
+      window.dispatchEvent(new Event("storage"));
+      return updated;
+    });
   };
 
-  const updateQuantity = (id, delta) => {
-    setCartItems((prev) =>
-      prev.map((item) =>
-        item.id === id
+  // 🔹 Cập nhật số lượng
+  const updateQuantity = (variantKey, delta) => {
+    setCartItems((prev) => {
+      const updated = prev.map((item) =>
+        item.variantKey === variantKey
           ? { ...item, quantity: Math.max(1, item.quantity + delta) }
           : item
-      )
-    );
+      );
+      localStorage.setItem("cartItems", JSON.stringify(updated));
+      window.dispatchEvent(new Event("storage"));
+      return updated;
+    });
   };
 
+  // 🔹 Tổng tiền
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -113,42 +72,39 @@ const ShoppingCart = () => {
             {cartItems.length > 0 ? (
               cartItems.map((item) => (
                 <motion.div
-                  key={item.id}
+                  key={item.variantKey}
                   layout
                   exit={{ opacity: 0, x: 100 }}
                   className="cart-item"
                 >
                   <div className="item-info">
-                    <img
-                      src={item.image}
-                      alt={item.name}
-                      className="item-img"
-                    />
+                    <img src={item.image} alt={item.name} className="item-img" />
                     <div className="item-details">
                       <h2>{item.name}</h2>
+                      {item.color && item.size && (
+                        <p className="text-muted small mb-1">
+                          Màu: <strong>{item.color}</strong> | Size: <strong>{item.size}</strong>
+                        </p>
+                      )}
                       <p>{item.price.toLocaleString("vi-VN")}₫</p>
                       <div className="quantity-control">
                         <button
-                          onClick={() => updateQuantity(item.id, -1)}
+                          onClick={() => updateQuantity(item.variantKey, -1)}
                           disabled={item.quantity === 1}
                         >
                           -
                         </button>
                         <span>{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.id, 1)}>
-                          +
-                        </button>
+                        <button onClick={() => updateQuantity(item.variantKey, 1)}>+</button>
                       </div>
                     </div>
+
                   </div>
                   <div className="item-actions">
                     <span className="item-total">
                       {(item.price * item.quantity).toLocaleString("vi-VN")}₫
                     </span>
-                    <button
-                      className="delete-btn"
-                      onClick={() => handleRemove(item.id)}
-                    >
+                    <button className="delete-btn" onClick={() => handleRemove(item.variantKey)}>
                       <Trash2 size={20} />
                       <span>Xóa</span>
                     </button>
@@ -156,11 +112,7 @@ const ShoppingCart = () => {
                 </motion.div>
               ))
             ) : (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="empty-cart"
-              >
+              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="empty-cart">
                 Giỏ hàng trống 😢
               </motion.p>
             )}
