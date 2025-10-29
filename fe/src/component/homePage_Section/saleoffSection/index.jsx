@@ -1,45 +1,37 @@
-import React from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "./style.css";
-import rackets from "../../../assets/users/images/saleProduct/rackets.jpg"
-import shoes from "../../../assets/users/images/saleProduct/shoes.jpg"
-import shirt from "../../../assets/users/images/saleProduct/shirt.jpg"
-import short from "../../../assets/users/images/saleProduct/short.jpg"
-import bag from "../../../assets/users/images/saleProduct/bag.jpg"
+
+import { Link } from "react-router-dom";
+
+import { ROUTERS } from "../../../utils/router";
 
 const saleoffItems = [
   {
     title: "Vợt Cầu Lông",
-    link: "",
-    img: rackets,
+    link: `/${ROUTERS.USER.PRODUCTS}/rackets`,
+    img: "/saleProduct/rackets.jpg",
     alt: "Vợt Cầu Lông",
   },
   {
     title: "Giày Cầu Lông",
-    link: "",
-    img: shoes,
+    link: `/${ROUTERS.USER.PRODUCTS}/shoes`,
+    img: "/saleProduct/shoes.jpg",
     alt: "Giày Cầu Lông",
   },
   {
     title: "Áo Cầu Lông",
-    link: "",
-    img: shirt,
+    link: `/${ROUTERS.USER.PRODUCTS}/shirts`,
+    img: "/saleProduct/shirt.jpg",
     alt: "Áo Cầu Lông",
   },
   {
-    title: "Quần Cầu Lông",
-    link: "",
-    img: short,
-    alt: "Quần Cầu Lông",
-  },
-  {
     title: "Túi Vợt",
-    link: "",
-    img: bag,
+    link: `/${ROUTERS.USER.PRODUCTS}/bags`,
+    img: "/saleProduct/bag.jpg",
     alt: "Túi Vợt",
   },
 ];
@@ -50,9 +42,9 @@ const SaleoffSection = () => {
       <div className="container">
         <div className="title_modules">
           <h2>
-            <a href="/thanh-ly" title="Thanh lý">
+            <Link to="/thanh-ly" title="Thanh lý">
               <span>Sale off</span>
-            </a>
+            </Link>
           </h2>
         </div>
 
@@ -73,7 +65,7 @@ const SaleoffSection = () => {
           {saleoffItems.map((item, index) => (
             <SwiperSlide key={index}>
               <div className="saleoff-card">
-                <a href={item.link} title={item.title}>
+                <Link to={item.link} title={item.title}>
                   <img
                     src={item.img}
                     alt={item.alt}
@@ -84,7 +76,7 @@ const SaleoffSection = () => {
                   <div className="overlay">
                     <span>{item.title}</span>
                   </div>
-                </a>
+                </Link>
               </div>
             </SwiperSlide>
           ))}

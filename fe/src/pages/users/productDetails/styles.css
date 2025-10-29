@@ -1,0 +1,91 @@
+.big-img {
+    width: 100%;
+    max-width: 420px;
+    height: 420px;
+    object-fit: contain;
+    border-radius: 10px;
+    background-color: #fff;
+    image-rendering: -webkit-optimize-contrast;
+    image-rendering: crisp-edges;
+    transition: transform 0.3s ease;
+}
+
+.thumb-img {
+    width: 70px;
+    height: 70px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.thumb-img:hover {
+    border-color: #ff6600;
+}
+
+.thumb-img.active {
+    border: 2px solid #ff6600;
+}
+
+.color-box {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 6px;
+    width: 160px;
+    cursor: pointer;
+    text-align: center;
+    transition: 0.2s;
+}
+
+.color-box img {
+    width: 80px;
+    height: 60px;
+    object-fit: contain;
+}
+
+.color-box.active {
+    border: 2px solid #ff6600;
+}
+
+.color-info {
+    font-size: 13px;
+    line-height: 1.2;
+}
+
+.size-btn {
+    width: 50px;
+    border-radius: 8px;
+}
+
+.size-btn.active {
+    background-color: #ff6600;
+    color: white;
+    border-color: #ff6600;
+}
+
+.promo-box {
+    border: 1px solid #ff6600;
+    border-radius: 10px;
+    background-color: #fff9f3;
+}
+
+.promo-box ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+.promo-box li::before {
+    content: "✔️ ";
+    color: green;
+}
+
+.price {
+    font-size: 1.6rem;
+    color: #d32f2f;
+    font-weight: bold;
+}
+
+.action-buttons button {
+    flex: 1;
+    font-weight: 600;
+}

@@ -1,82 +1,113 @@
 import { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
+import { productMenuData } from "../../../../data/menuData.jsx";
+import { ROUTERS } from "../../../../utils/router";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(null); // <-- Vấn đề nằm ở đây
+  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
+
   const closeMenu = () => {
     setMenuOpen(false);
     setProductsOpen(false);
   };
 
+  // 🔹 Sửa: useEffect này sẽ xử lý CẢ GIỎ HÀNG VÀ USER
   useEffect(() => {
-    const loadUser = () => {
-      const savedUser = localStorage.getItem("currentUser");
-      setUser(savedUser ? JSON.parse(savedUser) : null);
+    // 1. Hàm con để tải giỏ hàng
+    const loadCart = () => {
+      const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
+      const total = savedCart.reduce((sum, item) => sum + item.quantity, 0);
+      setCartCount(total);
     };
 
-    loadUser(); // chạy khi Header mount
+    // 2. Hàm con để kiểm tra trạng thái đăng nhập
+    const checkUserStatus = () => {
+      const savedUser = localStorage.getItem("currentUser");
+      if (savedUser) {
+        setUser(JSON.parse(savedUser));
+      } else {
+        setUser(null);
+      }
+    };
 
-    // Lắng nghe sự kiện storage để update UI
-    const handleStorageChange = () => loadUser();
+    // 3. Tạo một hàm xử lý chung
+    const handleStorageChange = () => {
+      loadCart();
+      checkUserStatus();
+    };
+
+    // 4. Chạy cả hai hàm khi component tải lần đầu
+    handleStorageChange();
+
+    // 5. Lắng nghe SỰ KIỆN "storage" (do Login/Logout/Cart gửi)
     window.addEventListener("storage", handleStorageChange);
 
+    // 6. Dọn dẹp
     return () => {
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, []);
+  }, []); // Chỉ chạy một lần khi component mount
 
   const handleLogout = () => {
     localStorage.removeItem("token");
     localStorage.removeItem("currentUser");
-    window.dispatchEvent(new Event("storage")); // báo cho Header cập nhật
-    setUser(null);
-    navigate("/login");
+    window.dispatchEvent(new Event("storage")); // Báo cho chính nó và các tab khác cập nhật
+    // setUser(null); // Không cần dòng này nữa vì event "storage" sẽ tự làm
+    navigate(`/${ROUTERS.USER.LOGIN}`);
   };
 
   return (
     <header className="header">
-      {/* 🔹 Top row */}
       <div className="top-row">
         <ul className="social-links desktop-only">
-          {[
-            { icon: "facebook", link: "#" },
-            { icon: "twitter", link: "#" },
-            { icon: "youtube", link: "#" },
-            { icon: "pinterest", link: "#" },
-          ].map((item, i) => (
+          {["facebook", "twitter", "youtube", "pinterest"].map((icon, i) => (
             <li key={i}>
-              <a href={item.link} onClick={closeMenu}>
-                <i className={`fab fa-${item.icon}`}></i>
+              <a href="#" onClick={closeMenu}>
+                <i className={`fab fa-${icon}`}></i>
               </a>
             </li>
           ))}
         </ul>
 
         <div className="logo">
-          <Link to="/" onClick={closeMenu}>
+          <Link to={`/${ROUTERS.USER.HOME}`} onClick={closeMenu}>
             <img src="/logo.png" alt="Company Logo" />
           </Link>
         </div>
 
+        {/* Phần này bây giờ sẽ hoạt động chính xác */}
         <ul className="auth-links desktop-only">
           {!user ? (
             <>
               <li>
-                <Link to="/login" onClick={closeMenu}>
+                <Link to={`/${ROUTERS.USER.LOGIN}`} onClick={closeMenu}>
                   <i className="fa fa-user"></i> Login
                 </Link>
               </li>
               <li>
-                <Link onClick={closeMenu}>
+                <Link to={`/${ROUTERS.USER.SHOPPINGCART}`} onClick={closeMenu}>
                   <i className="fa fa-shopping-cart"></i>
+                  {cartCount > 0 && (
+                    <span
+                      className="position-absolute translate-middle badge rounded-pill bg-danger"
+                      style={{ fontSize: "0.7rem" }}
+                    >
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
               </li>
               <li>
-                <Link to="/register" className="highlight" onClick={closeMenu}>
+                <Link
+                  to={`/${ROUTERS.USER.REGISTER}`}
+                  className="highlight"
+                  onClick={closeMenu}
+                >
                   Register
                 </Link>
               </li>
@@ -84,19 +115,28 @@ const Header = () => {
           ) : (
             <>
               <li>
-                <Link to="/profile" onClick={closeMenu}>
+                <Link to={`/${ROUTERS.USER.PROFILEUSER}`} onClick={closeMenu}>
                   <i className="fa fa-user"></i> Xin chào,{" "}
                   {user.name || user.username}
                 </Link>
               </li>
               <li>
-                <Link onClick={closeMenu}>
+                <Link onClick={closeMenu} to={`/${ROUTERS.USER.SHOPPINGCART}`}>
                   <i className="fa fa-shopping-cart"></i>
+                  {cartCount > 0 && (
+                    <span
+                      className="position-absolute translate-middle badge rounded-pill bg-danger"
+                      style={{
+                        fontSize: "0.7rem",
+                      }}
+                    >
+                      {cartCount}
+                    </span>
+                  )}
                 </Link>
               </li>
               <li>
                 <Link className="highlight" onClick={handleLogout}>
-
                   <i className="fa fa-sign-out"></i> Logout
                 </Link>
               </li>
@@ -105,17 +145,17 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* 🔹 Navbar */}
+      {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mt-2">
         <div className="collapse navbar-collapse">
           <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
             <li>
-              <Link to="/" onClick={closeMenu}>
+              <Link to={`/${ROUTERS.USER.HOME}`} onClick={closeMenu}>
                 Home
               </Link>
             </li>
             <li>
-              <Link to="/about" onClick={closeMenu}>
+              <Link to={`/${ROUTERS.USER.PROFILE}`} onClick={closeMenu}>
                 About
               </Link>
             </li>
@@ -124,133 +164,28 @@ const Header = () => {
                 Products ▾
               </span>
               <ul className={`dropdown-menu ${productsOpen ? "open" : ""}`}>
-                {/* Category 1: Vợt Cầu Lông */}
-                <li>
-                  <Link to="/product/rackets" onClick={closeMenu}>
-                    Vợt Cầu Lông
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/product/rackets/yonex" onClick={closeMenu}>
-                        Vợt Yonex
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/rackets/victor" onClick={closeMenu}>
-                        Vợt Victor
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/rackets/lining" onClick={closeMenu}>
-                        Vợt Lining
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                {/* Category 2: Giày Cầu Lông */}
-                <li>
-                  <Link to="/product/shoes" onClick={closeMenu}>
-                    Giày Cầu Lông
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/product/shoes/yonex" onClick={closeMenu}>
-                        Giày Yonex
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/shoes/victor" onClick={closeMenu}>
-                        Giày Victor
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/shoes/lining" onClick={closeMenu}>
-                        Giày Lining
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                {/* Category 3: Áo Cầu Lông */}
-                <li>
-                  <Link to="/product/shirts" onClick={closeMenu}>
-                    Áo Cầu Lông
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/product/shirts/yonex" onClick={closeMenu}>
-                        Áo Yonex
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/shirts/vnb" onClick={closeMenu}>
-                        Áo VNB
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/shirts/kamito" onClick={closeMenu}>
-                        Áo Kamito
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                {/* Category 4: Túi Vợt */}
-                <li>
-                  <Link to="/product/bags" onClick={closeMenu}>
-                    Túi Vợt
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/product/bags/yonex" onClick={closeMenu}>
-                        Túi Yonex
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/bags/victor" onClick={closeMenu}>
-                        Túi Victor
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/bags/lining" onClick={closeMenu}>
-                        Túi Lining
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
-
-                {/* Category 5: Phụ Kiện */}
-                <li>
-                  <Link to="/product/accessories" onClick={closeMenu}>
-                    Phụ Kiện
-                  </Link>
-                  <ul className="submenu">
-                    <li>
-                      <Link to="/product/accessories/socks" onClick={closeMenu}>
-                        Vớ Cầu Lông
-                      </Link>
-                    </li>
-                    <li>
-                      <Link to="/product/accessories/strings" onClick={closeMenu}>
-                        Cước Đan Vợt
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/product/accessories/shuttlecock"
-                        onClick={closeMenu}
-                      >
-                        Quả Cầu Lông
-                      </Link>
-                    </li>
-                  </ul>
-                </li>
+                {productMenuData.map((category) => (
+                  <li key={category.id}>
+                    <Link to={category.path} onClick={closeMenu}>
+                      {category.name}
+                    </Link>
+                    {category.subcategories?.length > 0 && (
+                      <ul className="submenu">
+                        {category.subcategories.map((sub) => (
+                          <li key={sub.id}>
+                            <Link to={sub.path} onClick={closeMenu}>
+                              {sub.name}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
               </ul>
             </li>
-
             <li>
-              <Link to="/news" onClick={closeMenu}>
+              <Link to={`/${ROUTERS.USER.NEWS}`} onClick={closeMenu}>
                 News
               </Link>
             </li>
@@ -258,25 +193,25 @@ const Header = () => {
               <span>Instructions ▾</span>
               <ul className="dropdown-menu">
                 <li>
-                  <Link to="/payment" onClick={closeMenu}>
+                  <Link to={`/${ROUTERS.USER.PAYMENT}`} onClick={closeMenu}>
                     Payment instructions
                   </Link>
                 </li>
               </ul>
             </li>
             <li>
-              <Link to="/contact" onClick={closeMenu}>
+              <Link to={`/${ROUTERS.USER.CONTACT}`} onClick={closeMenu}>
                 Contact
               </Link>
             </li>
           </ul>
-          {/* 🔹 Search bar */}
+
+          {/* Search */}
           <form className="d-flex pe-3" role="search">
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
-              aria-label="Search"
             />
             <button className="btn btn-outline-light" type="submit">
               <i className="fa fa-search"></i>
@@ -293,41 +228,8 @@ const Header = () => {
           <span></span>
           <span></span>
         </button>
-
       </nav>
 
-      {/* 🔹 Mobile: icons + auth dưới logo */}
-      <div className="mobile-only mobile-icons-auth">
-        <ul className="social-links">
-          {[
-            { icon: "facebook", link: "#" },
-            { icon: "twitter", link: "#" },
-            { icon: "youtube", link: "#" },
-            { icon: "pinterest", link: "#" },
-          ].map((item, i) => (
-            <li key={i}>
-              <a href={item.link} onClick={closeMenu}>
-                <i className={`fab fa-${item.icon}`}></i>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <ul className="auth-links">
-          <li>
-            <Link to="/login" onClick={closeMenu}>
-              <i className="fa fa-user"></i> Login
-            </Link>
-          </li>
-          <li>
-            <Link to="/register" className="highlight" onClick={closeMenu}>
-              <i className="fa fa-shopping-cart"></i> Register
-            </Link>
-          </li>
-        </ul>
-      </div>
-
-      {/* 🔹 Overlay khi mở menu mobile */}
       {menuOpen && <div className="overlay" onClick={closeMenu}></div>}
     </header>
   );

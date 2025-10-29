@@ -1,27 +1,30 @@
 import React, { memo } from "react";
+import { Link } from "react-router-dom";
 import "./style.css";
+
+import { ROUTERS } from "../../../utils/router";
 
 const PickleballSection = () => {
   const products = [
     {
-      href: "",
+      href: `/${ROUTERS.USER.PRODUCTS}/pickleball-rackets`,
       title: "Vợt PickleBall",
-      img: "public/pickleballProduct/racket.jpg",
+      img: "/pickleballProduct/racket.jpg",
     },
     {
-      href: "",
+      href: `/${ROUTERS.USER.PRODUCTS}/pickleball-shoes`,
       title: "Giày Pickleball",
-      img: "public/pickleballProduct/shoes.jpg",
+      img: "/pickleballProduct/shoes.jpg",
     },
     {
-      href: "",
+      href: `/${ROUTERS.USER.PRODUCTS}/pickleball-bags`,
       title: "Túi Pickleball",
-      img: "public/pickleballProduct/bag.jpg",
+      img: "/pickleballProduct/bag.jpg",
     },
     {
-      href: "",
+      href: `/${ROUTERS.USER.PRODUCTS}/pickleball-shirts`,
       title: "Áo Pickleball",
-      img: "public/pickleballProduct/shirt.jpg",
+      img: "/pickleballProduct/shirt.jpg",
     },
   ];
 
@@ -37,12 +40,12 @@ const PickleballSection = () => {
         <div className="row g-4">
           {products.map((item, index) => (
             <div className="col-6 col-md-3" key={index}>
-              <a href={item.href} className="pickle-card">
+              <Link to={item.href} className="pickle-card">
                 <img src={item.img} alt={item.title} />
                 <div className="overlay">
                   <p>{item.title}</p>
                 </div>
-              </a>
+              </Link>
             </div>
           ))}
         </div>
