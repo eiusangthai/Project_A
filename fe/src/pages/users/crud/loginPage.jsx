@@ -2,12 +2,14 @@ import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import api from "../../../utils/api";
 import "../crud/auth.css";
+import { useAuth } from "../../../context/AuthContext";
 
 const LoginPage = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleChange = (e) =>
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -24,9 +26,7 @@ const LoginPage = () => {
       });
       const { token, user } = res.data;
 
-      localStorage.setItem("token", token);
-      localStorage.setItem("currentUser", JSON.stringify(user));
-      window.dispatchEvent(new Event("storage"));
+      login(user, token);
 
       navigate("/");
     } catch (err) {
