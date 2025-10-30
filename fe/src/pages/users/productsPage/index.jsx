@@ -47,7 +47,6 @@ const ProductPage = () => {
                 <img
                   src={product.imageUrl}
                   alt={product.name}
-                  className="product-card-image"
                 />
               </div>
               <div className="product-card-body">
