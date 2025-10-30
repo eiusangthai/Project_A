@@ -3,23 +3,18 @@ import { Link } from "react-router-dom";
 import { ROUTERS } from "../../../../utils/router";
 import cartIcon from "/src/assets/users/images/cartIcon/carticon.jpg";
 import "./style.css";
+import { useCart } from "../../../../context/CartContext";
 
 const Footer = () => {
-  const [cartCount, setCartCount] = useState(0);
-
-  // 🔹 Hàm cập nhật số lượng sản phẩm
-  const updateCartCount = () => {
-    const cartItems = JSON.parse(localStorage.getItem("cartItems")) || [];
-    const total = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-    setCartCount(total);
-  };
+  const { cartItems } = useCart();
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   useEffect(() => {
     const handleScroll = () => {
       const btn = document.getElementById("goTopBtn");
-      if (window.scrollY > 100) {
+      if (btn && window.scrollY > 100) {
         btn.classList.add("show");
-      } else {
+      } else if (btn) {
         btn.classList.remove("show");
       }
     };
@@ -27,20 +22,8 @@ const Footer = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // 🔹 Khi component load, lấy dữ liệu ban đầu
-  useEffect(() => {
-    updateCartCount();
-  }, []);
-
-  // 🔹 Lắng nghe event "storage" (phát ra từ ShoppingCart)
-  useEffect(() => {
-    const handleStorage = () => updateCartCount();
-    window.addEventListener("storage", handleStorage);
-    return () => window.removeEventListener("storage", handleStorage);
-  }, []);
   return (
     <>
-      {/* Nút giỏ hàng nổi bên trái */}
       <div className="popup_gio_hang">
         <Link
           className="a-hea text-decoration-none d-flex align-items-center"
@@ -49,19 +32,22 @@ const Footer = () => {
         >
           <img src={cartIcon} alt="Giỏ hàng" />
           <div className="gio_hang_text">
-            Xem giỏ hàng (<span className="count_item count_item_pr">{cartCount}</span>)
+            Xem giỏ hàng (
+            <span className="count_item count_item_pr">{cartCount}</span>)
           </div>
         </Link>
       </div>
-      {/* Nút go to top bên phải */}
-      <div id="goTopBtn" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
+
+      <div
+        id="goTopBtn"
+        onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      >
         <i className="fa-solid fa-arrow-up"></i>
       </div>
-      {/* Footer chính */}
+
       <footer id="footer" className="footer bg-dark text-light pt-5">
         <div className="container">
           <div className="row">
-            {/* Logo & Social */}
             <div className="col-md-4 mb-4">
               <div className="footer-widget">
                 <div className="footer-logo mb-3">
@@ -103,7 +89,6 @@ const Footer = () => {
               </div>
             </div>
 
-            {/* Menu */}
             <div className="col-md-2 mb-4">
               <h5>Menu</h5>
               <ul className="list-unstyled">
@@ -125,7 +110,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Contact */}
             <div className="col-md-3 mb-4">
               <h5>Contact Us</h5>
               <ul className="list-unstyled">
@@ -145,7 +129,6 @@ const Footer = () => {
               </ul>
             </div>
 
-            {/* Google Map */}
             <div className="col-md-3 mb-4">
               <div className="ratio ratio-4x3">
                 <iframe

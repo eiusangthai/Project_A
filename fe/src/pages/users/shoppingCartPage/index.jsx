@@ -1,51 +1,12 @@
-import { useState, useEffect, memo } from "react";
+import { memo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Trash2 } from "lucide-react";
+import { Trash2, ShoppingCart as CartIcon, Frown, Truck } from "lucide-react";
 import "./style.css";
-
-
+import { useCart } from "../../../context/CartContext";
 
 const ShoppingCart = () => {
-  const [cartItems, setCartItems] = useState([]);
+  const { cartItems, removeFromCart, updateQuantity } = useCart();
 
-  // 🔹 Load giỏ hàng từ localStorage khi mở trang
-  useEffect(() => {
-    const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-    setCartItems(savedCart);
-  }, []);
-
-  // 🔹 Lưu giỏ hàng vào localStorage mỗi khi có thay đổi
-  useEffect(() => {
-    localStorage.setItem("cartItems", JSON.stringify(cartItems));
-    // Phát sự kiện để Header cập nhật số lượng
-    window.dispatchEvent(new Event("storage"));
-  }, [cartItems]);
-
-  // 🔹 Xóa sản phẩm
-  const handleRemove = (variantKey) => {
-    setCartItems((prev) => {
-      const updated = prev.filter((item) => item.variantKey !== variantKey);
-      localStorage.setItem("cartItems", JSON.stringify(updated));
-      window.dispatchEvent(new Event("storage"));
-      return updated;
-    });
-  };
-
-  // 🔹 Cập nhật số lượng
-  const updateQuantity = (variantKey, delta) => {
-    setCartItems((prev) => {
-      const updated = prev.map((item) =>
-        item.variantKey === variantKey
-          ? { ...item, quantity: Math.max(1, item.quantity + delta) }
-          : item
-      );
-      localStorage.setItem("cartItems", JSON.stringify(updated));
-      window.dispatchEvent(new Event("storage"));
-      return updated;
-    });
-  };
-
-  // 🔹 Tổng tiền
   const totalPrice = cartItems.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0
@@ -58,7 +19,8 @@ const ShoppingCart = () => {
         animate={{ opacity: 1, y: 0 }}
         className="cart-title"
       >
-        🛒 Giỏ Hàng
+        <CartIcon size={24} style={{ marginRight: "10px" }} />
+        Giỏ Hàng
       </motion.h1>
 
       <div className="cart-content">
@@ -78,12 +40,17 @@ const ShoppingCart = () => {
                   className="cart-item"
                 >
                   <div className="item-info">
-                    <img src={item.image} alt={item.name} className="item-img" />
+                    <img
+                      src={item.image}
+                      alt={item.name}
+                      className="item-img"
+                    />
                     <div className="item-details">
                       <h2>{item.name}</h2>
                       {item.color && item.size && (
                         <p className="text-muted small mb-1">
-                          Màu: <strong>{item.color}</strong> | Size: <strong>{item.size}</strong>
+                          Màu: <strong>{item.color}</strong> | Size:{" "}
+                          <strong>{item.size}</strong>
                         </p>
                       )}
                       <p>{item.price.toLocaleString("vi-VN")}₫</p>
@@ -95,16 +62,22 @@ const ShoppingCart = () => {
                           -
                         </button>
                         <span>{item.quantity}</span>
-                        <button onClick={() => updateQuantity(item.variantKey, 1)}>+</button>
+                        <button
+                          onClick={() => updateQuantity(item.variantKey, 1)}
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
-
                   </div>
                   <div className="item-actions">
                     <span className="item-total">
                       {(item.price * item.quantity).toLocaleString("vi-VN")}₫
                     </span>
-                    <button className="delete-btn" onClick={() => handleRemove(item.variantKey)}>
+                    <button
+                      className="delete-btn"
+                      onClick={() => removeFromCart(item.variantKey)}
+                    >
                       <Trash2 size={20} />
                       <span>Xóa</span>
                     </button>
@@ -112,8 +85,13 @@ const ShoppingCart = () => {
                 </motion.div>
               ))
             ) : (
-              <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="empty-cart">
-                Giỏ hàng trống 😢
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                className="empty-cart"
+              >
+                <Frown size={24} style={{ marginBottom: "10px" }} />
+                Giỏ hàng trống
               </motion.p>
             )}
           </AnimatePresence>
@@ -131,7 +109,9 @@ const ShoppingCart = () => {
           </div>
           <div className="summary-line">
             <span>Phí giao hàng</span>
-            <span>Miễn phí 🚚</span>
+            <span>
+              Miễn phí <Truck size={16} style={{ marginLeft: "5px" }} />
+            </span>
           </div>
           <div className="summary-total">
             <span>Tổng cộng</span>

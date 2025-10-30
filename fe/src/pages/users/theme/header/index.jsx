@@ -1,37 +1,25 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
 import { productMenuData } from "../../../../data/menuData.jsx";
 import { ROUTERS } from "../../../../utils/router";
 import { useAuth } from "../../../../context/AuthContext";
+import { useCart } from "../../../../context/CartContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
 
   const { user, logout } = useAuth();
+  const { cartItems } = useCart();
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
 
   const closeMenu = () => {
     setMenuOpen(false);
     setProductsOpen(false);
   };
-
-  useEffect(() => {
-    const loadCart = () => {
-      const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const total = savedCart.reduce((sum, item) => sum + item.quantity, 0);
-      setCartCount(total);
-    };
-
-    loadCart();
-    window.addEventListener("storage", loadCart);
-
-    return () => {
-      window.removeEventListener("storage", loadCart);
-    };
-  }, []);
 
   const handleLogout = () => {
     logout();
