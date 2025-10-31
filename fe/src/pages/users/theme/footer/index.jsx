@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ROUTERS } from "../../../../utils/router";
 import cartIcon from "/src/assets/users/images/cartIcon/carticon.jpg";

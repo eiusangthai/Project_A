@@ -1,6 +1,4 @@
-// src/data/productData.js
-
-export const allProducts = [
+const allProducts = [
   // ========== 1. VỢT CẦU LÔNG (category: "rackets") ==========
 
   {
@@ -361,3 +359,42 @@ export const allProducts = [
     imageUrl: "/accessory/badminton_ball(1).jpg",
   },
 ];
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export async function seed(knex) {
+  await knex("products").del();
+
+  const productsToInsert = allProducts.map((product) => {
+    const {
+      id,
+      name,
+      category,
+      brand,
+      price,
+      originalPrice,
+      status,
+      imageUrl,
+      images,
+      sizes,
+      colors,
+    } = product;
+    return {
+      id,
+      name,
+      category,
+      brand,
+      price,
+      originalPrice: originalPrice || null,
+      status: status || "Còn hàng",
+      imageUrl: imageUrl || null,
+      images: JSON.stringify(images || []),
+      sizes: JSON.stringify(sizes || []),
+      colors: JSON.stringify(colors || []),
+    };
+  });
+
+  await knex("products").insert(productsToInsert);
+}

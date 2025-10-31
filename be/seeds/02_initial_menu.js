@@ -1,4 +1,4 @@
-export const productMenuData = [
+const productMenuData = [
   {
     id: 1,
     name: "Vợt Cầu Lông",
@@ -54,3 +54,27 @@ export const productMenuData = [
     ],
   },
 ];
+
+export async function seed(knex) {
+  await knex("subcategories").del();
+  await knex("categories").del();
+
+  await Promise.all(
+    productMenuData.map(async (category) => {
+      await knex("categories").insert({
+        id: category.id,
+        name: category.name,
+        path: category.path,
+      });
+
+      const subcategoriesToInsert = category.subcategories.map((sub) => ({
+        id: sub.id,
+        name: sub.name,
+        path: sub.path,
+        category_id: category.id,
+      }));
+
+      await knex("subcategories").insert(subcategoriesToInsert);
+    })
+  );
+}

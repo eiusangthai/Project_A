@@ -11,18 +11,11 @@ export const CartProvider = ({ children }) => {
   const [cartItems, setCartItems] = useState([]);
 
   useEffect(() => {
-    const loadCart = () => {
-      const savedCart = localStorage.getItem("cartItems");
-      if (savedCart) {
-        setCartItems(JSON.parse(savedCart));
-      }
-    };
-
-    loadCart();
-    window.addEventListener("storage", loadCart);
-
-    return () => window.removeEventListener("storage", loadCart);
-  }, []);
+    const savedCart = localStorage.getItem("cartItems");
+    if (savedCart) {
+      setCartItems(JSON.parse(savedCart));
+    }
+  }, []); 
 
   const addToCart = (productToAdd) => {
     setCartItems((prevItems) => {
@@ -34,7 +27,7 @@ export const CartProvider = ({ children }) => {
       if (existingItem) {
         newCart = prevItems.map((item) =>
           item.variantKey === productToAdd.variantKey
-            ? { ...item, quantity: item.quantity + productToAdd.quantity }
+            ? { ...item, quantity: item.quantity + 1 }
             : item
         );
       } else {

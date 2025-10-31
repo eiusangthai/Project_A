@@ -1,7 +1,7 @@
-import { memo, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
-import { productMenuData } from "../../../../data/menuData.jsx";
+import api from "../../../../utils/api";
 import { ROUTERS } from "../../../../utils/router";
 import { useAuth } from "../../../../context/AuthContext";
 import { useCart } from "../../../../context/CartContext";
@@ -15,6 +15,19 @@ const Header = () => {
   const { cartItems } = useCart();
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const [menuData, setMenuData] = useState([]);
+
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const res = await api.get("/menu");
+        setMenuData(res.data);
+      } catch (err) {
+        console.error("Lỗi tải menu:", err);
+      }
+    };
+    fetchMenu();
+  }, []);
 
   const closeMenu = () => {
     setMenuOpen(false);
@@ -132,12 +145,23 @@ const Header = () => {
                 About
               </Link>
             </li>
+
             <li className="dropdown">
-              <span onClick={() => setProductsOpen(!productsOpen)}>
-                Products ▾
-              </span>
+              <div className="product-menu-toggle">
+                <Link to={`/${ROUTERS.USER.PRODUCTS}`} onClick={closeMenu}>
+                  Products
+                </Link>
+                <span
+                  className="dropdown-arrow"
+                  onClick={() => setProductsOpen(!productsOpen)}
+                >
+                  ▾
+                </span>
+              </div>
+
               <ul className={`dropdown-menu ${productsOpen ? "open" : ""}`}>
-                {productMenuData.map((category) => (
+                {/* ĐÃ XÓA "TẤT CẢ SẢN PHẨM" */}
+                {menuData.map((category) => (
                   <li key={category.id}>
                     <Link to={category.path} onClick={closeMenu}>
                       {category.name}
@@ -157,6 +181,7 @@ const Header = () => {
                 ))}
               </ul>
             </li>
+
             <li>
               <Link to={`/${ROUTERS.USER.NEWS}`} onClick={closeMenu}>
                 News
