@@ -13,75 +13,74 @@ import ProfilePage from "./pages/users/profilePage";
 import ShoppingCart from "./pages/users/shoppingCartPage";
 import ProductDetails from "./pages/users/productDetails/index.jsx";
 
-const renderUserRouter = () => {
-  const userRouters = [
-    {
-      path: ROUTERS.USER.HOME,
-      component: <HomePage />,
-    },
-    {
-      path: ROUTERS.USER.PROFILE,
-      component: <ProfilePage />,
-    },
-    {
-      path: ROUTERS.USER.PROFILEUSER,
-      component: <ProfilePageUser />,
-    },
-    {
-      path: ROUTERS.USER.PRODUCTS,
-      component: <ProductPage />,
-    },
-    {
-      path: `${ROUTERS.USER.PRODUCTS}/:category`,
-      component: <ProductPage />,
-    },
-    {
-      path: `${ROUTERS.USER.PRODUCTS}/:category/:brand`,
-      component: <ProductPage />,
-    },
-    {
-      path: `${ROUTERS.USER.PRODUCTS}/product-details/:id`,
-      component: <ProductDetails />,
-    },
-    {
-      path: ROUTERS.USER.NEWS,
-      component: <NewsPage />,
-    },
-    {
-      path: ROUTERS.USER.PAYMENT,
-      component: <PaymentPage />,
-    },
-    {
-      path: ROUTERS.USER.CONTACT,
-      component: <ContactPage />,
-    },
-    {
-      path: ROUTERS.USER.LOGIN,
-      component: <LoginPage />,
-    },
-    {
-      path: ROUTERS.USER.REGISTER,
-      component: <RegisterPage />,
-    },
-    {
-      path: ROUTERS.USER.SHOPPINGCART,
-      component: <ShoppingCart />,
-    },
-  ];
-
-  return (
-    <MasterLayout>
-      <Routes>
-        {userRouters.map((item, key) => (
-          <Route key={key} path={item.path} element={item.component} />
-        ))}
-      </Routes>
-    </MasterLayout>
-  );
-};
+import AdminLayout from "./pages/admin/theme/AdminLayout.jsx";
+import UserManagementPage from "./pages/admin/UserManagementPage";
+import ProductManagementPage from "./pages/admin/ProductManagementPage";
+const routesWithMasterLayout = [
+  {
+    path: ROUTERS.USER.HOME,
+    component: <HomePage />,
+  },
+  {
+    path: ROUTERS.USER.PROFILE,
+    component: <ProfilePage />,
+  },
+  {
+    path: ROUTERS.USER.PROFILEUSER,
+    component: <ProfilePageUser />,
+  },
+  {
+    path: ROUTERS.USER.PRODUCTS,
+    component: <ProductPage />,
+  },
+  {
+    path: `${ROUTERS.USER.PRODUCTS}/:category`,
+    component: <ProductPage />,
+  },
+  {
+    path: `${ROUTERS.USER.PRODUCTS}/:category/:brand`,
+    component: <ProductPage />,
+  },
+  {
+    path: `${ROUTERS.USER.PRODUCTS}/product-details/:id`,
+    component: <ProductDetails />,
+  },
+  {
+    path: ROUTERS.USER.NEWS,
+    component: <NewsPage />,
+  },
+  {
+    path: ROUTERS.USER.PAYMENT,
+    component: <PaymentPage />,
+  },
+  {
+    path: ROUTERS.USER.CONTACT,
+    component: <ContactPage />,
+  },
+  {
+    path: ROUTERS.USER.SHOPPINGCART,
+    component: <ShoppingCart />,
+  },
+];
 
 const RouterCustom = () => {
-  return renderUserRouter();
+  return (
+    <Routes>
+      <Route path="/admin" element={<AdminLayout />}>
+        <Route path="users" element={<UserManagementPage />} />
+        <Route path="products" element={<ProductManagementPage />} />{" "}
+      </Route>
+
+      <Route path="/" element={<MasterLayout />}>
+        {routesWithMasterLayout.map((item, key) => (
+          <Route key={key} path={item.path} element={item.component} />
+        ))}
+      </Route>
+
+      <Route path={ROUTERS.USER.LOGIN} element={<LoginPage />} />
+      <Route path={ROUTERS.USER.REGISTER} element={<RegisterPage />} />
+    </Routes>
+  );
 };
 
 export default RouterCustom;

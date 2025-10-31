@@ -1,63 +1,41 @@
 import { memo, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./style.css";
-import { productMenuData } from "../../../../data/menuData.jsx";
+import api from "../../../../utils/api";
 import { ROUTERS } from "../../../../utils/router";
+import { useAuth } from "../../../../context/AuthContext";
+import { useCart } from "../../../../context/CartContext";
 
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const [user, setUser] = useState(null); // <-- Vấn đề nằm ở đây
-  const [cartCount, setCartCount] = useState(0);
   const navigate = useNavigate();
+
+  const { user, logout } = useAuth();
+  const { cartItems } = useCart();
+
+  const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
+  const [menuData, setMenuData] = useState([]);
+
+  useEffect(() => {
+    const fetchMenu = async () => {
+      try {
+        const res = await api.get("/menu");
+        setMenuData(res.data);
+      } catch (err) {
+        console.error("Lỗi tải menu:", err);
+      }
+    };
+    fetchMenu();
+  }, []);
 
   const closeMenu = () => {
     setMenuOpen(false);
     setProductsOpen(false);
   };
 
-  // 🔹 Sửa: useEffect này sẽ xử lý CẢ GIỎ HÀNG VÀ USER
-  useEffect(() => {
-    // 1. Hàm con để tải giỏ hàng
-    const loadCart = () => {
-      const savedCart = JSON.parse(localStorage.getItem("cartItems")) || [];
-      const total = savedCart.reduce((sum, item) => sum + item.quantity, 0);
-      setCartCount(total);
-    };
-
-    // 2. Hàm con để kiểm tra trạng thái đăng nhập
-    const checkUserStatus = () => {
-      const savedUser = localStorage.getItem("currentUser");
-      if (savedUser) {
-        setUser(JSON.parse(savedUser));
-      } else {
-        setUser(null);
-      }
-    };
-
-    // 3. Tạo một hàm xử lý chung
-    const handleStorageChange = () => {
-      loadCart();
-      checkUserStatus();
-    };
-
-    // 4. Chạy cả hai hàm khi component tải lần đầu
-    handleStorageChange();
-
-    // 5. Lắng nghe SỰ KIỆN "storage" (do Login/Logout/Cart gửi)
-    window.addEventListener("storage", handleStorageChange);
-
-    // 6. Dọn dẹp
-    return () => {
-      window.removeEventListener("storage", handleStorageChange);
-    };
-  }, []); // Chỉ chạy một lần khi component mount
-
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("currentUser");
-    window.dispatchEvent(new Event("storage")); // Báo cho chính nó và các tab khác cập nhật
-    // setUser(null); // Không cần dòng này nữa vì event "storage" sẽ tự làm
+    logout();
     navigate(`/${ROUTERS.USER.LOGIN}`);
   };
 
@@ -80,7 +58,6 @@ const Header = () => {
           </Link>
         </div>
 
-        {/* Phần này bây giờ sẽ hoạt động chính xác */}
         <ul className="auth-links desktop-only">
           {!user ? (
             <>
@@ -114,6 +91,16 @@ const Header = () => {
             </>
           ) : (
             <>
+              {user.role === "admin" && (
+                <li>
+                  <Link
+                    to={`/${ROUTERS.ADMIN.DASHBOARD}`}
+                    className="highlight-admin"
+                  >
+                    <i className="fa fa-cog"></i> Admin
+                  </Link>
+                </li>
+              )}
               <li>
                 <Link to={`/${ROUTERS.USER.PROFILEUSER}`} onClick={closeMenu}>
                   <i className="fa fa-user"></i> Xin chào,{" "}
@@ -145,7 +132,6 @@ const Header = () => {
         </ul>
       </div>
 
-      {/* Navbar */}
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark mt-2">
         <div className="collapse navbar-collapse">
           <ul className={`nav-links ${menuOpen ? "active" : ""}`}>
@@ -159,12 +145,23 @@ const Header = () => {
                 About
               </Link>
             </li>
+
             <li className="dropdown">
-              <span onClick={() => setProductsOpen(!productsOpen)}>
-                Products ▾
-              </span>
+              <div className="product-menu-toggle">
+                <Link to={`/${ROUTERS.USER.PRODUCTS}`} onClick={closeMenu}>
+                  Products
+                </Link>
+                <span
+                  className="dropdown-arrow"
+                  onClick={() => setProductsOpen(!productsOpen)}
+                >
+                  ▾
+                </span>
+              </div>
+
               <ul className={`dropdown-menu ${productsOpen ? "open" : ""}`}>
-                {productMenuData.map((category) => (
+                {/* ĐÃ XÓA "TẤT CẢ SẢN PHẨM" */}
+                {menuData.map((category) => (
                   <li key={category.id}>
                     <Link to={category.path} onClick={closeMenu}>
                       {category.name}
@@ -184,6 +181,7 @@ const Header = () => {
                 ))}
               </ul>
             </li>
+
             <li>
               <Link to={`/${ROUTERS.USER.NEWS}`} onClick={closeMenu}>
                 News
@@ -206,7 +204,6 @@ const Header = () => {
             </li>
           </ul>
 
-          {/* Search */}
           <form className="d-flex pe-3" role="search">
             <input
               className="form-control me-2"
@@ -219,7 +216,6 @@ const Header = () => {
           </form>
         </div>
 
-        {/* Hamburger */}
         <button
           className={`hamburger ${menuOpen ? "active" : ""}`}
           onClick={() => setMenuOpen(!menuOpen)}

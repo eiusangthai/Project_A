@@ -1,6 +1,4 @@
-// src/data/productData.js
-
-export const allProducts = [
+const allProducts = [
   // ========== 1. VỢT CẦU LÔNG (category: "rackets") ==========
 
   {
@@ -16,10 +14,9 @@ export const allProducts = [
       "/racketImage/yonex_100zz.jpg",
       "/racketImage/yonex_100zz(1).jpg",
       "/racketImage/yonex_100zz(2).jpg",
-      "/racketImage/yonex_100zz(3).jpg"
-
+      "/racketImage/yonex_100zz(3).jpg",
     ],
-    sizes: ["3u5", "3u6", "4u5", "4u6"]
+    sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
 
   {
@@ -32,9 +29,9 @@ export const allProducts = [
     imageUrl: "/racketImage/yonex_800pro.jpg",
     images: [
       "/racketImage/yonex_800pro(1).jpg",
-      "/racketImage/yonex_800pro(2).jpg"
+      "/racketImage/yonex_800pro(2).jpg",
     ],
-    sizes: ["3u5", "3u6", "4u5", "4u6"]
+    sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
 
   {
@@ -48,7 +45,7 @@ export const allProducts = [
       "/racketImage/victor_racket.jpg",
       "/racketImage/victor_racket(1).jpg",
     ],
-    sizes: ["3u5", "3u6", "4u5", "4u6"]
+    sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
   {
     id: "p4",
@@ -60,9 +57,9 @@ export const allProducts = [
     images: [
       "/racketImage/victor_racket(2).jpg",
       "/racketImage/victor_racket(3).jpg",
-      "/racketImage/victor_racket(4).jpg"
+      "/racketImage/victor_racket(4).jpg",
     ],
-    sizes: ["3u5", "3u6", "4u5", "4u6"]
+    sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
   {
     id: "p5",
@@ -75,7 +72,7 @@ export const allProducts = [
       "/racketImage/lining_racket.jpg",
       "/racketImage/lining_racket(1).jpg",
     ],
-    sizes: ["3u5", "3u6", "4u5", "4u6"]
+    sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
   {
     id: "p6",
@@ -87,9 +84,9 @@ export const allProducts = [
     images: [
       "/racketImage/lining_racket(2).jpg",
       "/racketImage/lining_racket(3).jpg",
-      "/racketImage/lining_racket(4).jpg"
+      "/racketImage/lining_racket(4).jpg",
     ],
-    sizes: ["3u5", "3u6", "4u5", "4u6"]
+    sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
 
   // ========== 2. GIÀY CẦU LÔNG (category: "shoes") ==========
@@ -104,25 +101,27 @@ export const allProducts = [
     images: [
       "/shoesImage/yonex_65z3.jpg",
       "/shoesImage/yonex_65z3(1).jpg",
-      "/shoesImage/yonex_65z3(2).jpg"
+      "/shoesImage/yonex_65z3(2).jpg",
     ],
     colors: [
       {
-        name: "Trắng", price: 699000, img: "/shoesImage/yonex_65z3.jpg",
+        name: "Trắng",
+        price: 699000,
+        img: "/shoesImage/yonex_65z3.jpg",
         images: [
           "/shoesImage/yonex_65z3.jpg",
           "/shoesImage/yonex_65z3(1).jpg",
-          "/shoesImage/yonex_65z3(2).jpg"
+          "/shoesImage/yonex_65z3(2).jpg",
         ],
       },
       {
-        name: "Trắng đỏ", price: 699000, img: "/shoesImage/yonex_shoes.jpg",
-        images: [
-          "/shoesImage/yonex_shoes(1).jpg",
-        ],
-      }
+        name: "Trắng đỏ",
+        price: 699000,
+        img: "/shoesImage/yonex_shoes.jpg",
+        images: ["/shoesImage/yonex_shoes(1).jpg"],
+      },
     ],
-    sizes: [38, 39, 40, 41, 42, 43, 44]
+    sizes: [38, 39, 40, 41, 42, 43, 44],
   },
   {
     id: "p8",
@@ -131,10 +130,8 @@ export const allProducts = [
     brand: "yonex",
     price: 2950000,
     imageUrl: "/shoesImage/yonex_eclipsion.jpg",
-    images: [
-      "/shoesImage/yonex_eclipsion(1).jpg",
-    ],
-    sizes: [38, 39, 40, 41, 42, 43, 44]
+    images: ["/shoesImage/yonex_eclipsion(1).jpg"],
+    sizes: [38, 39, 40, 41, 42, 43, 44],
   },
 
   {
@@ -147,9 +144,9 @@ export const allProducts = [
     images: [
       "/shoesImage/victor_shoes.jpg",
       "/shoesImage/victor_shoes(1).jpg",
-      "/shoesImage/victor_shoes(2).jpg"
+      "/shoesImage/victor_shoes(2).jpg",
     ],
-    sizes: [38, 39, 40, 41, 42, 43, 44]
+    sizes: [38, 39, 40, 41, 42, 43, 44],
   },
   {
     id: "p10",
@@ -161,9 +158,9 @@ export const allProducts = [
     images: [
       "/shoesImage/victor_shoes(3).jpg",
       "/shoesImage/victor_shoes(4).jpg",
-      "/shoesImage/victor_shoes(5).jpg"
+      "/shoesImage/victor_shoes(5).jpg",
     ],
-    sizes: [38, 39, 40, 41, 42, 43, 44]
+    sizes: [38, 39, 40, 41, 42, 43, 44],
   },
 
   {
@@ -176,9 +173,9 @@ export const allProducts = [
     images: [
       "/shoesImage/lining_shoes.jpg",
       "/shoesImage/lining_shoes(1).jpg",
-      "/shoesImage/lining_shoes(2).jpg"
+      "/shoesImage/lining_shoes(2).jpg",
     ],
-    sizes: [38, 39, 40, 41, 42, 43, 44]
+    sizes: [38, 39, 40, 41, 42, 43, 44],
   },
   {
     id: "p12",
@@ -189,9 +186,9 @@ export const allProducts = [
     imageUrl: "/shoesImage/lining_shoes(3).jpg",
     images: [
       "/shoesImage/lining_shoes(3).jpg",
-      "/shoesImage/lining_shoes(4).jpg"
+      "/shoesImage/lining_shoes(4).jpg",
     ],
-    sizes: [38, 39, 40, 41, 42, 43, 44]
+    sizes: [38, 39, 40, 41, 42, 43, 44],
   },
 
   // ========== 3. ÁO CẦU LÔNG (category: "shirts") ==========
@@ -305,7 +302,7 @@ export const allProducts = [
     images: [
       "/racketBag/lining_racket_bag(2).jpg",
       "/racketBag/lining_racket_bag(3).jpg",
-      "/racketBag/lining_racket_bag(4).jpg"
+      "/racketBag/lining_racket_bag(4).jpg",
     ],
   },
 
@@ -362,3 +359,42 @@ export const allProducts = [
     imageUrl: "/accessory/badminton_ball(1).jpg",
   },
 ];
+
+/**
+ * @param { import("knex").Knex } knex
+ * @returns { Promise<void> }
+ */
+export async function seed(knex) {
+  await knex("products").del();
+
+  const productsToInsert = allProducts.map((product) => {
+    const {
+      id,
+      name,
+      category,
+      brand,
+      price,
+      originalPrice,
+      status,
+      imageUrl,
+      images,
+      sizes,
+      colors,
+    } = product;
+    return {
+      id,
+      name,
+      category,
+      brand,
+      price,
+      originalPrice: originalPrice || null,
+      status: status || "Còn hàng",
+      imageUrl: imageUrl || null,
+      images: JSON.stringify(images || []),
+      sizes: JSON.stringify(sizes || []),
+      colors: JSON.stringify(colors || []),
+    };
+  });
+
+  await knex("products").insert(productsToInsert);
+}
