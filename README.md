@@ -1,155 +1,156 @@
-## Dự án Website Bán Hàng Online (E-commerce)
+# 🛍️ Project: Website Bán Hàng Cầu Lông
 
-Đây là một dự án website thương mại điện tử đầy đủ chức năng, được xây dựng với mục tiêu tạo ra một nền tảng bán hàng online đơn giản, nhanh gọn và dễ sử dụng. Dự án bao gồm từ việc thiết kế cơ sở dữ liệu, phát triển backend API, xây dựng giao diện người dùng (frontend) cho đến triển khai lên môi trường internet.
+> Fullstack Monorepo — **Frontend (React/Vite)** + **Backend (Node/Express)** + **MySQL (Knex)**
 
-# 1. Giới thiệu
+## Mục lục
 
-Dự án mô phỏng một trang web bán hàng trực tuyến với các danh mục sản phẩm đa dạng như quần áo, đồ điện tử, mỹ phẩm, v.v. Trang web cung cấp các chức năng cốt lõi cho cả người dùng (khách hàng) và quản trị viên (admin), nhằm mang lại trải nghiệm mua sắm hoàn chỉnh.
+- [Mô tả](#mô-tả)
+- [Công nghệ sử dụng](#công-nghệ-sử-dụng)
+- [Tính năng chính](#tính-năng-chính)
+- [Yêu cầu trước khi cài đặt](#yêu-cầu-trước-khi-cài-đặt)
+- [Hướng dẫn cài đặt & khởi chạy (theo thứ tự)](#hướng-dẫn-cài-đặt--khởi-chạy-theo-thứ-tự)
+  - [Bước 1 — Clone & cài thư viện](#bước-1-—-clone--cài-thư-viện)
+  - [Bước 2 — Thiết lập Database](#bước-2-—-thiết-lập-database)
+  - [Bước 3 — Chạy server và frontend](#bước-3-—-chạy-server-và-frontend)
+  - [Bước 4 — Thiết lập Admin](#bước-4-—-thiết-lập-admin)
+- [Cấu trúc thư mục (tóm tắt)](#cấu-trúc-thư-mục-tóm-tắt)
+- [Các lệnh tiện ích](#các-lệnh-tiện-ích)
+- [Gợi ý xử lý lỗi thường gặp](#gợi-ý-xử-lý-lỗi-thường-gặp)
+- [License](#license)
 
-# 2. Công nghệ sử dụng
+---
 
-Dự án được xây dựng dựa trên các công nghệ web hiện đại và phổ biến:
+## Mô tả
 
-Frontend:
+Đây là một website thương mại điện tử chuyên bán đồ cầu lông, được triển khai dưới dạng **monorepo** (tách frontend & backend). Mục tiêu là cung cấp trải nghiệm mua hàng mượt mà cho người dùng và một admin panel an toàn để quản lý users, products.
 
-Framework: React (khởi tạo với Vite để có hiệu năng tối ưu)
+---
 
-Styling: Tailwind CSS / Bootstrap
+## Công nghệ sử dụng
 
-Routing: React Router
+- **Frontend (FE):** React (Vite), React Router, Context API (Auth, Cart), Axios
+- **Backend (BE):** Node.js, Express.js, JWT (xác thực), Bcrypt (mã hóa mật khẩu)
+- **Database:** MySQL, Knex.js (migrations & seed)
 
-HTTP Client: Axios để gọi API
+---
 
-Backend:
+## Tính năng chính
 
-Framework: Node.js & Express.js
+- **Public (Người dùng):** Đăng ký/Đăng nhập, duyệt sản phẩm, trang chi tiết sản phẩm, giỏ hàng (Cart Context), phân trang sản phẩm.
+- **Admin Panel (bảo vệ):** Quản lý users (xem, sửa, xóa, thay đổi role), quản lý sản phẩm (CRUD).
+- **Trải nghiệm:** Đồng bộ giỏ hàng và trạng thái đăng nhập tức thì bằng Context API.
 
-Database Driver: mysql2/promise
+---
 
-Database:
+## Yêu cầu trước khi cài đặt
 
-MySQL
+- Node.js (>=16) và npm
+- MySQL server đang chạy
+- Git
 
-Triển khai (Deployment):
+---
 
-Frontend: Vercel
+## Hướng dẫn cài đặt & khởi chạy (theo thứ tự)
 
-Backend: Render
+> **Ghi chú:** làm đúng theo thứ tự dưới đây để tránh lỗi `Unknown database` hoặc lỗi kết nối.
 
-Database: PlanetScale / Railway
+### Bước 1 — Clone & cài thư viện
 
-# 3. Tính năng chính
-
-Chức năng dành cho Người dùng
-
-Trang chủ: Hiển thị các sản phẩm nổi bật, sản phẩm mới và chương trình khuyến mãi.
-
-Tìm kiếm & Lọc: Tìm kiếm sản phẩm theo tên và lọc sản phẩm theo danh mục, khoảng giá.
-
-Chi tiết sản phẩm: Xem thông tin chi tiết, nhiều hình ảnh, mô tả, giá và các đánh giá từ người dùng khác.
-
-Giỏ hàng: Thêm, xóa, cập nhật số lượng sản phẩm một cách linh hoạt.
-
-Thanh toán: Điền thông tin giao hàng, chọn phương thức thanh toán và tiến hành đặt hàng.
-
-Tài khoản: Đăng ký, đăng nhập để quản lý thông tin cá nhân và theo dõi đơn hàng.
-
-Lịch sử mua hàng: Xem lại tất cả các đơn hàng đã đặt và trạng thái của chúng.
-
-Đánh giá sản phẩm: Để lại bình luận và xếp hạng sao cho các sản phẩm đã mua.
-
-Chatbox: Hỗ trợ, tư vấn trực tuyến với nhân viên chăm sóc khách hàng.
-
-Chức năng dành cho Quản trị viên (Admin)
-
-Dashboard: Giao diện tổng quan về hoạt động kinh doanh.
-
-Quản lý sản phẩm: Thêm, sửa, xóa sản phẩm và quản lý số lượng tồn kho.
-
-Quản lý đơn hàng: Xem danh sách tất cả đơn hàng, cập nhật trạng thái (ví dụ: đang xử lý, đã giao, đã hủy).
-
-Quản lý người dùng: Xem danh sách người dùng, thực hiện các thao tác như khóa/mở khóa tài khoản.
-
-Thống kê & Báo cáo: Xem báo cáo doanh thu theo ngày/tháng, thống kê các sản phẩm bán chạy nhất.
-
-# 4. Cấu trúc thư mục
-
-Dự án được tổ chức theo cấu trúc monorepo đơn giản:
-
-Project_A/
-├── fe/         # Source code cho Frontend (React)
-├── be/         # Source code cho Backend (Express)
-└── README.md       # File hướng dẫn này
-
-
-# 5. Hướng dẫn cài đặt và chạy dự án
-
-Yêu cầu hệ thống
-
-Node.js (phiên bản 16.x trở lên)
-
-npm (hoặc yarn)
-
-Hệ quản trị CSDL MySQL đã được cài đặt và đang chạy.
-
-Cài đặt Backend (/server)
-
-Di chuyển vào thư mục server:
-
-cd server
-
-
-Cài đặt các gói phụ thuộc:
-
+```bash
+git clone https://github.com/eiusangthai/Project_A.git
+cd Project_A
+# Mở 2 terminal riêng biệt
+# Terminal 1 (Backend)
+cd be
 npm install
 
+# Terminal 2 (Frontend)
+cd fe
+npm install
+```
 
-Tạo file .env trong thư mục server và cấu hình thông tin kết nối database:
+### Bước 2 — Thiết lập Database
 
-DB_HOST=localhost
-DB_USER=your_db_user
-DB_PASS=your_db_password
-DB_NAME=shopdb
+1. Mở MySQL (Workbench / CLI) và tạo database:
+
+```sql
+CREATE DATABASE shop;
+```
+
+2. Tạo file `.env` trong thư mục `be` với nội dung mẫu (sửa theo môi trường của bạn):
+
+```env
 PORT=5000
+DB_HOST=localhost
+DB_USER=root
+DB_PASSWORD=123456    # đổi thành mật khẩu thực tế
+DB_NAME=shop          # phải trùng với tên database đã tạo
+DB_PORT=3306
+JWT_SECRET=matkhaubimatkhongaibiethet
+```
 
+3. Chạy migrations & seed để tạo bảng và nạp dữ liệu:
 
-Khởi chạy server backend:
+```bash
+# Trong terminal BE
+npm run migrate         # chạy migrations tạo bảng
+npx knex seed:run       # nạp dữ liệu mẫu (products, menu...)
+```
 
-npm start
+**Sau khi chạy xong, CSDL của bạn đã sẵn sàng.**
 
+### Bước 3 — Chạy server và frontend
 
-API sẽ được phục vụ tại địa chỉ http://localhost:5000.
+```bash
+# Backend (terminal BE)
+npm run dev  # khởi động server Express (mặc định port 5000)
+# Terminal hiển thị: Server đang chạy ở port 5000
 
-Cài đặt Frontend (/client)
+# Frontend (terminal FE)
+# Tạo file .env.local trong fe
+VITE_API_URL=http://localhost:5000/api
 
-Mở một cửa sổ dòng lệnh (terminal) khác, di chuyển vào thư mục client:
+npm run dev  # khởi động app React (Vite)
+```
 
-cd client
+### Bước 4 — Thiết lập Admin
 
+1. Truy cập frontend, đăng ký tài khoản mới.
+2. Trong MySQL, cấp role `admin` cho email bạn vừa đăng ký:
 
-Cài đặt các gói phụ thuộc:
+```sql
+USE shop;
+UPDATE users SET role = 'admin' WHERE email = 'email-tai-khoan-cua-ban@gmail.com';
+```
 
-npm install
+3. Đăng nhập lại — bạn sẽ thấy link **Admin** trên header.
 
+---
 
-Tạo file .env.local trong thư mục client và trỏ đến địa chỉ API của backend:
+## Cấu trúc thư mục (tóm tắt)
 
-VITE_API_URL=http://localhost:5000
+```
+Project_A/
+├─ be/        # Backend - Express, routes, controllers, knex
+├─ fe/        # Frontend - React (Vite), components, contexts
+└─ README.md
+```
 
+---
 
-Khởi chạy ứng dụng frontend:
+## Các lệnh tiện ích
 
-npm run dev
+- `npm run dev` — chạy server (BE) hoặc app (FE)
+- `npm run migrate` — chạy migrations (BE)
+- `npx knex seed:run` — chạy seed dữ liệu (BE)
 
+---
 
-Trang web sẽ có thể truy cập tại http://localhost:5173.
+## Gợi ý xử lý lỗi thường gặp
 
-# 6. Thiết kế Cơ sở dữ liệu (Sơ lược)
+- **Lỗi `Unknown database`**: kiểm tra tên database trong `.env` có khớp với database bạn đã tạo không.
+- **Lỗi JSON Parse / 400 khi gửi request**: đảm bảo `Content-Type: application/json` và body gửi lên là JSON hợp lệ.
+- **Không thể kết nối MySQL**: kiểm tra MySQL đang chạy, hostname, user, password, và port.
+- **Admin không hiển thị**: kiểm tra trường `role` của user trong bảng `users` đã được cập nhật đúng chưa.
 
-Users: Lưu thông tin người dùng (id, username, password_hash, email, full_name, role).
-
-# 7. Demo Online
-
-Link Frontend: .....
-
-Link Backend API: .....
+---
