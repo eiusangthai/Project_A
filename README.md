@@ -16,7 +16,6 @@
 - [Cấu trúc thư mục (tóm tắt)](#cấu-trúc-thư-mục-tóm-tắt)
 - [Các lệnh tiện ích](#các-lệnh-tiện-ích)
 - [Gợi ý xử lý lỗi thường gặp](#gợi-ý-xử-lý-lỗi-thường-gặp)
-- [License](#license)
 
 ---
 
