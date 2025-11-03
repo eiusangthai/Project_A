@@ -25,18 +25,18 @@ const RegisterPage = () => {
     const { name, email, phone, password, password2 } = form;
 
     if (password !== password2) {
-      setError("Mật khẩu không khớp");
+      setError("Passwords do not match");
       return;
     }
 
     try {
       setLoading(true);
       await api.post("/auth/register", { name, email, phone, password });
-      alert("Đăng ký thành công! Vui lòng đăng nhập.");
+      alert("Registration successful! Please log in.");
       navigate("/login");
     } catch (err) {
       console.error(err);
-      setError(err?.response?.data?.message || "Đăng ký thất bại");
+      setError(err?.response?.data?.message || "Registration failed");
     } finally {
       setLoading(false);
     }
@@ -45,9 +45,9 @@ const RegisterPage = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h2>ĐĂNG KÝ</h2>
+        <h2>REGISTER</h2>
         <p>
-          Đã có tài khoản? <Link to="/login">Đăng nhập tại đây</Link>
+          Already have an account? <Link to="/login">Login here</Link>
         </p>
 
         <form onSubmit={handleSubmit}>
@@ -55,7 +55,7 @@ const RegisterPage = () => {
             name="name"
             value={form.name}
             onChange={handleChange}
-            placeholder="Nhập tên của bạn (*)"
+            placeholder="Enter your name (*)"
             required
           />
           <input
@@ -63,21 +63,21 @@ const RegisterPage = () => {
             type="email"
             value={form.email}
             onChange={handleChange}
-            placeholder="Nhập email của bạn (*)"
+            placeholder="Enter your email (*)"
             required
           />
           <input
             name="phone"
             value={form.phone}
             onChange={handleChange}
-            placeholder="Số điện thoại"
+            placeholder="Phone number"
           />
           <input
             name="password"
             type="password"
             value={form.password}
             onChange={handleChange}
-            placeholder="Mật khẩu"
+            placeholder="Password"
             required
           />
           <input
@@ -85,19 +85,19 @@ const RegisterPage = () => {
             type="password"
             value={form.password2}
             onChange={handleChange}
-            placeholder="Nhập lại mật khẩu"
+            placeholder="Confirm password"
             required
           />
 
           {error && <p className="auth-error-message">{error}</p>}
 
           <button type="submit" disabled={loading}>
-            {loading ? "Đang xử lý..." : "ĐĂNG KÝ"}
+            {loading ? "Processing..." : "REGISTER"}
           </button>
         </form>
       </div>
     </div>
-  );s
+  );
 };
 
 export default RegisterPage;

@@ -7,7 +7,7 @@ const services = [
     alt: "Vận chuyển toàn quốc",
     text: (
       <>
-        Vận chuyển <span>TOÀN QUỐC</span> <br /> Thanh toán khi nhận hàng
+        <span>NATIONWIDE</span> Shipping <br /> Cash on delivery
       </>
     ),
   },
@@ -17,7 +17,7 @@ const services = [
     alt: "Bảo đảm chất lượng",
     text: (
       <>
-        <span>Bảo đảm chất lượng</span> <br /> Sản phẩm bảo đảm chất lượng.
+        <span>Quality assurance</span> <br /> Quality assured products
       </>
     ),
   },
@@ -27,8 +27,8 @@ const services = [
     alt: "Thanh toán",
     text: (
       <>
-        Tiến hành <span>THANH TOÁN</span> <br /> Với nhiều{" "}
-        <span>PHƯƠNG THỨC</span>
+        Make <span>PAYMENTS</span> <br /> With{" "}
+        <span>MULTIPLE METHODS</span>
       </>
     ),
   },
@@ -38,7 +38,7 @@ const services = [
     alt: "Đổi sản phẩm mới",
     text: (
       <>
-        <span>Đổi sản phẩm mới</span> <br /> nếu sản phẩm lỗi
+        <span>Exchange for new product</span> <br /> If product is defective
       </>
     ),
   },

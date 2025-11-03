@@ -10,7 +10,7 @@ const PaymentPage = () => {
       <div className="content-area">
         {/* ======= CỘT TRÁI: HƯỚNG DẪN THANH TOÁN ======= */}
         <article className="article-main">
-          <h1 className="article-title">Hướng dẫn thanh toán</h1>
+          <h1 className="article-title">Payment Instructions</h1>
           <div className="posts">
             <div className="time-post">🕒 31-12-2024 09:11</div>
             <div className="time-post">✍ SQBSports</div>
@@ -19,54 +19,54 @@ const PaymentPage = () => {
           <div className="rte">
             <p>
               <em>
-                Bài viết được <Link to="/">ShopSQB</Link> - Hệ thống shop cầu
-                lông hàng đầu Việt Nam biên soạn.
+                This article was compiled by <Link to="/">ShopSQB</Link> — one
+                of the leading badminton retail systems in Vietnam.
               </em>
             </p>
 
-            <h2>1. Thanh toán trực tiếp tại cửa hàng</h2>
+            <h2>1. Direct payment at our stores</h2>
             <p>
-              Quý khách có thể đến trực tiếp hệ thống cửa hàng SQB để mua hàng
-              và thanh toán. Tại cửa hàng chấp nhận:
+              You can visit any SQB store to make your purchase and payment. The
+              following payment methods are accepted:
             </p>
             <ul>
-              <li>💵 Tiền mặt</li>
-              <li>🏧 Chuyển khoản ngân hàng</li>
-              <li>💳 Quẹt thẻ ATM / Visa / MasterCard</li>
+              <li>💵 Cash</li>
+              <li>🏧 Bank transfer</li>
+              <li>💳 ATM / Visa / MasterCard</li>
             </ul>
 
-            <h2>2. Thanh toán khi mua online</h2>
+            <h2>2. Payment for online purchases</h2>
             <p>
-              Khi đặt hàng online tại ShopSQB, quý khách có thể lựa chọn hình
-              thức:
+              When ordering online at ShopSQB, you can choose one of the
+              following payment methods:
             </p>
             <ul>
-              <li>COD – Nhận hàng trả tiền tại nhà.</li>
-              <li>Chuyển khoản ngân hàng trước khi giao hàng.</li>
+              <li>COD – Pay upon delivery.</li>
+              <li>Bank transfer before delivery.</li>
             </ul>
 
             <div className="payment-info">
-              <strong>Thông tin tài khoản ngân hàng:</strong>
-              <p>Vietcombank - CN Phú Thọ, TP HCM</p>
+              <strong>Bank account information:</strong>
+              <p>Vietcombank - Phu Tho Branch, Ho Chi Minh City</p>
               <p>
-                STK: <b>111122223333444</b>
+                Account number: <b>111122223333444</b>
               </p>
               <p>
-                Chủ tài khoản: <b>SQB badminton</b>
+                Account name: <b>SQB badminton</b>
               </p>
             </div>
 
-            <h2>3. Danh sách chi nhánh SQB</h2>
+            <h2>3. SQB Store Branches</h2>
 
             <div className="ten_khu_vuc">
-              📍 Khu vực Hồ Chí Minh & Bình Dương
+              📍 Ho Chi Minh City & Binh Duong Area
             </div>
             <ul className="cn_list">
               <li>
                 <h4>1. SQB Super Center</h4>
                 <p>
-                  <b>Địa chỉ:</b> 81 Nam Kỳ Khởi Nghĩa, Phường, Bình Dương, Hồ
-                  Chí Minh, Việt Nam
+                  <b>Address:</b> 81 Nam Ky Khoi Nghia Street, Ward, Binh Duong,
+                  Ho Chi Minh City, Vietnam
                 </p>
                 <p>
                   <b>Hotline:</b>{" "}
@@ -75,16 +75,16 @@ const PaymentPage = () => {
                   </a>
                 </p>
                 <p>
-                  <b>Thanh toán:</b> Vietcombank - STK 111122223333444 - Chủ TK:
-                  SQB badminton
+                  <b>Payment info:</b> Vietcombank - A/C 111122223333444 - A/C
+                  Name: SQB badminton
                 </p>
               </li>
 
               <li>
                 <h4>2. SQB SUPER PREMIUM</h4>
                 <p>
-                  <b>Địa chỉ:</b> Nam Kỳ Khởi Nghĩa, Định Hoà, Thủ Dầu Một, Bình
-                  Dương, Việt Nam
+                  <b>Address:</b> Nam Ky Khoi Nghia Street, Dinh Hoa Ward, Thu
+                  Dau Mot City, Binh Duong, Vietnam
                 </p>
                 <p>
                   <b>Hotline:</b>{" "}
@@ -93,8 +93,8 @@ const PaymentPage = () => {
                   </a>
                 </p>
                 <p>
-                  <b>Thanh toán:</b> Techcombank - STK 111122223333444 - Chủ TK:
-                  Nguyễn Văn B
+                  <b>Payment info:</b> Techcombank - A/C 111122223333444 - A/C
+                  Name: Nguyen Van B
                 </p>
               </li>
             </ul>
@@ -105,31 +105,31 @@ const PaymentPage = () => {
         <aside className="sidebar">
           {/* Danh mục tin tức */}
           <nav className="nav-category">
-            <h3>Danh mục tin tức</h3>
+            <h3>News Categories</h3>
             <Link to="/news/khuyen-mai" className="nav-link">
-              🏷 Khuyến mãi
+              🏷 Promotions
             </Link>
             <Link to={`/${ROUTERS.USER.NEWS}`} className="nav-link">
-              🏸 Tin cầu lông
+              🏸 Badminton News
             </Link>
             <Link to="/news/meo-tap-luyen" className="nav-link">
-              💡 Mẹo tập luyện
+              💡 Training Tips
             </Link>
             <Link to={`/${ROUTERS.USER.PRODUCTS}`} className="nav-link">
-              🛍 Sản phẩm mới
+              🛍 New Products
             </Link>
           </nav>
 
           {/* Bạn có thể thích */}
           <div className="blog_content">
-            <h3>Bạn có thể thích</h3>
+            <h3>You May Also Like</h3>
 
             <div className="item">
-              <img src="/badmintonProduct/rackets.jpg" alt="tin 1" />
+              <img src="/badmintonProduct/rackets.jpg" alt="news 1" />
               <div>
                 <h4>
                   <Link to="/news/cach-chon-vot-cau-long">
-                    Cách chọn vợt cầu lông cho người mới
+                    How to Choose a Badminton Racket for Beginners
                   </Link>
                 </h4>
                 <div className="time-post">🕒 29-09-2025</div>
@@ -137,11 +137,11 @@ const PaymentPage = () => {
             </div>
 
             <div className="item">
-              <img src="/badmintonProduct/shoes.jpg" alt="tin 2" />
+              <img src="/badmintonProduct/shoes.jpg" alt="news 2" />
               <div>
                 <h4>
                   <Link to="/news/top-giay-cau-long-2024">
-                    Top giày cầu lông bán chạy nhất 2024
+                    Top Best-Selling Badminton Shoes 2024
                   </Link>
                 </h4>
                 <div className="time-post">🕒 10-09-2025</div>
@@ -149,11 +149,11 @@ const PaymentPage = () => {
             </div>
 
             <div className="item">
-              <img src={smashfaster} alt="tin 3" />
+              <img src={smashfaster} alt="news 3" />
               <div>
                 <h4>
                   <Link to="/news/5-meo-smash-manh-hon">
-                    5 mẹo nhỏ giúp smash mạnh hơn
+                    5 Simple Tips to Smash Harder
                   </Link>
                 </h4>
                 <div className="time-post">🕒 02-08-2025</div>
@@ -165,5 +165,6 @@ const PaymentPage = () => {
     </div>
   );
 };
+
 
 export default memo(PaymentPage);

@@ -27,11 +27,10 @@ const LoginPage = () => {
       const { token, user } = res.data;
 
       login(user, token);
-
       navigate("/");
     } catch (err) {
       console.error(err);
-      setError(err?.response?.data?.message || "Đăng nhập thất bại");
+      setError(err?.response?.data?.message || "Login failed");
     } finally {
       setLoading(false);
     }
@@ -40,7 +39,7 @@ const LoginPage = () => {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h2>ĐĂNG NHẬP</h2>
+        <h2>LOGIN</h2>
         <form onSubmit={handleSubmit}>
           <input
             name="email"
@@ -55,17 +54,17 @@ const LoginPage = () => {
             type="password"
             value={form.password}
             onChange={handleChange}
-            placeholder="Mật khẩu"
+            placeholder="Password"
             required
           />
           {error && <p className="auth-error-message">{error}</p>}
 
           <button type="submit" disabled={loading}>
-            {loading ? "Đang xử lý..." : "ĐĂNG NHẬP"}
+            {loading ? "Processing..." : "LOGIN"}
           </button>
         </form>
         <p>
-          Chưa có tài khoản? <Link to="/register">Đăng ký</Link>
+          Don't have an account? <Link to="/register">Register</Link>
         </p>
       </div>
     </div>

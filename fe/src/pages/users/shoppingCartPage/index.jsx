@@ -20,7 +20,7 @@ const ShoppingCart = () => {
         className="cart-title"
       >
         <CartIcon size={24} style={{ marginRight: "10px" }} />
-        Giỏ Hàng
+        Shopping Cart
       </motion.h1>
 
       <div className="cart-content">
@@ -49,7 +49,7 @@ const ShoppingCart = () => {
                       <h2>{item.name}</h2>
                       {item.color && item.size && (
                         <p className="text-muted small mb-1">
-                          Màu: <strong>{item.color}</strong> | Size:{" "}
+                          Color: <strong>{item.color}</strong> | Size:{" "}
                           <strong>{item.size}</strong>
                         </p>
                       )}
@@ -79,7 +79,7 @@ const ShoppingCart = () => {
                       onClick={() => removeFromCart(item.variantKey)}
                     >
                       <Trash2 size={20} />
-                      <span>Xóa</span>
+                      <span>Remove</span>
                     </button>
                   </div>
                 </motion.div>
@@ -91,7 +91,7 @@ const ShoppingCart = () => {
                 className="empty-cart"
               >
                 <Frown size={24} style={{ marginBottom: "10px" }} />
-                Giỏ hàng trống
+                Your cart is empty
               </motion.p>
             )}
           </AnimatePresence>
@@ -102,23 +102,23 @@ const ShoppingCart = () => {
           initial={{ opacity: 0, x: 30 }}
           animate={{ opacity: 1, x: 0 }}
         >
-          <h3>Tóm tắt đơn hàng</h3>
+          <h3>Order Summary</h3>
           <div className="summary-line">
-            <span>Tạm tính</span>
+            <span>Subtotal</span>
             <span>{totalPrice.toLocaleString("vi-VN")}₫</span>
           </div>
           <div className="summary-line">
-            <span>Phí giao hàng</span>
+            <span>Shipping Fee</span>
             <span>
-              Miễn phí <Truck size={16} style={{ marginLeft: "5px" }} />
+              Free <Truck size={16} style={{ marginLeft: "5px" }} />
             </span>
           </div>
           <div className="summary-total">
-            <span>Tổng cộng</span>
+            <span>Total</span>
             <span>{totalPrice.toLocaleString("vi-VN")}₫</span>
           </div>
           <button disabled={!cartItems.length} className="checkout-btn">
-            Mua hàng
+            Checkout
           </button>
         </motion.div>
       </div>

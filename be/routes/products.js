@@ -5,6 +5,7 @@ import adminMiddleware from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
+// Utility functions for data parsing and sanitization
 const ensureString = (v) => (v == null ? "" : String(v));
 
 const safeStringifyArray = (val) => {
@@ -20,7 +21,7 @@ const safeStringifyArray = (val) => {
         if (Array.isArray(parsed)) return JSON.stringify(parsed);
         if (typeof parsed === "string") return JSON.stringify([parsed]);
         return JSON.stringify(parsed);
-      } catch (e) {}
+      } catch (e) { }
     }
     const parts = s
       .split(",")
@@ -64,6 +65,7 @@ const safeParseArray = (val) => {
   return [val];
 };
 
+// Prepare data before saving to DB
 const prepareProductData = (data) => {
   const product = { ...data };
   product.images = safeStringifyArray(product.images);
@@ -71,11 +73,12 @@ const prepareProductData = (data) => {
   product.colors = safeStringifyArray(product.colors);
   product.originalPrice =
     product.originalPrice === "" ? null : product.originalPrice || null;
-  product.status = product.status || "Còn hàng";
+  product.status = product.status || "In stock";
   product.imageUrl = product.imageUrl || null;
   return product;
 };
 
+// Parse data fetched from DB
 const parseProduct = (product) => ({
   ...product,
   images: safeParseArray(product.images || "[]"),
@@ -83,6 +86,7 @@ const parseProduct = (product) => ({
   colors: safeParseArray(product.colors || "[]"),
 });
 
+// Admin: Get all products
 router.get("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const [rows] = await pool.query(
@@ -92,10 +96,11 @@ router.get("/", [authMiddleware, adminMiddleware], async (req, res) => {
     res.json(products);
   } catch (err) {
     console.error(err);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server error");
   }
 });
 
+// Admin: Add new product
 router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const newProductData = prepareProductData(req.body);
@@ -137,10 +142,11 @@ router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
     res.status(201).json(parseProduct(rows[0]));
   } catch (err) {
     console.error(err);
-    res.status(500).send("Lỗi Server khi thêm sản phẩm");
+    res.status(500).send("Server error while adding product");
   }
 });
 
+// Admin: Update existing product
 router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const { id } = req.params;
@@ -184,21 +190,23 @@ router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
     res.json(parseProduct(rows[0]));
   } catch (err) {
     console.error(err);
-    res.status(500).send("Lỗi Server khi cập nhật sản phẩm");
+    res.status(500).send("Server error while updating product");
   }
 });
 
+// Admin: Delete product
 router.delete("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const { id } = req.params;
     await pool.query("DELETE FROM products WHERE id = ?", [id]);
-    res.json({ message: "Sản phẩm đã được xóa" });
+    res.json({ message: "Product deleted successfully" });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server error");
   }
 });
 
+// Public: Get products (with pagination & filtering)
 router.get("/public", async (req, res) => {
   try {
     const { category, brand } = req.query;
@@ -234,16 +242,17 @@ router.get("/public", async (req, res) => {
     const products = rows.map(parseProduct);
 
     res.json({
-      products: products,
-      totalPages: totalPages,
+      products,
+      totalPages,
       currentPage: page,
     });
   } catch (err) {
     console.error(err);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server error");
   }
 });
 
+// Public: Get product details by ID
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -252,13 +261,13 @@ router.get("/:id", async (req, res) => {
     ]);
 
     if (rows.length === 0) {
-      return res.status(404).json({ message: "Không tìm thấy sản phẩm" });
+      return res.status(404).json({ message: "Product not found" });
     }
 
     res.json(parseProduct(rows[0]));
   } catch (err) {
     console.error(err);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server error");
   }
 });
 

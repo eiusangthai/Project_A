@@ -1,54 +1,54 @@
 const productMenuData = [
   {
     id: 1,
-    name: "Vợt Cầu Lông",
+    name: "Badminton Rackets",
     path: "/product/rackets",
     subcategories: [
-      { id: 101, name: "Vợt Yonex", path: "/product/rackets/yonex" },
-      { id: 102, name: "Vợt Victor", path: "/product/rackets/victor" },
-      { id: 103, name: "Vợt Lining", path: "/product/rackets/lining" },
+      { id: 101, name: "Yonex Rackets", path: "/product/rackets/yonex" },
+      { id: 102, name: "Victor Rackets", path: "/product/rackets/victor" },
+      { id: 103, name: "Lining Rackets", path: "/product/rackets/lining" },
     ],
   },
   {
     id: 2,
-    name: "Giày Cầu Lông",
+    name: "Badminton Shoes",
     path: "/product/shoes",
     subcategories: [
-      { id: 201, name: "Giày Yonex", path: "/product/shoes/yonex" },
-      { id: 202, name: "Giày Victor", path: "/product/shoes/victor" },
-      { id: 203, name: "Giày Lining", path: "/product/shoes/lining" },
+      { id: 201, name: "Yonex Shoes", path: "/product/shoes/yonex" },
+      { id: 202, name: "Victor Shoes", path: "/product/shoes/victor" },
+      { id: 203, name: "Lining Shoes", path: "/product/shoes/lining" },
     ],
   },
   {
     id: 3,
-    name: "Áo Cầu Lông",
+    name: "Badminton Shirts",
     path: "/product/shirts",
     subcategories: [
-      { id: 301, name: "Áo Yonex", path: "/product/shirts/yonex" },
-      { id: 302, name: "Áo Victor", path: "/product/shirts/victor" },
-      { id: 303, name: "Áo Lining", path: "/product/shirts/lining" },
+      { id: 301, name: "Yonex Shirts", path: "/product/shirts/yonex" },
+      { id: 302, name: "Victor Shirts", path: "/product/shirts/victor" },
+      { id: 303, name: "Lining Shirts", path: "/product/shirts/lining" },
     ],
   },
   {
     id: 4,
-    name: "Túi Vợt",
+    name: "Racket Bags",
     path: "/product/bags",
     subcategories: [
-      { id: 401, name: "Túi Yonex", path: "/product/bags/yonex" },
-      { id: 402, name: "Túi Victor", path: "/product/bags/victor" },
-      { id: 403, name: "Túi Lining", path: "/product/bags/lining" },
+      { id: 401, name: "Yonex Bags", path: "/product/bags/yonex" },
+      { id: 402, name: "Victor Bags", path: "/product/bags/victor" },
+      { id: 403, name: "Lining Bags", path: "/product/bags/lining" },
     ],
   },
   {
     id: 5,
-    name: "Phụ Kiện",
+    name: "Accessories",
     path: "/product/accessories",
     subcategories: [
-      { id: 501, name: "Vớ Cầu Lông", path: "/product/accessories/socks" },
-      { id: 502, name: "Cước Đan Vợt", path: "/product/accessories/strings" },
+      { id: 501, name: "Badminton Socks", path: "/product/accessories/socks" },
+      { id: 502, name: "Racket Strings", path: "/product/accessories/strings" },
       {
         id: 503,
-        name: "Quả Cầu Lông",
+        name: "Shuttlecocks",
         path: "/product/accessories/shuttlecock",
       },
     ],
@@ -56,9 +56,11 @@ const productMenuData = [
 ];
 
 export async function seed(knex) {
+  // Clear existing data
   await knex("subcategories").del();
   await knex("categories").del();
 
+  // Insert categories and subcategories
   await Promise.all(
     productMenuData.map(async (category) => {
       await knex("categories").insert({

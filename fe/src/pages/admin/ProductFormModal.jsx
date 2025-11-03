@@ -11,7 +11,7 @@ const ProductFormModal = ({ isOpen, onClose, product, onSave }) => {
     price: 0,
     originalPrice: 0,
     imageUrl: "",
-    status: "Còn hàng",
+    status: "In stock",
     images: "",
     sizes: "",
     colors: "[]",
@@ -35,7 +35,7 @@ const ProductFormModal = ({ isOpen, onClose, product, onSave }) => {
         price: 0,
         originalPrice: 0,
         imageUrl: "",
-        status: "Còn hàng",
+        status: "In stock",
         images: "",
         sizes: "",
         colors: "[]",
@@ -206,8 +206,8 @@ const ProductFormModal = ({ isOpen, onClose, product, onSave }) => {
               {isSubmitting
                 ? "Đang lưu..."
                 : isEditing
-                ? "Lưu thay đổi"
-                : "Thêm sản phẩm"}
+                  ? "Lưu thay đổi"
+                  : "Thêm sản phẩm"}
             </button>
           </div>
         </form>

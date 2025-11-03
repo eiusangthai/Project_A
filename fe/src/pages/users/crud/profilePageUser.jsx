@@ -48,11 +48,11 @@ const ProfilePage = () => {
     try {
       const response = await api.put("/auth/me", formData);
       updateUser(response.data);
-      setSuccess("Cập nhật thông tin thành công!");
+      setSuccess("Profile updated successfully!");
       setIsEditing(false);
     } catch (err) {
-      console.error("Lỗi cập nhật:", err);
-      setError(err?.response?.data?.message || "Cập nhật thất bại.");
+      console.error("Update error:", err);
+      setError(err?.response?.data?.message || "Profile update failed.");
     } finally {
       setIsSubmitting(false);
     }
@@ -72,7 +72,7 @@ const ProfilePage = () => {
   if (!user) {
     return (
       <p style={{ textAlign: "center", marginTop: "50px" }}>
-        Đang tải thông tin người dùng...
+        Loading user information...
       </p>
     );
   }
@@ -80,14 +80,14 @@ const ProfilePage = () => {
   return (
     <div className="auth-page">
       <div className="auth-card profile-card">
-        <h2>Hồ sơ cá nhân</h2>
+        <h2>User Profile</h2>
 
         {error && <p className="auth-error-message">{error}</p>}
         {success && <p className="auth-success-message">{success}</p>}
 
         {isEditing ? (
           <form onSubmit={handleSubmit} className="profile-form">
-            <label htmlFor="name">Họ và Tên (*)</label>
+            <label htmlFor="name">Full Name (*)</label>
             <input
               id="name"
               name="name"
@@ -96,7 +96,7 @@ const ProfilePage = () => {
               required
             />
 
-            <label htmlFor="phone">Số điện thoại</label>
+            <label htmlFor="phone">Phone Number</label>
             <input
               id="phone"
               name="phone"
@@ -104,13 +104,13 @@ const ProfilePage = () => {
               onChange={handleChange}
             />
 
-            <label htmlFor="address">Địa chỉ</label>
+            <label htmlFor="address">Address</label>
             <input
               id="address"
               name="address"
               value={formData.address}
               onChange={handleChange}
-              placeholder="Ví dụ: 123 Nguyễn Văn Cừ, P.1, Q.5, TP.HCM"
+              placeholder="Example: 123 Nguyen Van Cu, Ward 1, District 5, HCMC"
             />
 
             <div className="profile-actions">
@@ -120,34 +120,34 @@ const ProfilePage = () => {
                 className="btn-secondary"
                 disabled={isSubmitting}
               >
-                Hủy
+                Cancel
               </button>
               <button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? "Đang lưu..." : "Lưu thay đổi"}
+                {isSubmitting ? "Saving..." : "Save Changes"}
               </button>
             </div>
           </form>
         ) : (
           <div className="profile-view">
             <p>
-              <strong>Họ tên:</strong> {user.name}
+              <strong>Full Name:</strong> {user.name}
             </p>
             <p>
               <strong>Email:</strong> {user.email}
             </p>
             <p>
-              <strong>Số điện thoại:</strong> {user.phone || "Chưa cập nhật"}
+              <strong>Phone Number:</strong> {user.phone || "Not provided"}
             </p>
             <p>
-              <strong>Địa chỉ:</strong> {user.address || "Chưa cập nhật"}
+              <strong>Address:</strong> {user.address || "Not provided"}
             </p>
 
             <div className="profile-actions">
               <button onClick={() => setIsEditing(true)}>
-                Chỉnh sửa thông tin
+                Edit Information
               </button>
               <button onClick={handleLogout} className="btn-secondary">
-                Đăng xuất
+                Log Out
               </button>
             </div>
           </div>

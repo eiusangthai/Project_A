@@ -9,22 +9,22 @@ const BadmintonSection = () => {
     {
       href: `/${ROUTERS.USER.PRODUCTS}/rackets`,
       img: "/badmintonProduct/rackets.jpg",
-      title: "Vợt cầu lông",
+      title: "Badminton Rackets",
     },
     {
       href: `/${ROUTERS.USER.PRODUCTS}/shoes`,
       img: "/badmintonProduct/shoes.jpg",
-      title: "Giày cầu lông",
+      title: "Badminton Shoes",
     },
     {
       href: `/${ROUTERS.USER.PRODUCTS}/shirts`,
       img: "/badmintonProduct/shirt.jpg",
-      title: "Áo cầu lông",
+      title: "Badminton shirts",
     },
     {
       href: `/${ROUTERS.USER.PRODUCTS}/bags`,
       img: "/badmintonProduct/balo.jpg",
-      title: "Balo cầu lông",
+      title: "Badminton Backpacks",
     },
   ];
 
@@ -33,7 +33,7 @@ const BadmintonSection = () => {
       <div className="container">
         <div className="title_modules mb-4 text-center">
           <h2>
-            <span>Sản phẩm cầu lông</span>
+            <span>Badminton Products</span>
           </h2>
         </div>
 

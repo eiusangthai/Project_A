@@ -7,6 +7,7 @@ import bcrypt from "bcrypt";
 const router = express.Router();
 const SALT_ROUNDS = 10;
 
+// GET /api/users – Get all users (Admin only)
 router.get("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const [rows] = await pool.query(
@@ -14,24 +15,24 @@ router.get("/", [authMiddleware, adminMiddleware], async (req, res) => {
     );
     res.json(rows);
   } catch (err) {
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server Error");
   }
 });
 
+// POST /api/users – Create a new user (Admin only)
 router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const { name, email, phone, password, role } = req.body;
 
     if (!name || !email || !password || !role) {
-      return res.status(400).json({ message: "Thiếu thông tin bắt buộc" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
-    const [existing] = await pool.query(
-      "SELECT id FROM users WHERE email = ?",
-      [email]
-    );
+    const [existing] = await pool.query("SELECT id FROM users WHERE email = ?", [
+      email,
+    ]);
     if (existing.length > 0) {
-      return res.status(400).json({ message: "Email đã được sử dụng" });
+      return res.status(400).json({ message: "Email is already in use" });
     }
 
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
@@ -50,18 +51,18 @@ router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
     res.status(201).json(rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Lỗi Server khi tạo người dùng");
+    res.status(500).send("Server Error while creating user");
   }
 });
 
-// PUT /api/users/:id
+// PUT /api/users/:id – Update a user (Admin only)
 router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, phone, role } = req.body;
 
     if (!name || !email || !role) {
-      return res.status(400).json({ message: "Thiếu thông tin bắt buộc" });
+      return res.status(400).json({ message: "Missing required fields" });
     }
 
     await pool.query(
@@ -77,18 +78,18 @@ router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
     res.json(rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server Error");
   }
 });
 
-// DELETE /api/users/:id
+// DELETE /api/users/:id – Delete a user (Admin only)
 router.delete("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const userId = req.params.id;
     await pool.query("DELETE FROM users WHERE id = ?", [userId]);
-    res.json({ message: "Người dùng đã được xóa" });
+    res.json({ message: "User deleted successfully" });
   } catch (err) {
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server Error");
   }
 });
 

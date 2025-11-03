@@ -1,14 +1,14 @@
 const allProducts = [
-  // ========== 1. VỢT CẦU LÔNG (category: "rackets") ==========
+  // ========== 1. BADMINTON RACKETS (category: "rackets") ==========
 
   {
     id: "p1",
-    name: "Vợt Cầu Lông Yonex Astrox 100ZZ VA",
+    name: "Yonex Astrox 100ZZ VA Badminton Racket",
     category: "rackets",
     brand: "yonex",
     price: 10000000,
     originalPrice: 12000000,
-    status: "Còn hàng",
+    status: "In stock",
     imageUrl: "/racketImage/yonex_100zz.jpg",
     images: [
       "/racketImage/yonex_100zz.jpg",
@@ -21,7 +21,7 @@ const allProducts = [
 
   {
     id: "p2",
-    name: "Vợt Cầu Lông Yonex Nanoflare 800",
+    name: "Yonex Nanoflare 800 Badminton Racket",
     category: "rackets",
     brand: "yonex",
     price: 4769000,
@@ -36,7 +36,7 @@ const allProducts = [
 
   {
     id: "p3",
-    name: "Vợt cầu lông Victor Auraspeed 100X Ultra New 2025",
+    name: "Victor Auraspeed 100X Ultra New 2025 Badminton Racket",
     category: "rackets",
     brand: "victor",
     price: 3800000,
@@ -49,7 +49,7 @@ const allProducts = [
   },
   {
     id: "p4",
-    name: "Vợt cầu lông Victor Brave Sword 12 Pro",
+    name: "Victor Brave Sword 12 Pro Badminton Racket",
     category: "rackets",
     brand: "victor",
     price: 3950000,
@@ -63,7 +63,7 @@ const allProducts = [
   },
   {
     id: "p5",
-    name: "Vợt Cầu Lông Lining Axforce 90",
+    name: "Lining Axforce 90 Badminton Racket",
     category: "rackets",
     brand: "lining",
     price: 4100000,
@@ -76,7 +76,7 @@ const allProducts = [
   },
   {
     id: "p6",
-    name: "Set vợt cầu lông Lining Halbertec 9000 Limited - Olympic Paris 2024",
+    name: "Lining Halbertec 9000 Limited Edition Set - Olympic Paris 2024",
     category: "rackets",
     brand: "lining",
     price: 10000000,
@@ -89,11 +89,11 @@ const allProducts = [
     sizes: ["3u5", "3u6", "4u5", "4u6"],
   },
 
-  // ========== 2. GIÀY CẦU LÔNG (category: "shoes") ==========
+  // ========== 2. BADMINTON SHOES (category: "shoes") ==========
 
   {
     id: "p7",
-    name: "Giày Cầu Lông Yonex SHB 65Z3",
+    name: "Yonex SHB 65Z3 Badminton Shoes",
     category: "shoes",
     brand: "yonex",
     price: 2800000,
@@ -105,7 +105,7 @@ const allProducts = [
     ],
     colors: [
       {
-        name: "Trắng",
+        name: "White",
         price: 699000,
         img: "/shoesImage/yonex_65z3.jpg",
         images: [
@@ -115,7 +115,7 @@ const allProducts = [
         ],
       },
       {
-        name: "Trắng đỏ",
+        name: "White Red",
         price: 699000,
         img: "/shoesImage/yonex_shoes.jpg",
         images: ["/shoesImage/yonex_shoes(1).jpg"],
@@ -125,7 +125,7 @@ const allProducts = [
   },
   {
     id: "p8",
-    name: "Giày Cầu Lông Yonex Eclipsion Z",
+    name: "Yonex Eclipsion Z Badminton Shoes",
     category: "shoes",
     brand: "yonex",
     price: 2950000,
@@ -136,7 +136,7 @@ const allProducts = [
 
   {
     id: "p9",
-    name: "Giày cầu lông Victor C90Nlite A",
+    name: "Victor C90Nlite A Badminton Shoes",
     category: "shoes",
     brand: "victor",
     price: 2500000,
@@ -150,7 +150,7 @@ const allProducts = [
   },
   {
     id: "p10",
-    name: "Giày cầu lông Victor S82 III AF",
+    name: "Victor S82 III AF Badminton Shoes",
     category: "shoes",
     brand: "victor",
     price: 2700000,
@@ -165,7 +165,7 @@ const allProducts = [
 
   {
     id: "p11",
-    name: "Giày cầu lông Lining AYAU003-2",
+    name: "Lining AYAU003-2 Badminton Shoes",
     category: "shoes",
     brand: "lining",
     price: 2600000,
@@ -179,7 +179,7 @@ const allProducts = [
   },
   {
     id: "p12",
-    name: "Giày Cầu Lông Lining AYZU019-1 Chính Hãng",
+    name: "Lining AYZU019-1 Official Badminton Shoes",
     category: "shoes",
     brand: "lining",
     price: 2300000,
@@ -191,11 +191,11 @@ const allProducts = [
     sizes: [38, 39, 40, 41, 42, 43, 44],
   },
 
-  // ========== 3. ÁO CẦU LÔNG (category: "shirts") ==========
+  // ========== 3. BADMINTON SHIRTS (category: "shirts") ==========
 
   {
     id: "p13",
-    name: "Áo cầu lông Yonex TRM3089 - Jet Black chính hãng",
+    name: "Yonex TRM3089 Jet Black Official Shirt",
     category: "shirts",
     brand: "yonex",
     price: 119000,
@@ -203,7 +203,7 @@ const allProducts = [
   },
   {
     id: "p14",
-    name: "Áo cầu lông Yonex TRM3089 - White chính hãng",
+    name: "Yonex TRM3089 White Official Shirt",
     category: "shirts",
     brand: "yonex",
     price: 119000,
@@ -212,7 +212,7 @@ const allProducts = [
 
   {
     id: "p15",
-    name: "Áo cầu lông Victor 2118 Nam - Hồng xanh",
+    name: "Victor 2118 Men's Shirt - Blue Pink",
     category: "shirts",
     brand: "victor",
     price: 160000,
@@ -220,7 +220,7 @@ const allProducts = [
   },
   {
     id: "p16",
-    name: "Áo cầu lông Victor 2118 Nữ - Hồng xanh",
+    name: "Victor 2118 Women's Shirt - Blue Pink",
     category: "shirts",
     brand: "victor",
     price: 160000,
@@ -229,7 +229,7 @@ const allProducts = [
 
   {
     id: "p17",
-    name: "Áo cầu lông Lining 25005 nam - Đen",
+    name: "Lining 25005 Men's Shirt - Black",
     category: "shirts",
     brand: "lining",
     price: 160000,
@@ -237,18 +237,18 @@ const allProducts = [
   },
   {
     id: "p18",
-    name: "Áo cầu lông Lining 25005 nữ - Đen",
+    name: "Lining 25005 Women's Shirt - Black",
     category: "shirts",
     brand: "lining",
     price: 160000,
     imageUrl: "/shirtImage/lining_shirt.jpg",
   },
 
-  // ========== 4. TÚI VỢT (category: "bags") ==========
+  // ========== 4. RACKET BAGS (category: "bags") ==========
 
   {
     id: "p19",
-    name: "Túi cầu lông Yonex BA02526VEX - Steel Gray chính hãng",
+    name: "Yonex BA02526VEX Racket Bag - Steel Gray Official",
     category: "bags",
     brand: "yonex",
     price: 1100000,
@@ -256,7 +256,7 @@ const allProducts = [
   },
   {
     id: "p20",
-    name: "Balo Cầu Lông Yonex 92022",
+    name: "Yonex 92022 Badminton Backpack",
     category: "bags",
     brand: "yonex",
     price: 650000,
@@ -265,7 +265,7 @@ const allProducts = [
 
   {
     id: "p21",
-    name: "Túi cầu lông Victor BR5648 CO25 - Trắng",
+    name: "Victor BR5648 CO25 Racket Bag - White",
     category: "bags",
     brand: "victor",
     price: 1900000,
@@ -273,7 +273,7 @@ const allProducts = [
   },
   {
     id: "p22",
-    name: "Túi cầu lông Victor BR9615CPS I - Đỏ",
+    name: "Victor BR9615CPS I Racket Bag - Red",
     category: "bags",
     brand: "victor",
     price: 1750000,
@@ -282,7 +282,7 @@ const allProducts = [
 
   {
     id: "p23",
-    name: "Túi cầu lông Lining P-ABLV029-3",
+    name: "Lining P-ABLV029-3 Racket Bag",
     category: "bags",
     brand: "lining",
     price: 1850000,
@@ -294,7 +294,7 @@ const allProducts = [
   },
   {
     id: "p24",
-    name: "Túi Cầu Lông Lining ABLV033-1",
+    name: "Lining ABLV033-1 Racket Bag",
     category: "bags",
     brand: "lining",
     price: 1600000,
@@ -306,11 +306,11 @@ const allProducts = [
     ],
   },
 
-  // ========== 5. PHỤ KIỆN (category: "accessories") ==========
+  // ========== 5. ACCESSORIES (category: "accessories") ==========
 
   {
     id: "p25",
-    name: "Vớ cầu lông Yonex SKSL1086ZMP6 chính hãng",
+    name: "Yonex SKSL1086ZMP6 Official Socks",
     category: "accessories",
     brand: "socks",
     price: 120000,
@@ -318,7 +318,7 @@ const allProducts = [
   },
   {
     id: "p26",
-    name: "Vớ cầu lông Lining AWSU084-2 chính hãng",
+    name: "Lining AWSU084-2 Official Socks",
     category: "accessories",
     brand: "socks",
     price: 100000,
@@ -327,7 +327,7 @@ const allProducts = [
 
   {
     id: "p27",
-    name: "Cước Đan Vợt Yonex BG 66 Ultimax",
+    name: "Yonex BG 66 Ultimax String",
     category: "accessories",
     brand: "strings",
     price: 180000,
@@ -335,7 +335,7 @@ const allProducts = [
   },
   {
     id: "p28",
-    name: "Cước Đan Vợt Yonex BG 80 Power",
+    name: "Yonex BG 80 Power String",
     category: "accessories",
     brand: "strings",
     price: 170000,
@@ -344,7 +344,7 @@ const allProducts = [
 
   {
     id: "p29",
-    name: "Ống cầu lông Yonex AS50",
+    name: "Yonex AS50 Shuttlecock Tube",
     category: "accessories",
     brand: "shuttlecock",
     price: 1019000,
@@ -352,7 +352,7 @@ const allProducts = [
   },
   {
     id: "p30",
-    name: "Quả Cầu Lông Victor Lark 5",
+    name: "Victor Lark 5 Shuttlecock Tube",
     category: "accessories",
     brand: "shuttlecock",
     price: 325000,
@@ -388,7 +388,7 @@ export async function seed(knex) {
       brand,
       price,
       originalPrice: originalPrice || null,
-      status: status || "Còn hàng",
+      status: status || "In stock",
       imageUrl: imageUrl || null,
       images: JSON.stringify(images || []),
       sizes: JSON.stringify(sizes || []),

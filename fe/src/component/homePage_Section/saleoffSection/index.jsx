@@ -11,25 +11,25 @@ import { ROUTERS } from "../../../utils/router";
 
 const saleoffItems = [
   {
-    title: "Vợt Cầu Lông",
+    title: "Badminton Rackets",
     link: `/${ROUTERS.USER.PRODUCTS}/rackets`,
     img: "/saleProduct/rackets.jpg",
     alt: "Vợt Cầu Lông",
   },
   {
-    title: "Giày Cầu Lông",
+    title: "Badminton Shoes",
     link: `/${ROUTERS.USER.PRODUCTS}/shoes`,
     img: "/saleProduct/shoes.jpg",
     alt: "Giày Cầu Lông",
   },
   {
-    title: "Áo Cầu Lông",
+    title: "Badminton Shirts",
     link: `/${ROUTERS.USER.PRODUCTS}/shirts`,
     img: "/saleProduct/shirt.jpg",
     alt: "Áo Cầu Lông",
   },
   {
-    title: "Túi Vợt",
+    title: "Badminton Bags",
     link: `/${ROUTERS.USER.PRODUCTS}/bags`,
     img: "/saleProduct/bag.jpg",
     alt: "Túi Vợt",

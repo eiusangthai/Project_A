@@ -31,8 +31,8 @@ const Footer = () => {
           title="Giỏ hàng"
         >
           <img src={cartIcon} alt="Giỏ hàng" />
-          <div className="gio_hang_text">
-            Xem giỏ hàng (
+          <div className="gio_hang_text ps-2">
+            View cart (
             <span className="count_item count_item_pr">{cartCount}</span>)
           </div>
         </Link>
@@ -115,8 +115,7 @@ const Footer = () => {
               <ul className="list-unstyled">
                 <li>
                   <i className="fas fa-map-marker-alt me-2"></i>
-                  81 Nam Kỳ Khởi Nghĩa, Phường Bình Dương, Thành phố, Hồ Chí
-                  Minh, Việt Nam
+                  81 Nam Ky Khoi Nghia Street, Binh Duong Ward, Ho Chi Minh City, Vietnam
                 </li>
                 <li>
                   <i className="fas fa-phone me-2"></i>
@@ -124,7 +123,7 @@ const Footer = () => {
                 </li>
                 <li>
                   <i className="fas fa-envelope me-2"></i>
-                  tuquy@gmail.com
+                  sqlbadminton@gmail.com
                 </li>
               </ul>
             </div>
@@ -152,7 +151,7 @@ const Footer = () => {
                 rel="noopener noreferrer"
                 className="text-light fw-bold"
               >
-                Tuquy
+                sqlbadminton
               </a>
             </p>
           </div>

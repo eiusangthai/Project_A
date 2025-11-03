@@ -7,19 +7,20 @@ import authMiddleware from "../middleware/authMiddleware.js";
 const router = express.Router();
 const SALT_ROUNDS = 10;
 
+// 🟢 REGISTER
 router.post("/register", async (req, res) => {
   try {
     const { name, email, phone, password } = req.body;
 
     if (!name || !email || !password) {
-      return res.status(400).json({ message: "Thiếu thông tin bắt buộc" });
+      return res.status(400).json({ message: "Missing required information" });
     }
 
     const [rows] = await pool.query("SELECT id FROM users WHERE email = ?", [
       email,
     ]);
     if (rows.length > 0) {
-      return res.status(400).json({ message: "Email đã được sử dụng" });
+      return res.status(400).json({ message: "Email is already in use" });
     }
 
     const salt = await bcrypt.genSalt(SALT_ROUNDS);
@@ -30,18 +31,19 @@ router.post("/register", async (req, res) => {
       [name, email, phone || null, hashedPassword]
     );
 
-    res.status(200).json({ message: "Đăng ký thành công!" });
+    res.status(200).json({ message: "Registration successful!" });
   } catch (err) {
-    console.error("Lỗi MySQL:", err);
-    res.status(500).json({ message: "Đăng ký thất bại" });
+    console.error("MySQL Error:", err);
+    res.status(500).json({ message: "Registration failed" });
   }
 });
 
+// 🟡 LOGIN
 router.post("/login", async (req, res) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
-      return res.status(400).json({ message: "Thiếu email hoặc mật khẩu" });
+      return res.status(400).json({ message: "Email or password missing" });
     }
 
     const [rows] = await pool.query(
@@ -50,13 +52,13 @@ router.post("/login", async (req, res) => {
     );
 
     if (rows.length === 0) {
-      return res.status(401).json({ message: "Sai email hoặc mật khẩu" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
-    const user = rows[0];
 
+    const user = rows[0];
     const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: "Sai email hoặc mật khẩu" });
+      return res.status(401).json({ message: "Invalid email or password" });
     }
 
     const payload = { userId: user.id };
@@ -74,16 +76,17 @@ router.post("/login", async (req, res) => {
     };
 
     res.status(200).json({
-      message: "Đăng nhập thành công!",
+      message: "Login successful!",
       token: token,
       user: userToReturn,
     });
   } catch (err) {
-    console.error("Lỗi MySQL:", err);
-    res.status(500).json({ message: "Đăng nhập thất bại" });
+    console.error("MySQL Error:", err);
+    res.status(500).json({ message: "Login failed" });
   }
 });
 
+// 🔵 GET USER PROFILE
 router.get("/me", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
@@ -92,22 +95,23 @@ router.get("/me", authMiddleware, async (req, res) => {
       [userId]
     );
     if (rows.length === 0) {
-      return res.status(404).json({ message: "Không tìm thấy người dùng" });
+      return res.status(404).json({ message: "User not found" });
     }
     res.json(rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server error");
   }
 });
 
+// 🟣 UPDATE USER PROFILE
 router.put("/me", authMiddleware, async (req, res) => {
   try {
     const userId = req.userId;
     const { name, phone, address } = req.body;
 
     if (!name) {
-      return res.status(400).json({ message: "Tên không được để trống" });
+      return res.status(400).json({ message: "Name cannot be empty" });
     }
 
     await pool.query(
@@ -123,7 +127,7 @@ router.put("/me", authMiddleware, async (req, res) => {
     res.status(200).json(rows[0]);
   } catch (err) {
     console.error(err.message);
-    res.status(500).send("Lỗi Server");
+    res.status(500).send("Server error");
   }
 });
 

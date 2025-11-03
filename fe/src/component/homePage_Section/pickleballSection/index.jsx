@@ -8,22 +8,22 @@ const PickleballSection = () => {
   const products = [
     {
       href: `/${ROUTERS.USER.PRODUCTS}/pickleball-rackets`,
-      title: "Vợt PickleBall",
+      title: "PickleBall Rackets",
       img: "/pickleballProduct/racket.jpg",
     },
     {
       href: `/${ROUTERS.USER.PRODUCTS}/pickleball-shoes`,
-      title: "Giày Pickleball",
+      title: "Pickleball Shoes",
       img: "/pickleballProduct/shoes.jpg",
     },
     {
       href: `/${ROUTERS.USER.PRODUCTS}/pickleball-bags`,
-      title: "Túi Pickleball",
+      title: "Pickleball Bags",
       img: "/pickleballProduct/bag.jpg",
     },
     {
       href: `/${ROUTERS.USER.PRODUCTS}/pickleball-shirts`,
-      title: "Áo Pickleball",
+      title: "Pickleball Shirts",
       img: "/pickleballProduct/shirt.jpg",
     },
   ];
@@ -33,7 +33,7 @@ const PickleballSection = () => {
       <div className="container">
         <div className="title_modules text-center mb-4">
           <h2>
-            <span>Sản phẩm Pickleball</span>
+            <span>Pickleball Products</span>
           </h2>
         </div>
 

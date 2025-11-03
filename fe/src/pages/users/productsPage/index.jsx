@@ -5,9 +5,10 @@ import "./style.css";
 import Pagination from "../../../component/Pagination.jsx";
 
 const formatPrice = (price) => {
-  return new Intl.NumberFormat("vi-VN", {
+  return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "VND",
+    minimumFractionDigits: 0,
   }).format(price);
 };
 
@@ -15,7 +16,6 @@ const ProductPage = () => {
   const { category, brand } = useParams();
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [title, setTitle] = useState("Tất cả sản phẩm");
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
@@ -24,12 +24,8 @@ const ProductPage = () => {
       setLoading(true);
       try {
         const params = new URLSearchParams();
-        if (category) {
-          params.append("category", category);
-        }
-        if (brand) {
-          params.append("brand", brand);
-        }
+        if (category) params.append("category", category);
+        if (brand) params.append("brand", brand);
         params.append("page", currentPage);
 
         const res = await api.get(`/products/public?${params.toString()}`);
@@ -37,7 +33,7 @@ const ProductPage = () => {
         setProducts(res.data.products);
         setTotalPages(res.data.totalPages);
       } catch (err) {
-        console.error("Lỗi tải sản phẩm:", err);
+        console.error("Error loading products:", err);
       } finally {
         setLoading(false);
       }
@@ -47,9 +43,9 @@ const ProductPage = () => {
   }, [category, brand, currentPage]);
 
   const getTitle = () => {
-    if (brand) return `${brand} / ${category}`;
+    if (brand && category) return `${brand} / ${category}`;
     if (category) return category;
-    return "Tất cả sản phẩm";
+    return "All Products";
   };
 
   const handlePageChange = (page) => {
@@ -60,7 +56,7 @@ const ProductPage = () => {
   if (loading) {
     return (
       <div className="product-page-container">
-        <h1 className="product-page-title">Đang tải sản phẩm...</h1>
+        <h1 className="product-page-title">Loading products...</h1>
       </div>
     );
   }
@@ -99,7 +95,7 @@ const ProductPage = () => {
         </>
       ) : (
         <div className="no-products-message">
-          <p>Không tìm thấy sản phẩm nào phù hợp.</p>
+          <p>No products found.</p>
         </div>
       )}
     </div>

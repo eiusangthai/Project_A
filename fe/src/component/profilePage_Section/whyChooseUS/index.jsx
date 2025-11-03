@@ -4,31 +4,32 @@ import "./style.css";
 const reasons = [
   {
     icon: "💯",
-    title: "Chính hãng 100%",
-    desc: "Tất cả sản phẩm đều được nhập trực tiếp từ nhà phân phối uy tín.",
+    title: "100% Authentic",
+    desc: "All products are directly imported from trusted distributors.",
   },
   {
     icon: "⚡",
-    title: "Giao hàng nhanh",
-    desc: "Hệ thống giao hàng toàn quốc, đảm bảo tốc độ và an toàn.",
+    title: "Fast Delivery",
+    desc: "Nationwide shipping system ensures speed and safety.",
   },
   {
     icon: "🤝",
-    title: "Dịch vụ tận tâm",
-    desc: "Đội ngũ nhân viên am hiểu và luôn sẵn sàng hỗ trợ khách hàng.",
+    title: "Dedicated Service",
+    desc: "Our knowledgeable staff are always ready to assist customers.",
   },
   {
     icon: "🏋️",
-    title: "Đa dạng sản phẩm",
-    desc: "Cung cấp đầy đủ dụng cụ từ tennis, gym, bóng đá, cầu lông và nhiều hơn.",
+    title: "Wide Product Range",
+    desc: "We offer a full selection of equipment for tennis, gym, football, badminton, and more.",
   },
 ];
+
 
 const WhyChooseUs = () => {
   return (
     <section className="why_choose_us">
       <div className="container">
-        <h2>Tại Sao Chọn Chúng Tôi?</h2>
+        <h2>Why Choose Us?</h2>
         <div className="reasons_grid">
           {reasons.map((item, index) => (
             <div key={index} className="reason_card">

@@ -25,7 +25,7 @@ const ProductDetails = () => {
         const res = await api.get(`/products/${id}`);
         setProduct(res.data);
       } catch (err) {
-        console.error("Lỗi tải sản phẩm:", err);
+        console.error("Error loading product:", err);
       } finally {
         setLoading(false);
       }
@@ -46,15 +46,15 @@ const ProductDetails = () => {
     setCartMessage(null);
 
     if (product.colors?.length > 0 && !selectedColor) {
-      setError("Vui lòng chọn màu trước khi thêm vào giỏ hàng!");
+      setError("Please select a color before adding to cart!");
       return;
     }
     if (product.sizes?.length > 0 && !selectedSize) {
-      setError("Vui lòng chọn size trước khi thêm vào giỏ hàng!");
+      setError("Please select a size before adding to cart!");
       return;
     }
 
-    const colorName = selectedColor?.name || "Mặc định";
+    const colorName = selectedColor?.name || "Default";
     const sizeName = selectedSize || "Free size";
     const colorPrice = selectedColor?.price || product.price;
     const imageSrc =
@@ -78,14 +78,14 @@ const ProductDetails = () => {
 
     addToCart(productToAdd);
 
-    setCartMessage("Đã thêm sản phẩm vào giỏ hàng!");
+    setCartMessage("Product added to cart!");
     setTimeout(() => setCartMessage(null), 3000);
   };
 
   if (loading) {
     return (
       <div className="container py-4">
-        <p>Đang tải chi tiết sản phẩm...</p>
+        <p>Loading product details...</p>
       </div>
     );
   }
@@ -93,9 +93,9 @@ const ProductDetails = () => {
   if (!product) {
     return (
       <div className="product-not-found">
-        <h2>Không tìm thấy sản phẩm!</h2>
+        <h2>Product not found!</h2>
         <Link to="/product" className="back-link">
-          Quay lại cửa hàng
+          Back to store
         </Link>
       </div>
     );
@@ -128,33 +128,32 @@ const ProductDetails = () => {
         <div className="col-md-7">
           <h4 className="fw-bold">{product.name}</h4>
           <p>
-            Mã:{" "}
+            Code:{" "}
             <span className="text-danger fw-semibold">{product.id || "—"}</span>
             <br />
-            Thương hiệu: <span className="fw-semibold">
-              {product.brand}
-            </span> | <span className="text-success">{product.status}</span>
+            Brand:{" "}
+            <span className="fw-semibold">{product.brand}</span> |{" "}
+            <span className="text-success">{product.status}</span>
           </p>
 
           <p className="price mb-1">
-            {product.price.toLocaleString()} đ{" "}
+            {product.price.toLocaleString()} ₫{" "}
             {product.originalPrice && (
               <span className="text-muted text-decoration-line-through ms-2">
-                Giá niêm yết: {product.originalPrice.toLocaleString()} đ
+                Original Price: {product.originalPrice.toLocaleString()} ₫
               </span>
             )}
           </p>
 
           {product.colors && product.colors.length > 0 && (
             <div className="color-section mb-3">
-              <h6 className="fw-semibold mb-2">Chọn [Màu sắc]:</h6>
+              <h6 className="fw-semibold mb-2">Select [Color]:</h6>
               <div className="d-flex flex-wrap gap-2">
                 {product.colors.map((color, i) => (
                   <div
                     key={i}
-                    className={`color-box ${
-                      selectedColor?.name === color.name ? "active" : ""
-                    }`}
+                    className={`color-box ${selectedColor?.name === color.name ? "active" : ""
+                      }`}
                     onClick={() => {
                       setSelectedColor(color);
                       setMainImage(color.img || product.imageUrl);
@@ -164,7 +163,7 @@ const ProductDetails = () => {
                     <div className="color-info">
                       <span>{color.name}</span>
                       <br />
-                      <strong>{color.price.toLocaleString()} đ</strong>
+                      <strong>{color.price.toLocaleString()} ₫</strong>
                     </div>
                   </div>
                 ))}
@@ -174,14 +173,13 @@ const ProductDetails = () => {
 
           {product.sizes && product.sizes.length > 0 && (
             <div className="size-section mb-3">
-              <h6 className="fw-semibold mb-2">Chọn [Size]:</h6>
+              <h6 className="fw-semibold mb-2">Select [Size]:</h6>
               <div className="d-flex flex-wrap gap-2">
                 {product.sizes.map((size, i) => (
                   <button
                     key={i}
-                    className={`btn btn-outline-secondary size-btn ${
-                      selectedSize === size ? "active" : ""
-                    }`}
+                    className={`btn btn-outline-secondary size-btn ${selectedSize === size ? "active" : ""
+                      }`}
                     onClick={() => setSelectedSize(size)}
                   >
                     {size}
@@ -192,11 +190,11 @@ const ProductDetails = () => {
           )}
 
           <div className="promo-box p-3 mb-3">
-            <h6 className="text-danger fw-bold mb-2">🎁 ƯU ĐÃI</h6>
+            <h6 className="text-danger fw-bold mb-2">🎁 PROMOTIONS</h6>
             <ul className="mb-0">
-              <li>Mua vợt tặng quấn cán, mua giày tặng vớ</li>
-              <li>Sản phẩm cam kết chính hãng</li>
-              <li>Thanh toán sau khi kiểm tra và nhận hàng</li>
+              <li>Buy a racket and get a free grip; buy shoes and get free socks</li>
+              <li>100% genuine products guaranteed</li>
+              <li>Pay after inspection and receiving the item</li>
             </ul>
           </div>
 
@@ -207,10 +205,10 @@ const ProductDetails = () => {
 
           <div className="action-buttons d-flex flex-wrap gap-2 mt-3">
             <button className="btn btn-danger btn-lg" onClick={handleAddToCart}>
-              🛒 THÊM VÀO GIỎ HÀNG
+              🛒 ADD TO CART
             </button>
             <button className="btn btn-warning btn-lg text-white">
-              ⚡ MUA NGAY
+              ⚡ BUY NOW
             </button>
           </div>
         </div>

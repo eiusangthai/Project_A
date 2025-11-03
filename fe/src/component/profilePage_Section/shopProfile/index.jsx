@@ -18,29 +18,30 @@ const ShopProfile = () => {
 
         <div className="profile_content">
           <h2>
-            <span>🏆 SQB badminton</span>
+            <span>🏆 SQB Badminton</span>
             <br />
-            Dụng cụ thể thao chính hãng
+            Official Sports Equipment
           </h2>
           <p>
-            Chúng tôi mang đến <strong>dụng cụ thể thao cao cấp</strong> từ các
-            thương hiệu quốc tế. Với sứ mệnh{" "}
-            <em>khơi dậy tinh thần thể thao</em>, chúng tôi cung cấp trải nghiệm
-            mua sắm hiện đại và dịch vụ tận tâm.
+            We offer <strong>premium sports equipment</strong> from
+            international brands. With the mission to{" "}
+            <em>inspire the spirit of sports</em>, we provide a modern shopping
+            experience and dedicated customer service.
           </p>
           <ul>
-            <li> Sản phẩm chính hãng 100%</li>
-            <li> Dịch vụ tư vấn chuyên nghiệp</li>
-            <li> Giao hàng nhanh chóng toàn quốc</li>
-            <li> Đa dạng sản phẩm thể thao</li>
+            <li> 100% authentic products</li>
+            <li> Professional consultation service</li>
+            <li> Fast nationwide delivery</li>
+            <li> Wide range of sports products</li>
           </ul>
           <a href="#products" className="btn_shop">
-            Khám phá ngay →
+            Explore now →
           </a>
         </div>
       </div>
     </section>
   );
 };
+
 
 export default ShopProfile;

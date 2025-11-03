@@ -6,7 +6,7 @@ const authMiddleware = (req, res, next) => {
   if (!token) {
     return res
       .status(401)
-      .json({ message: "Không có token, truy cập bị từ chối" });
+      .json({ message: "No token provided, access denied" });
   }
 
   try {
@@ -15,7 +15,7 @@ const authMiddleware = (req, res, next) => {
     req.userId = decoded.userId;
     next();
   } catch (err) {
-    res.status(401).json({ message: "Token không hợp lệ" });
+    res.status(401).json({ message: "Invalid token" });
   }
 };
 
