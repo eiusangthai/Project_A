@@ -75,6 +75,13 @@ body {
   font-weight: 600;
 }
 
+.navbar-content-wrapper {
+  display: flex;
+  flex-grow: 1;
+  align-items: center;
+  width: 100%;
+}
+
 .nav-links {
   display: flex;
   list-style: none;
@@ -125,7 +132,6 @@ body {
 /* Submenu (desktop) */
 .dropdown-menu {
   display: none;
-  /* luôn ẩn mặc định */
   position: absolute;
   top: 120%;
   left: 0;
@@ -158,8 +164,24 @@ body {
   color: #fff;
 }
 
-/* Hover mở (desktop) */
-@media (min-width: 901px) {
+.dropdown-menu .submenu {
+  list-style: none;
+  padding-left: 15px;
+}
+
+.dropdown-menu .submenu a {
+  color: #555;
+  padding: 5px 8px;
+  font-size: 14px;
+}
+
+.dropdown-menu .submenu a:hover {
+  background: #f1f1f1;
+  color: #ff4d6d;
+}
+
+
+@media (min-width: 992px) {
   .dropdown:hover .dropdown-menu {
     display: grid;
   }
@@ -173,8 +195,6 @@ body {
   background: none;
   border: none;
   cursor: pointer;
-  position: absolute;
-  right: 20px;
 }
 
 .hamburger span {
@@ -197,6 +217,11 @@ body {
   transform: rotate(-45deg) translateY(-8px);
 }
 
+.form-control {
+  width: 75%;
+  margin-left: 10px;
+}
+
 /* Overlay for mobile */
 .overlay {
   position: fixed;
@@ -214,12 +239,41 @@ body {
   display: none;
 }
 
-@media (max-width: 900px) {
+.nav-links .mobile-only .social-links {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  padding-top: 15px;
+  margin-top: 15px;
+  border-top: 1px solid #444;
+}
+
+.nav-links .mobile-only .social-links a {
+  color: #eee;
+  font-size: 20px;
+}
+
+.nav-links .mobile-only .social-links a:hover {
+  color: #ff4d6d;
+}
+
+.mobile-search-form {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #444;
+}
+
+
+@media (max-width: 991.98px) {
   .desktop-only {
     display: none;
   }
 
   .mobile-only {
+    display: block;
+  }
+
+  .navbar-content-wrapper {
     display: block;
   }
 
@@ -231,7 +285,6 @@ body {
     max-height: 50px;
   }
 
-  /* Nav links → slide from right */
   .nav-links {
     flex-direction: column;
     gap: 22px;
@@ -246,6 +299,7 @@ body {
     padding: 100px 25px;
     transition: transform 0.3s ease;
     z-index: 1000;
+    overflow-y: auto;
   }
 
   .nav-links.active {
@@ -254,49 +308,66 @@ body {
 
   .hamburger {
     display: flex;
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 101;
   }
 
-  /* Mobile icons/auth under logo */
-  .mobile-icons-auth {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-  }
-
-  .mobile-icons-auth .social-links,
-  .mobile-icons-auth .auth-links {
-    justify-content: center;
-  }
-
-  /* Dropdown in mobile */
   .dropdown-menu {
     position: relative;
     top: 0;
     left: 0;
+    width: 100%;
     min-width: unset;
     padding: 0;
     background: transparent;
     box-shadow: none;
     display: none;
-    /* vẫn ẩn mặc định */
     flex-direction: column;
     gap: 0;
+    grid-template-columns: 1fr;
   }
 
   .dropdown.open .dropdown-menu {
     display: flex;
-    /* mở khi có class open */
+  }
+
+  .dropdown-menu li {
+    width: 100%;
   }
 
   .dropdown-menu a {
     color: #eee;
     padding: 10px 15px;
+    white-space: normal;
   }
 
   .dropdown-menu a:hover {
     background: #ff4d6d;
     color: #fff;
+  }
+
+  .dropdown-menu .submenu {
+    list-style: none;
+    padding-left: 25px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+
+  .dropdown-menu .submenu li {
+    padding: 0;
+  }
+
+  .dropdown-menu .submenu a {
+    color: #ccc;
+    font-size: 14px;
+    padding: 8px 10px;
+  }
+
+  .dropdown-menu .submenu a:hover {
+    background: #333;
+    color: #ff4d6d;
   }
 }
