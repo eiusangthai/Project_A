@@ -10,6 +10,7 @@ export const ROUTERS = {
     LOGIN: "login",
     REGISTER: "register",
     SHOPPINGCART: "gio-hang",
+    SEARCH: "search",
   },
   ADMIN: {
     DASHBOARD: "admin",

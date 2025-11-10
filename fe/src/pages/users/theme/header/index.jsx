@@ -9,7 +9,8 @@ import { useCart } from "../../../../context/CartContext";
 const Header = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [productsOpen, setProductsOpen] = useState(false);
-  const navigate = useNavigate();
+  const [searchTerm, setSearchTerm] = useState("");
+
 
   const { user, logout } = useAuth();
   const { cartItems } = useCart();
@@ -38,6 +39,17 @@ const Header = () => {
     logout();
     navigate(`/${ROUTERS.USER.LOGIN}`);
   };
+
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    if (query.trim()) {
+      navigate(`/search?query=${encodeURIComponent(query.trim())}`);
+    }
+  };
+
 
   return (
     <header className="header">
@@ -204,11 +216,13 @@ const Header = () => {
             </li>
           </ul>
 
-          <form className="d-flex pe-3" role="search">
+          <form className="d-flex pe-3" onSubmit={handleSearch}>
             <input
               className="form-control me-2"
               type="search"
               placeholder="Search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
             />
             <button className="btn btn-outline-light" type="submit">
               <i className="fa fa-search"></i>

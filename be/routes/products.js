@@ -212,7 +212,7 @@ router.get("/public", async (req, res) => {
     const { category, brand } = req.query;
 
     const page = parseInt(req.query.page || "1", 10);
-    const limit = 9;
+    const limit = 12;
     const offset = (page - 1) * limit;
 
     let whereClause = "";
@@ -252,6 +252,57 @@ router.get("/public", async (req, res) => {
   }
 });
 
+// Public: Search products by keyword with pagination
+router.get("/search", async (req, res) => {
+  try {
+    const { q } = req.query;
+    const page = parseInt(req.query.page || "1", 10);
+    const limit = 12;
+    const offset = (page - 1) * limit;
+
+    if (!q || q.trim() === "") {
+      return res.json({
+        products: [],
+        totalPages: 0,
+        currentPage: 1,
+      });
+    }
+
+    const keyword = `%${q.toLowerCase()}%`;
+
+    const [countRows] = await pool.query(
+      `SELECT COUNT(*) AS total FROM products 
+       WHERE LOWER(name) LIKE ? 
+          OR LOWER(brand) LIKE ? 
+          OR LOWER(category) LIKE ?`,
+      [keyword, keyword, keyword]
+    );
+
+    const totalProducts = countRows[0].total;
+    const totalPages = Math.ceil(totalProducts / limit);
+
+    const [rows] = await pool.query(
+      `SELECT * FROM products 
+       WHERE LOWER(name) LIKE ? 
+          OR LOWER(brand) LIKE ? 
+          OR LOWER(category) LIKE ?
+       LIMIT ? OFFSET ?`,
+      [keyword, keyword, keyword, limit, offset]
+    );
+
+    const products = rows.map(parseProduct);
+
+    res.json({
+      products,
+      totalPages,
+      currentPage: page,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server error while searching products");
+  }
+});
+
 // Public: Get product details by ID
 router.get("/:id", async (req, res) => {
   try {
@@ -270,5 +321,8 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
+
+
+
 
 export default router;

@@ -12,10 +12,10 @@ import ContactPage from "./pages/users/contactPage";
 import ProfilePage from "./pages/users/profilePage";
 import ShoppingCart from "./pages/users/shoppingCartPage";
 import ProductDetails from "./pages/users/productDetails/index.jsx";
-
 import AdminLayout from "./pages/admin/theme/AdminLayout.jsx";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import ProductManagementPage from "./pages/admin/ProductManagementPage";
+import SearchResults from "./pages/users/productsPage/searchResults.jsx"
 const routesWithMasterLayout = [
   {
     path: ROUTERS.USER.HOME,
@@ -60,6 +60,10 @@ const routesWithMasterLayout = [
   {
     path: ROUTERS.USER.SHOPPINGCART,
     component: <ShoppingCart />,
+  },
+  {
+    path: ROUTERS.USER.SEARCH,
+    component: <SearchResults />,
   },
 ];
 
