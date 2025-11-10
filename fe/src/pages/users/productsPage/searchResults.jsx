@@ -62,7 +62,7 @@ const SearchResults = () => {
     return (
         <div className="product-page-container">
             <h1 className="product-page-title">
-                Kết quả tìm kiếm cho: <span style={{ color: "#ff6600" }}>{query}</span>
+                Search results for: <span style={{ color: "#ff6600" }}>{query}</span>
             </h1>
 
             {products.length > 0 ? (
@@ -95,7 +95,7 @@ const SearchResults = () => {
                 </>
             ) : (
                 <div className="no-products-message">
-                    <p>Không tìm thấy sản phẩm nào.</p>
+                    <p>No products found.</p>
                 </div>
             )}
         </div>
