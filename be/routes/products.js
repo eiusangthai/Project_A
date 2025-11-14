@@ -5,14 +5,9 @@ import adminMiddleware from "../middleware/adminMiddleware.js";
 
 const router = express.Router();
 
-// Utility functions for data parsing and sanitization
-const ensureString = (v) => (v == null ? "" : String(v));
-
 const safeStringifyArray = (val) => {
   if (Array.isArray(val)) return JSON.stringify(val);
-
   if (val == null) return JSON.stringify([]);
-
   if (typeof val === "string") {
     const s = val.trim();
     if (s.startsWith("[") || s.startsWith("{") || s.startsWith('"')) {
@@ -21,7 +16,7 @@ const safeStringifyArray = (val) => {
         if (Array.isArray(parsed)) return JSON.stringify(parsed);
         if (typeof parsed === "string") return JSON.stringify([parsed]);
         return JSON.stringify(parsed);
-      } catch (e) { }
+      } catch (e) {}
     }
     const parts = s
       .split(",")
@@ -29,7 +24,6 @@ const safeStringifyArray = (val) => {
       .filter(Boolean);
     return JSON.stringify(parts);
   }
-
   try {
     return JSON.stringify(val);
   } catch (e) {
@@ -39,11 +33,8 @@ const safeStringifyArray = (val) => {
 
 const safeParseArray = (val) => {
   if (Array.isArray(val)) return val;
-
   if (val == null) return [];
-
   if (typeof val === "object") return [val];
-
   if (typeof val === "string") {
     const s = val.trim();
     if (s === "") return [];
@@ -61,11 +52,9 @@ const safeParseArray = (val) => {
       return parts;
     }
   }
-
   return [val];
 };
 
-// Prepare data before saving to DB
 const prepareProductData = (data) => {
   const product = { ...data };
   product.images = safeStringifyArray(product.images);
@@ -78,7 +67,6 @@ const prepareProductData = (data) => {
   return product;
 };
 
-// Parse data fetched from DB
 const parseProduct = (product) => ({
   ...product,
   images: safeParseArray(product.images || "[]"),
@@ -86,7 +74,8 @@ const parseProduct = (product) => ({
   colors: safeParseArray(product.colors || "[]"),
 });
 
-// Admin: Get all products
+// --- API CHO ADMIN ---
+
 router.get("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const [rows] = await pool.query(
@@ -100,7 +89,6 @@ router.get("/", [authMiddleware, adminMiddleware], async (req, res) => {
   }
 });
 
-// Admin: Add new product
 router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const newProductData = prepareProductData(req.body);
@@ -146,7 +134,6 @@ router.post("/", [authMiddleware, adminMiddleware], async (req, res) => {
   }
 });
 
-// Admin: Update existing product
 router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const { id } = req.params;
@@ -194,7 +181,6 @@ router.put("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   }
 });
 
-// Admin: Delete product
 router.delete("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   try {
     const { id } = req.params;
@@ -206,13 +192,14 @@ router.delete("/:id", [authMiddleware, adminMiddleware], async (req, res) => {
   }
 });
 
-// Public: Get products (with pagination & filtering)
+// --- API CÔNG KHAI (CHO USER) ---
+
 router.get("/public", async (req, res) => {
   try {
     const { category, brand } = req.query;
 
     const page = parseInt(req.query.page || "1", 10);
-    const limit = 12;
+    const limit = 8;
     const offset = (page - 1) * limit;
 
     let whereClause = "";
@@ -252,12 +239,12 @@ router.get("/public", async (req, res) => {
   }
 });
 
-// Public: Search products by keyword with pagination
+// --- API TÌM KIẾM ---
 router.get("/search", async (req, res) => {
   try {
     const { q } = req.query;
     const page = parseInt(req.query.page || "1", 10);
-    const limit = 12;
+    const limit = 8;
     const offset = (page - 1) * limit;
 
     if (!q || q.trim() === "") {
@@ -273,8 +260,8 @@ router.get("/search", async (req, res) => {
     const [countRows] = await pool.query(
       `SELECT COUNT(*) AS total FROM products 
        WHERE LOWER(name) LIKE ? 
-          OR LOWER(brand) LIKE ? 
-          OR LOWER(category) LIKE ?`,
+         OR LOWER(brand) LIKE ? 
+         OR LOWER(category) LIKE ?`,
       [keyword, keyword, keyword]
     );
 
@@ -284,8 +271,8 @@ router.get("/search", async (req, res) => {
     const [rows] = await pool.query(
       `SELECT * FROM products 
        WHERE LOWER(name) LIKE ? 
-          OR LOWER(brand) LIKE ? 
-          OR LOWER(category) LIKE ?
+         OR LOWER(brand) LIKE ? 
+         OR LOWER(category) LIKE ?
        LIMIT ? OFFSET ?`,
       [keyword, keyword, keyword, limit, offset]
     );
@@ -303,7 +290,7 @@ router.get("/search", async (req, res) => {
   }
 });
 
-// Public: Get product details by ID
+// --- API CHI TIẾT (Công khai) ---
 router.get("/:id", async (req, res) => {
   try {
     const { id } = req.params;
@@ -321,8 +308,5 @@ router.get("/:id", async (req, res) => {
     res.status(500).send("Server error");
   }
 });
-
-
-
 
 export default router;

@@ -51,7 +51,6 @@
 
 /* Hiệu ứng “rung nhẹ” khi hover */
 @keyframes shake {
-
   0%,
   100% {
     transform: rotate(0);
@@ -97,4 +96,13 @@
 
 #goTopBtn.show {
   display: block;
+}
+.footer-logo img {
+  border-radius: 9999px;
+  object-fit: cover;
+}
+.ratio {
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }

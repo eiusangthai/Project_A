@@ -15,7 +15,7 @@ export const CartProvider = ({ children }) => {
     if (savedCart) {
       setCartItems(JSON.parse(savedCart));
     }
-  }, []); 
+  }, []);
 
   const addToCart = (productToAdd) => {
     setCartItems((prevItems) => {
@@ -66,9 +66,21 @@ export const CartProvider = ({ children }) => {
     });
   };
 
+  const clearCart = () => {
+    setCartItems([]);
+    saveCartToStorage([]);
+  };
+
+
   return (
     <CartContext.Provider
-      value={{ cartItems, addToCart, removeFromCart, updateQuantity }}
+      value={{
+        cartItems,
+        addToCart,
+        removeFromCart,
+        updateQuantity,
+        clearCart, 
+      }}
     >
       {children}
     </CartContext.Provider>

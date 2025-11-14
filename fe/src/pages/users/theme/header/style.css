@@ -22,7 +22,14 @@ body {
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
   position: relative;
   z-index: 100;
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
 }
+
+/* .header .navbar {
+  border-bottom-left-radius: 12px;
+  border-bottom-right-radius: 12px;
+} */
 
 /* Top row */
 .top-row {
@@ -35,6 +42,8 @@ body {
 .logo img {
   max-height: 55px;
   transition: transform 0.3s ease;
+  border-radius: 9999px;
+  object-fit: cover;
 }
 
 .logo img:hover {
@@ -180,7 +189,6 @@ body {
   color: #ff4d6d;
 }
 
-
 @media (min-width: 992px) {
   .dropdown:hover .dropdown-menu {
     display: grid;
@@ -262,7 +270,6 @@ body {
   padding-top: 20px;
   border-top: 1px solid #444;
 }
-
 
 @media (max-width: 991.98px) {
   .desktop-only {

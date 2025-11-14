@@ -3,20 +3,18 @@ import { pool } from "../db.js";
 const adminMiddleware = async (req, res, next) => {
   try {
     const userId = req.userId;
-
     const [rows] = await pool.query("SELECT role FROM users WHERE id = ?", [
       userId,
     ]);
 
-    if (rows.length === 0 || rows[0].role !== "admin") {
-      return res
-        .status(403)
-        .json({ message: "Access denied. Admin privileges required." });
+    const userRole = rows[0]?.role;
+    if (userRole === "admin" || userRole === "superadmin") {
+      next();
+    } else {
+      return res.status(403).json({ message: "Không có quyền Admin." });
     }
-
-    next();
   } catch (err) {
-    res.status(500).json({ message: "Server error while checking admin rights" });
+    res.status(500).json({ message: "Lỗi Server khi kiểm tra quyền Admin" });
   }
 };
 

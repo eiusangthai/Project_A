@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import api from "../../utils/api.js";
 import UserFormModal from "./UserFormModal.jsx";
+import { useAuth } from "../../context/AuthContext";
 
 const UserManagementPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
-
-  const [editingUserId, setEditingUserId] = useState(null);
-  const [editFormData, setEditFormData] = useState({});
+  const { user: loggedInUser } = useAuth();
+  const isSuperAdmin = loggedInUser && loggedInUser.role === "superadmin";
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentUser, setCurrentUser] = useState(null);
@@ -27,34 +27,6 @@ const UserManagementPage = () => {
     setLoading(false);
   };
 
-  const handleEditClick = (user) => {
-    setEditingUserId(user.id);
-    setEditFormData(user);
-  };
-
-  const handleCancelClick = () => {
-    setEditingUserId(null);
-    setEditFormData({});
-  };
-
-  const handleEditFormChange = (e) => {
-    const { name, value } = e.target;
-    setEditFormData({ ...editFormData, [name]: value });
-  };
-
-  const handleSaveClick = async (userId) => {
-    try {
-      const response = await api.put(`/users/${userId}`, editFormData);
-      setUsers(
-        users.map((user) => (user.id === userId ? response.data : user))
-      );
-      setEditingUserId(null);
-    } catch (err) {
-      console.error(err);
-      alert("Cập nhật thất bại!");
-    }
-  };
-
   const handleDelete = async (userId) => {
     if (window.confirm("Bạn có chắc muốn xóa người dùng này?")) {
       try {
@@ -66,15 +38,28 @@ const UserManagementPage = () => {
     }
   };
 
-  const handleCreate = () => {
+  // Mở modal ở chế độ "Thêm mới"
+  const handleOpenCreateModal = () => {
     setCurrentUser(null);
     setIsModalOpen(true);
   };
 
+  // Mở modal ở chế độ "Sửa"
+  const handleOpenEditModal = (userToEdit) => {
+    setCurrentUser(userToEdit);
+    setIsModalOpen(true);
+  };
+
+  // Hàm được gọi khi Form (trong Modal) lưu thành công
   const handleSaveUser = (savedUser) => {
     if (currentUser === null) {
+      // Thêm mới
       setUsers([...users, savedUser]);
+    } else {
+      // Sửa
+      setUsers(users.map((u) => (u.id === savedUser.id ? savedUser : u)));
     }
+    setCurrentUser(null);
   };
 
   if (loading) return <p>Đang tải danh sách...</p>;
@@ -89,11 +74,13 @@ const UserManagementPage = () => {
         }}
       >
         <h2>Quản lý Người dùng</h2>
-        <div className="admin-header-actions">
-          <button className="btn-primary" onClick={handleCreate}>
-            + Thêm User
-          </button>
-        </div>
+        {isSuperAdmin && (
+          <div className="admin-header-actions">
+            <button className="btn-primary" onClick={handleOpenCreateModal}>
+              + Thêm User
+            </button>
+          </div>
+        )}
       </div>
 
       <table className="admin-table">
@@ -104,87 +91,34 @@ const UserManagementPage = () => {
             <th>Email</th>
             <th>Số điện thoại</th>
             <th>Vai trò</th>
-            <th>Hành động</th>
+            {isSuperAdmin && <th>Hành động</th>}
           </tr>
         </thead>
         <tbody>
           {users.map((user) => (
             <tr key={user.id}>
-              {editingUserId === user.id ? (
-                <>
-                  <td>{user.id}</td>
-                  <td>
-                    <input
-                      type="text"
-                      name="name"
-                      value={editFormData.name}
-                      onChange={handleEditFormChange}
-                      style={{ width: "100%" }}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="email"
-                      name="email"
-                      value={editFormData.email}
-                      onChange={handleEditFormChange}
-                      style={{ width: "100%" }}
-                    />
-                  </td>
-                  <td>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={editFormData.phone || ""}
-                      onChange={handleEditFormChange}
-                      style={{ width: "100%" }}
-                    />
-                  </td>
-                  <td>
-                    <select
-                      name="role"
-                      value={editFormData.role}
-                      onChange={handleEditFormChange}
-                      style={{ width: "100%" }}
-                    >
-                      <option value="user">user</option>
-                      <option value="admin">admin</option>
-                    </select>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleSaveClick(user.id)}
-                      className="btn-save"
-                    >
-                      Lưu
-                    </button>
-                    <button onClick={handleCancelClick} className="btn-cancel">
-                      Hủy
-                    </button>
-                  </td>
-                </>
-              ) : (
-                <>
-                  <td>{user.id}</td>
-                  <td>{user.name}</td>
-                  <td>{user.email}</td>
-                  <td>{user.phone || "N/A"}</td>
-                  <td>{user.role}</td>
-                  <td>
-                    <button
-                      onClick={() => handleEditClick(user)}
-                      className="btn-edit"
-                    >
-                      Sửa
-                    </button>
-                    <button
-                      onClick={() => handleDelete(user.id)}
-                      className="btn-delete"
-                    >
-                      Xóa
-                    </button>
-                  </td>
-                </>
+              {/* Luôn ở chế độ XEM */}
+              <td>{user.id}</td>
+              <td>{user.name}</td>
+              <td>{user.email}</td>
+              <td>{user.phone || "N/A"}</td>
+              <td>{user.role}</td>
+
+              {isSuperAdmin && (
+                <td>
+                  <button
+                    onClick={() => handleOpenEditModal(user)}
+                    className="btn-edit"
+                  >
+                    Sửa
+                  </button>
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    className="btn-delete"
+                  >
+                    Xóa
+                  </button>
+                </td>
               )}
             </tr>
           ))}

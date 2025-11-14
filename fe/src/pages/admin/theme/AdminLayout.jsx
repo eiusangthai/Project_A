@@ -1,56 +1,59 @@
 import { useEffect, useState } from "react";
-import { Outlet, useNavigate, Link } from "react-router-dom";
+import { Outlet, useNavigate, NavLink } from "react-router-dom";
 import { ROUTERS } from "../../../utils/router";
-
+import { useAuth } from "../../../context/AuthContext";
 import "./style.css";
 
 const AdminLayout = () => {
   const navigate = useNavigate();
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { user, loading } = useAuth();
 
   useEffect(() => {
-    const savedUser = localStorage.getItem("currentUser");
-    if (!savedUser) {
+    if (loading) {
+      return;
+    }
+
+    if (!user) {
       navigate(`/${ROUTERS.USER.LOGIN}`);
       return;
     }
 
-    try {
-      const parsedUser = JSON.parse(savedUser);
-      if (parsedUser.role !== "admin") {
-        navigate(`/${ROUTERS.USER.HOME}`);
-        return;
-      }
-      setUser(parsedUser);
-    } catch (e) {
-      localStorage.clear();
-      navigate(`/${ROUTERS.USER.LOGIN}`);
+    if (user.role !== "admin" && user.role !== "superadmin") {
+      alert("Bạn không có quyền truy cập vào trang này.");
+      navigate(`/${ROUTERS.USER.HOME}`);
+      return;
     }
-    setLoading(false);
-  }, [navigate]);
+  }, [user, loading, navigate]);
 
-  if (loading) return <p>Đang kiểm tra quyền truy cập...</p>;
-  if (!user) return null;
-
+  if (loading || !user) {
+    return (
+      <p style={{ textAlign: "center", marginTop: "50px" }}>
+        Đang kiểm tra quyền truy cập...
+      </p>
+    );
+  }
   return (
     <div className="admin-layout">
       <nav className="admin-sidebar">
         <h3>Admin Panel</h3>
         <ul>
           <li>
-            <Link to={`/${ROUTERS.ADMIN.DASHBOARD}`}>Tổng quan</Link>
+            <NavLink to={`/${ROUTERS.ADMIN.USER_MANAGEMENT}`}>
+              Quản lý Users
+            </NavLink>
           </li>
           <li>
-            <Link to={`/${ROUTERS.ADMIN.USER_MANAGEMENT}`}>Quản lý Users</Link>
-          </li>
-          <li>
-            <Link to={`/${ROUTERS.ADMIN.PRODUCT_MANAGEMENT}`}>
+            <NavLink to={`/${ROUTERS.ADMIN.PRODUCT_MANAGEMENT}`}>
               Quản lý Products
-            </Link>
+            </NavLink>
           </li>
           <li>
-            <Link to={`/${ROUTERS.USER.HOME}`}>Về trang Shop</Link>
+            <NavLink to={`/${ROUTERS.ADMIN.ORDER_MANAGEMENT}`}>
+              Quản lý Đơn hàng
+            </NavLink>
+          </li>
+          <li>
+            <NavLink to={`/${ROUTERS.USER.HOME}`}>Về trang Shop</NavLink>
           </li>
         </ul>
       </nav>

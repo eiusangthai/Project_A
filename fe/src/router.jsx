@@ -15,7 +15,9 @@ import ProductDetails from "./pages/users/productDetails/index.jsx";
 import AdminLayout from "./pages/admin/theme/AdminLayout.jsx";
 import UserManagementPage from "./pages/admin/UserManagementPage";
 import ProductManagementPage from "./pages/admin/ProductManagementPage";
-import SearchResults from "./pages/users/productsPage/searchResults.jsx"
+import SearchResults from "./pages/users/productsPage/searchResults.jsx";
+import OrderManagementPage from "./pages/admin/OrderManagementPage"; // <-- 1. THÊM IMPORT
+
 const routesWithMasterLayout = [
   {
     path: ROUTERS.USER.HOME,
@@ -72,7 +74,8 @@ const RouterCustom = () => {
     <Routes>
       <Route path="/admin" element={<AdminLayout />}>
         <Route path="users" element={<UserManagementPage />} />
-        <Route path="products" element={<ProductManagementPage />} />{" "}
+        <Route path="products" element={<ProductManagementPage />} />
+        <Route path="orders" element={<OrderManagementPage />} />{" "}
       </Route>
 
       <Route path="/" element={<MasterLayout />}>
