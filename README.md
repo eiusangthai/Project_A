@@ -12,7 +12,7 @@
   - [Bước 1 — Clone & cài thư viện](#bước-1-—-clone--cài-thư-viện)
   - [Bước 2 — Thiết lập Database](#bước-2-—-thiết-lập-database)
   - [Bước 3 — Chạy server và frontend](#bước-3-—-chạy-server-và-frontend)
-  - [Bước 4 — Thiết lập Admin](#bước-4-—-thiết-lập-admin)
+  - [Bước 4 — Thiết lập Super Admin](#bước-4-—-thiết-lập-superadmin)
 - [Cấu trúc thư mục (tóm tắt)](#cấu-trúc-thư-mục-tóm-tắt)
 - [Các lệnh tiện ích](#các-lệnh-tiện-ích)
 - [Gợi ý xử lý lỗi thường gặp](#gợi-ý-xử-lý-lỗi-thường-gặp)
@@ -36,7 +36,7 @@
 ## Tính năng chính
 
 - **Public (Người dùng):** Đăng ký/Đăng nhập, duyệt sản phẩm, trang chi tiết sản phẩm, giỏ hàng (Cart Context), phân trang sản phẩm.
-- **Admin Panel (bảo vệ):** Quản lý users (xem, sửa, xóa, thay đổi role), quản lý sản phẩm (CRUD).
+- **Admin Panel (bảo vệ):** Quản lý users (xem, sửa, xóa, thay đổi role), quản lý sản phẩm (CRUD), quản lý giỏ hàng của users.
 - **Trải nghiệm:** Đồng bộ giỏ hàng và trạng thái đăng nhập tức thì bằng Context API.
 
 ---
@@ -115,11 +115,11 @@ npm run dev  # khởi động app React (Vite)
 ### Bước 4 — Thiết lập Admin
 
 1. Truy cập frontend, đăng ký tài khoản mới.
-2. Trong MySQL, cấp role `admin` cho email bạn vừa đăng ký:
+2. Trong MySQL, cấp role `superadmin` cho email bạn vừa đăng ký:
 
 ```sql
 USE shop;
-UPDATE users SET role = 'admin' WHERE email = 'email-tai-khoan-cua-ban@gmail.com';
+UPDATE users SET role = 'superadmin' WHERE email = 'email-tai-khoan-cua-ban@gmail.com';
 ```
 
 3. Đăng nhập lại — bạn sẽ thấy link **Admin** trên header.
